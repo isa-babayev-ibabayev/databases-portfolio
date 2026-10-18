@@ -31,3 +31,26 @@ I will add screenshots, commands, query results, and explanations as I complete 
 ## Reflection
 
 I will describe what I learned, what problems I encountered, and how I verified my results.
+
+## Task Pod and useful links
+
+### My Task Pod
+
+- Task Pod member: [Tunay Daldaban](https://github.com/tunaydaldaban-beep/databases-portfolio)
+- We plan to compare our database exercises and review each other's SQL queries.
+
+### Course and portfolio links
+
+- [My portfolio homepage](../README.md)
+- [Official course syllabus](https://github.com/iotempire/iotempire-teaching/blob/main/full-classes/hsbi-databases-10d/syllabus.md)
+- [Official Module 1 workbook](https://github.com/iotempire/iotempire-teaching/blob/main/full-classes/hsbi-databases-10d/modules/01-introduction-and-local-first.md)
+- [My toolchain verification script](../uv-check.py)
+- [My toolchain verification results](uv-check-output.txt)
+
+### Contributions and peer review
+
+**My completed work:** I created and configured my personal GitHub portfolio, installed the required database software, and verified the Python 3.14 environment.
+
+**Pod collaboration:** We will document each person's contributions as we complete the practical database exercises.
+
+**Peer review:** To be recorded after we review each other's SQL queries and results.
