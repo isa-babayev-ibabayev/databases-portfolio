@@ -54,3 +54,11 @@ I will describe what I learned, what problems I encountered, and how I verified 
 **Pod collaboration:** We will document each person's contributions as we complete the practical database exercises.
 
 **Peer review:** To be recorded after we review each other's SQL queries and results.
+
+## Task 4 - SQLite shell reflection
+
+I found the `.dump` command especially useful because it exports a database into SQL statements, allowing me to rebuild the database without uploading the original database file.
+
+I also learned that `.tables` lists tables, `.schema` displays their structure, and `.timer on` measures query execution time.
+
+For my CNC vibration example, the highest measurements were 1.2 for cnc-01 and 2.4 for cnc-02. My first timed query took approximately 0.0277 seconds.
