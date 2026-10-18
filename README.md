@@ -14,3 +14,8 @@ progress in the Databases course.
 - SQLite
 - DuckDB
 - Git and GitHub
+
+
+My groupmate: Tunay Daldaban
+
+link: https://github.com/tunaydaldaban-beep/databases-portfolio
