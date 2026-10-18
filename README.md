@@ -1,18 +1,25 @@
 # Databases Portfolio
 
-HSBI — Industrial Engineering
+**Hochschule Bielefeld (HSBI)**  
+**Program:** Industrial Engineering  
+**Course:** Databases
 
 ## About this portfolio
-This repository documents my learning
-progress in the Databases course.
 
-## Modules
-- Module 01: Introduction and Local-First Foundations
+This repository documents my learning progress, practical exercises, SQL experiments, and projects in the Databases course.
 
-## Tools
+My goal is to understand how databases work, learn to use SQL, and apply database concepts to real engineering problems.
+
+## Course Modules
+
+- [Module 01 — Introduction & Local-First Foundations](module-01/README.md)
+
+## Technologies
+
 - Python
 - SQLite
 - DuckDB
+- Datasette
 - Git and GitHub
 
 

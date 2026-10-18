@@ -1,0 +1,7 @@
+.venv/
+*.db
+*.db-journal
+*.duckdb
+*.parquet
+.env
+__pycache__/
