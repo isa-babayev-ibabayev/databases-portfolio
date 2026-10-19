@@ -80,3 +80,7 @@ I generated and analyzed 172,800 CNC measurements using Python and SQLite.
 I generated, executed, profiled, and verified a SQL query using ChatGPT.
 
 [Read my Task 7 verification report](task7-ai-verification.md)
+
+## Final Module 1 Reflection
+
+[Read my final reflection](reflection.md)
