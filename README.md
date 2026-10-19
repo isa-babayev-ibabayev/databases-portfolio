@@ -13,6 +13,7 @@ My goal is to understand how databases work, learn to use SQL, and apply databas
 ## Course Modules
 
 - [Module 01 — Introduction & Local-First Foundations](module-01/README.md)
+- [Module 02 — Data Contracts & Legacy Schema Audits](module-02/README.md)
 
 ## Technologies
 
