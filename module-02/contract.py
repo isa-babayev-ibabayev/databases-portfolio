@@ -133,7 +133,10 @@ def make_engine(database: str = ":memory:") -> Engine:
 
 def ddl_for(engine: Engine) -> str:
     return "\n\n".join(
-        f"{str(CreateTable(table).compile(engine)).strip()};"
+        "\n".join(
+            line.rstrip()
+            for line in str(CreateTable(table).compile(engine)).strip().splitlines()
+        ) + ";"
         for table in metadata.sorted_tables
     ) + "\n"
 

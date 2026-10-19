@@ -6,8 +6,8 @@ machine_id  machine_type
 1           cnc_mill
 2           injection_molder
 
-Runtime error near line 25: CHECK constraint failed
-Runtime error near line 45: FOREIGN KEY constraint failed
+Error near line 29: CHECK constraint failed
+Error near line 49: FOREIGN KEY constraint failed
 
 machine_id  serial_no  spindle_speed_rpm
 ----------  ---------  -----------------
