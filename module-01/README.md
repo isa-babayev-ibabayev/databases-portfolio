@@ -74,3 +74,9 @@ I completed the SQL Island learning game and received a Certificate of Completio
 I generated and analyzed 172,800 CNC measurements using Python and SQLite.
 
 [Read my Task 6 analysis and query results](telemetry-analysis.md)
+
+## Task 7 - AI-Assisted SQL Verification
+
+I generated, executed, profiled, and verified a SQL query using ChatGPT.
+
+[Read my Task 7 verification report](task7-ai-verification.md)
