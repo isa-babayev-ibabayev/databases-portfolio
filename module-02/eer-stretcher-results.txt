@@ -1,0 +1,21 @@
+Command:
+sqlite3 module-02/eer-stretcher.db ".read module-02/eer-stretcher.sql"
+
+machine_id  machine_type
+----------  ----------------
+1           cnc_mill
+2           injection_molder
+
+Runtime error near line 25: CHECK constraint failed
+Runtime error near line 45: FOREIGN KEY constraint failed
+
+machine_id  serial_no  spindle_speed_rpm
+----------  ---------  -----------------
+10          SN-CNC-10  15000
+
+Decision: ship the single-table alternative while there are only two stable
+subtypes and few subtype-only fields. Its CHECK proves disjointness and keeps
+queries simple. Use subtype tables if subtype attributes and relationships grow.
+The subtype-table design shown does not alone enforce total/disjoint membership:
+an application or additional triggers must prevent a base row with no subtype
+or the same ID appearing in both subtype tables.

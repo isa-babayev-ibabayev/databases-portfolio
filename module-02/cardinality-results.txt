@@ -1,0 +1,33 @@
+Command:
+sqlite3 module-02/legacy.db ".read module-02/cardinality-audit.sql"
+
+parts per job encoded in text
+job_id  parts_used     n_parts
+------  -------------  -------
+1       P-1001,P-1002  2
+2       P-1003         1
+3       P-1001         1
+4                       NULL
+
+jobs_with_multiple_parts
+------------------------
+1
+
+machines occurring in multiple jobs
+machine_name  job_count
+------------  ---------
+cnc-01        2
+
+distinct_technicians
+--------------------
+3
+
+part tokens occurring in multiple jobs
+part_no  job_count
+-------  ---------
+P-1001   2
+
+observed job-to-machine matching
+total_jobs  jobs_matching_a_machine  orphan_jobs
+----------  -----------------------  -----------
+4           3                        1

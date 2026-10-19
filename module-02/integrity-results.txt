@@ -1,0 +1,44 @@
+Command:
+sqlite3 module-02/legacy.db ".read module-02/integrity-audit.sql"
+
+DEFECT 1 - orphan maintenance jobs
+job_id  machine_name
+------  ------------
+3       cnc-05
+
+DEFECT 2 - duplicate natural keys
+part_no  copies
+-------  ------
+P-1003   2
+
+DEFECT 3A - TEXT comparison from workbook
+part_no  unit_price
+-------  ----------
+P-1001   12.50
+
+DEFECT 3B - numeric comparison
+part_no  unit_price  numeric_price
+-------  ----------  -------------
+P-1001   12.50       12.5
+P-1003   9.90        9.9
+P-1003   9.90        9.9
+
+DEFECT 3C - explicit counterexample
+text_says_less  numeric_says_less
+--------------  -----------------
+0               1
+
+DEFECT 4 - invalid installation date shape
+machine_name  installed
+------------  ---------
+RANDOM-NAME   unknown
+
+DEFECT 5 - naive comma-list join
+job_id  parts_used  part_no  description
+------  ----------  -------  -----------------
+2       P-1003      P-1003   Coolant filter
+2       P-1003      P-1003   Coolant filter
+3       P-1001      P-1001   Ball bearing 6203
+
+The final sqlite_master query showed all three legacy tables without PRIMARY
+KEY, UNIQUE, NOT NULL, CHECK, or FOREIGN KEY constraints.

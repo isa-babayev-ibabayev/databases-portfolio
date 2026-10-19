@@ -1,0 +1,15 @@
+Command:
+sqlite3 module-02/sketch-proof.db ".read module-02/sketch-proof.sql"
+
+machine_id  name      sensor_count
+----------  --------  ------------
+1           CNC mill  2
+
+Error near line 31 of module-02/sketch-proof.sql: FOREIGN KEY constraint failed
+
+sensors_after_rejected_orphan
+-----------------------------
+2
+
+Interpretation: two child sensors reference one parent machine. The attempted
+third sensor referenced machine 999 and was rejected, so the final count stayed 2.
