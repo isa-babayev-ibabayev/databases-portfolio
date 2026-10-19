@@ -20,8 +20,9 @@ peer review/checkpoint, diagram selection, and Discord posting.
 | Branch | `main` |
 | Initial HEAD | `84f5fcb47c271987fe5fec5ab3a2ab31c74f7799` |
 | Technical implementation HEAD before this report | `b7f1a8c` |
+| First complete report push | `4d9a8f8` on `origin/main` |
 | Final delivery commit | See final `git log -1` and delivery response; a commit cannot contain its own hash without changing that hash |
-| Push | Pending at report-writing time; updated truthfully in the delivery response |
+| Push | Succeeded to `origin/main`; this factual status update is pushed in the final delivery commit |
 | uv-managed Python | 3.14.5 |
 | Python `sqlite3` | 3.50.4 |
 | SQLite CLI | 3.53.4 |
