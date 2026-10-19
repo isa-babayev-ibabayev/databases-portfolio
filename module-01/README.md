@@ -62,3 +62,9 @@ I found the `.dump` command especially useful because it exports a database into
 I also learned that `.tables` lists tables, `.schema` displays their structure, and `.timer on` measures query execution time.
 
 For my CNC vibration example, the highest measurements were 1.2 for cnc-01 and 2.4 for cnc-02. My first timed query took approximately 0.0277 seconds.
+
+## Task 5 - SQL Island
+
+I completed the SQL Island learning game and received a Certificate of Completion.
+
+[Read my SQL Island reflection and view my certificate](sql-island.md)
