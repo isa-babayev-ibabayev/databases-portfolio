@@ -68,3 +68,9 @@ For my CNC vibration example, the highest measurements were 1.2 for cnc-01 and 2
 I completed the SQL Island learning game and received a Certificate of Completion.
 
 [Read my SQL Island reflection and view my certificate](sql-island.md)
+
+## Task 6 - CNC Telemetry Database
+
+I generated and analyzed 172,800 CNC measurements using Python and SQLite.
+
+[Read my Task 6 analysis and query results](telemetry-analysis.md)
