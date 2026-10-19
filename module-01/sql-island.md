@@ -26,7 +26,7 @@ SELECT * FROM inhabitant;
 
 I also learned how SQL queries can be used to filter, organize, and combine information.
 
-[Add the other commands you actually used during the game, for example WHERE, ORDER BY, JOIN, GROUP BY, UPDATE, or DELETE.]
+I used SELECT, WHERE, ORDER BY, JOIN, GROUP BY, UPDATE, and DELETE to retrieve, organize, and modify data.
 
 ## 3. Explain the database concepts in my own words
 
@@ -40,9 +40,9 @@ I also learned how SQL queries can be used to filter, organize, and combine info
 
 ## 4. What surprised me? What is still confusing?
 
-[Describe something you personally found surprising during the game.]
+I was surprised that SQL commands could be used to solve puzzles and progress through an adventure game.
 
-[Describe a SQL concept that you still find difficult, or explain what became clearer after completing the game.]
+I understand SELECT and WHERE much better now, but JOIN is still a little difficult because it combines data from different tables.
 
 ## Conclusion
 
