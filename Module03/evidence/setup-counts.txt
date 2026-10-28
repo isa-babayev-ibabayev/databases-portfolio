@@ -1,10 +1,10 @@
 SQLite runtime: 3.50.4
 table_name  row_count
 ----------  ---------
-customer    2000     
-product     500      
-orders      60000    
-order_line  240000   
+customer    2000
+product     500
+orders      60000
+order_line  240000
 customer_id range: 1..2000
 product_id range: 1..500
 order_id range: 1..60000

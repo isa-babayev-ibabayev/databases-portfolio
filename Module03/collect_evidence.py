@@ -75,10 +75,16 @@ def format_table(headers: tuple[str, ...], rows: list[tuple[object, ...]]) -> st
         max(len(headers[index]), *(len(row[index]) for row in rendered))
         for index in range(len(headers))
     ]
-    header = "  ".join(value.ljust(widths[i]) for i, value in enumerate(headers))
+    def render_line(values: tuple[str, ...] | list[str]) -> str:
+        return "  ".join(
+            value.ljust(widths[i]) if i < len(widths) - 1 else value
+            for i, value in enumerate(values)
+        )
+
+    header = render_line(list(headers))
     rule = "  ".join("-" * width for width in widths)
     body = [
-        "  ".join(value.ljust(widths[i]) for i, value in enumerate(row))
+        render_line(row)
         for row in rendered
     ]
     return "\n".join([header, rule, *body]) + "\n"
