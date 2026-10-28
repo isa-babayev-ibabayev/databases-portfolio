@@ -1,0 +1,35 @@
+SQLite runtime: 3.50.4
+
+## grouped
+rows=400 first_5=[(1, 'Customer 1', 30), (6, 'Customer 6', 30), (11, 'Customer 11', 30), (16, 'Customer 16', 30), (21, 'Customer 21', 30)]
+timings_ms=9.189100,10.008400,8.847000; median_ms=9.189100
+SCAN o
+SEARCH c USING INTEGER PRIMARY KEY (rowid=?)
+USE TEMP B-TREE FOR GROUP BY
+USE TEMP B-TREE FOR ORDER BY
+
+## correlated
+rows=400 first_5=[(1, 'Customer 1', 30), (6, 'Customer 6', 30), (11, 'Customer 11', 30), (16, 'Customer 16', 30), (21, 'Customer 21', 30)]
+timings_ms=6249.788700,6169.966800,6745.906400; median_ms=6249.788700
+SCAN c
+CORRELATED SCALAR SUBQUERY 2
+SCAN o
+CORRELATED SCALAR SUBQUERY 1
+SCAN o
+USE TEMP B-TREE FOR ORDER BY
+
+## window
+rows=400 first_5=[(1, 'Customer 1', 30), (6, 'Customer 6', 30), (11, 'Customer 11', 30), (16, 'Customer 16', 30), (21, 'Customer 21', 30)]
+timings_ms=24.664900,25.189200,24.976000; median_ms=24.976000
+CO-ROUTINE counted
+CO-ROUTINE (subquery-3)
+CO-ROUTINE (subquery-4)
+SCAN o
+SEARCH c USING INTEGER PRIMARY KEY (rowid=?)
+USE TEMP B-TREE FOR ORDER BY
+SCAN (subquery-4)
+SCAN (subquery-3)
+SCAN counted
+USE TEMP B-TREE FOR ORDER BY
+
+equivalent=True

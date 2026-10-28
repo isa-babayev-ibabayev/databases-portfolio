@@ -1,0 +1,7 @@
+SQLite runtime: 3.50.4
+normal vulnerable lookup: [(1, 'Customer 1')]
+apostrophe vulnerable lookup: ERROR near "Brien": syntax error
+apostrophe safe lookup: [(2001, "O'Brien")]
+payload vulnerable lookup: 2001 rows; first 3=[(1, 'Customer 1'), (2, 'Customer 2'), (3, 'Customer 3')]
+payload safe lookup: []
+database change: rolled back; the demonstration does not persist the test row
