@@ -1,0 +1,7 @@
+SQLite runtime: 3.50.4
+city       customers  revenue   
+---------  ---------  ----------
+Bielefeld  500        11242176.0
+Gütersloh  500        8422344.0 
+Münster    500        5493504.0 
+Paderborn  500        2815656.0 

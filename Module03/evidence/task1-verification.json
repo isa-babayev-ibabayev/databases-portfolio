@@ -1,0 +1,10 @@
+{
+  "before_2025": 0,
+  "in_2025": 40575,
+  "after_2025": 19425,
+  "on_2025_01_01": 111,
+  "on_2026_01_01": 111,
+  "cities_returned": 4,
+  "python_reference_matches_sql": true,
+  "descending_revenue": true
+}

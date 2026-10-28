@@ -1,0 +1,13 @@
+SQLite runtime: 3.50.4
+table_name  row_count
+----------  ---------
+customer    2000     
+product     500      
+orders      60000    
+order_line  240000   
+customer_id range: 1..2000
+product_id range: 1..500
+order_id range: 1..60000
+ordered_on range: 2025-01-01..2026-06-24
+x=540 date check: 2025-01-01
+SKU formatting check: SKU-00001

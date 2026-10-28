@@ -1,0 +1,20 @@
+Python SQLite runtime: 3.50.4
+Database: disposable copy rebuilt from module-02/legacy_setup.sql
+
+## before index
+technician equality: SELECT * FROM maint_job WHERE technician = 'Beier'
+SCAN maint_job
+machine-name equality: SELECT * FROM machine WHERE machine_name = 'cnc-02'
+SCAN machine
+leading-wildcard technician: SELECT * FROM maint_job WHERE technician LIKE '%ei%'
+SCAN maint_job
+
+## after ix_job_tech
+technician equality: SELECT * FROM maint_job WHERE technician = 'Beier'
+SEARCH maint_job USING INDEX ix_job_tech (technician=?)
+machine-name equality: SELECT * FROM machine WHERE machine_name = 'cnc-02'
+SCAN machine
+leading-wildcard technician: SELECT * FROM maint_job WHERE technician LIKE '%ei%'
+SCAN maint_job
+function-wrapped technician: SELECT * FROM maint_job WHERE upper(technician) = upper('Beier')
+SCAN maint_job
