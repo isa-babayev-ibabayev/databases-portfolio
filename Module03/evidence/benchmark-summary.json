@@ -1,0 +1,16 @@
+{
+  "sqlite_version": "3.50.4",
+  "python_version": "3.14.5",
+  "repeats": 5,
+  "batch_iterations": 100,
+  "medians_ms": {
+    "dashboard/baseline": 160.8798,
+    "dashboard/stage1_ordered_on": 154.8328,
+    "dashboard/stage2_order_line_order": 1429.5243,
+    "dashboard/stage3_order_line_product": 1514.0618,
+    "single_day/no_date_index": 3.832294,
+    "single_day/with_date_index": 0.297238,
+    "product_filter/no_product_index": 13.714101,
+    "product_filter/with_product_index": 2.782931
+  }
+}

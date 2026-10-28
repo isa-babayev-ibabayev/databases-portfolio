@@ -1,0 +1,63 @@
+SQLite runtime: 3.50.4
+Python: 3.14.5
+Repeats: 5; warm-up: 1 unmeasured execution
+
+## dashboard / baseline
+SCAN ol
+SEARCH o USING INTEGER PRIMARY KEY (rowid=?)
+SEARCH c USING INTEGER PRIMARY KEY (rowid=?)
+SEARCH p USING INTEGER PRIMARY KEY (rowid=?)
+USE TEMP B-TREE FOR GROUP BY
+USE TEMP B-TREE FOR count(DISTINCT)
+USE TEMP B-TREE FOR ORDER BY
+
+## dashboard / stage1_ordered_on
+SCAN ol
+SEARCH o USING INTEGER PRIMARY KEY (rowid=?)
+SEARCH c USING INTEGER PRIMARY KEY (rowid=?)
+SEARCH p USING INTEGER PRIMARY KEY (rowid=?)
+USE TEMP B-TREE FOR GROUP BY
+USE TEMP B-TREE FOR count(DISTINCT)
+USE TEMP B-TREE FOR ORDER BY
+
+## dashboard / stage2_order_line_order
+SEARCH o USING INDEX ix_orders_ordered_on (ordered_on>? AND ordered_on<?)
+SEARCH c USING INTEGER PRIMARY KEY (rowid=?)
+SEARCH ol USING INDEX ix_orderline_order (order_id=?)
+SEARCH p USING INTEGER PRIMARY KEY (rowid=?)
+USE TEMP B-TREE FOR GROUP BY
+USE TEMP B-TREE FOR count(DISTINCT)
+USE TEMP B-TREE FOR ORDER BY
+
+## dashboard / stage3_order_line_product
+SEARCH o USING INDEX ix_orders_ordered_on (ordered_on>? AND ordered_on<?)
+SEARCH c USING INTEGER PRIMARY KEY (rowid=?)
+SEARCH ol USING INDEX ix_orderline_order (order_id=?)
+SEARCH p USING INTEGER PRIMARY KEY (rowid=?)
+USE TEMP B-TREE FOR GROUP BY
+USE TEMP B-TREE FOR count(DISTINCT)
+USE TEMP B-TREE FOR ORDER BY
+
+## single_day / no_date_index
+SCAN o
+SEARCH c USING INTEGER PRIMARY KEY (rowid=?)
+
+## single_day / with_date_index
+SEARCH o USING INDEX ix_orders_ordered_on (ordered_on=?)
+SEARCH c USING INTEGER PRIMARY KEY (rowid=?)
+
+## date_function / with_date_index
+SCAN o
+SEARCH c USING INTEGER PRIMARY KEY (rowid=?)
+
+## product_filter / no_product_index
+SCAN ol
+
+## product_filter / with_product_index
+SEARCH ol USING INDEX ix_orderline_product (product_id=?)
+
+## covering / indexed_column_only
+SEARCH orders USING COVERING INDEX ix_orders_ordered_on (ordered_on=?)
+
+## noncovering / extra_table_column
+SEARCH orders USING INDEX ix_orders_ordered_on (ordered_on=?)
