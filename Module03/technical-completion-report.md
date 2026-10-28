@@ -266,8 +266,14 @@ The already reported classroom Tasks A, B, and C do not need to be repeated.
 
 ## Delivery
 
-- Commits: pending final audit.
-- Push: pending final audit.
-- Final local/remote HEAD: pending final audit.
+- Commits:
+  - `43ac0ec6497ba465a7c72cf8b2af6c4f9b256603` — warehouse setup and query-plan verification
+  - `f6cb0f9ed9440c3108c99201aba45c3b40506846` — measured index benchmark
+  - `8c90a3698d526c6471dd446757e117f5c44c3b36` — security, algebra, and window exercises
+  - `b120801adfcd0355fc2172f406ff5306b651b600` — classroom evidence and documentation
+  - `c15b1e69b06791070ca9925cf71beeb5b50e5a1e` — final technical verification evidence
+- Push: succeeded to `origin/main` through `c15b1e6`.
+- Final local/remote HEAD after this report-status commit is recorded in the
+  delivery response; a commit cannot include its own hash without changing it.
 - Overall status: **technical implementation complete; personal confirmation
   and unsupported human evidence pending**.
