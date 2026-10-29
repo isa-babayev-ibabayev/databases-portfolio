@@ -3,12 +3,61 @@
 
 ## Learning Goals
 
-1. Explain how this class works — the CBL/PBL philosophy, the portfolio-based **project work** assessment, and the "moving bar" of a first-time course.
-2. Set up your personal GitHub portfolio from the course template, with a clean first commit and a `.gitignore` that keeps databases and secrets out of Git.
-3. Set up the entire toolchain reproducibly with **`uv`** — one fixed Python plus SQLite, DuckDB, Datasette, and more — on Windows, macOS, or Linux, and verify it.
-4. Explain — with a measurement, not a slide — the difference between an **embedded** database and a **client/server** database, and why most local apps should not run a server.
-5. Load real rows into SQLite and query them from Python using **bound parameters**.
-6. Take a first LLM-generated query, run it, and begin the habit that defines this course: **verify before you trust**.
+### Learning Goal 1 — Understand how the class works
+
+**Learning goal:** Explain how this class works — the CBL/PBL philosophy, the portfolio-based **project work** assessment, and the "moving bar" of a first-time course.
+
+**Evidence:**
+- [Portfolio README](../README.md) — documents the module-based portfolio and its practical learning purpose.
+- [Module 1 reflection](reflection.md) — records learning through practical database work and reflection.
+
+**Evidence gap:** The existing portfolio does not contain a dedicated explanation of CBL/PBL, the assessment structure, or the "moving bar."
+
+### Learning Goal 2 — Set up a safe GitHub portfolio
+
+**Learning goal:** Set up your personal GitHub portfolio from the course template, with a clean first commit and a `.gitignore` that keeps databases and secrets out of Git.
+
+**Evidence:**
+- [Portfolio README](../README.md) — shows the personalized HSBI Databases portfolio structure and module links.
+- [.gitignore](../.gitignore) — excludes databases, generated data, virtual environments, caches, and `.env` secrets.
+- [Initial portfolio commit](https://github.com/isa-babayev-ibabayev/databases-portfolio/commit/1b4dabc1a35eb0a7b19ee6cd6458ff862b69590f) — records the clean starting structure.
+
+### Learning Goal 3 — Build a reproducible database toolchain
+
+**Learning goal:** Set up the entire toolchain reproducibly with **`uv`** — one fixed Python plus SQLite, DuckDB, Datasette, and more — on Windows, macOS, or Linux, and verify it.
+
+**Evidence:**
+- [Dependency configuration](../pyproject.toml) — declares Python and the required database tools.
+- [Environment lockfile](../uv.lock) — locks resolved dependency versions for reproducible installation.
+- [Tool verification output](uv-check-output.txt) — records the Python, SQLite, DuckDB, Datasette, sqlite-utils, Pydantic, and SQLAlchemy versions.
+
+### Learning Goal 4 — Compare embedded and client/server databases with measurements
+
+**Learning goal:** Explain — with a measurement, not a slide — the difference between an **embedded** database and a **client/server** database, and why most local apps should not run a server.
+
+**Evidence:**
+- [Telemetry analysis](telemetry-analysis.md) — compares SQLite with a client/server database using the measured row count, database size, and query times.
+- [Recorded telemetry query results](telemetry-query-results.txt) — contains the executed query outputs and measured timings.
+
+### Learning Goal 5 — Load and query real SQLite data with bound parameters
+
+**Learning goal:** Load real rows into SQLite and query them from Python using **bound parameters**.
+
+**Evidence:**
+- [Python telemetry loader](load_telemetry.py) — creates the SQLite table and loads real CSV rows with five `?` bound parameters.
+- [Telemetry queries](telemetry-queries.sql) — contains the SQL used to aggregate and filter the imported rows.
+- [Recorded telemetry query results](telemetry-query-results.txt) — proves the queries executed against 172,800 imported rows.
+
+**Scope note:** Bound parameters are directly evidenced for Python ingestion; the committed analytical `SELECT` queries are SQL files, not parameterized Python `SELECT` calls.
+
+### Learning Goal 6 — Verify LLM-generated SQL before trusting it
+
+**Learning goal:** Take a first LLM-generated query, run it, and begin the habit that defines this course: **verify before you trust**.
+
+**Evidence:**
+- [AI-generated SQL](task7-ai-query.sql) — preserves the query that was tested.
+- [AI verification report](task7-ai-verification.md) — records the prompt, results, boundary checks, limitations, and verification reasoning.
+- [Query-plan output](task7-plan.txt) — proves that `EXPLAIN QUERY PLAN` was used to inspect execution.
 
 ## What I Plan to Explore
 
