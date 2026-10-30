@@ -1,5 +1,5 @@
 Command:
-uv run --no-sync python -B -m unittest discover -s module-03/tests -v
+uv run python -m unittest discover -s module-03/tests -v
 
 test_benchmark_has_five_runs_and_correct_medians ... ok
 test_benchmark_rows_and_measured_effects ... ok
@@ -7,6 +7,7 @@ test_required_plans_and_negative_result_recorded ... ok
 test_normal_and_apostrophe_safe_lookup ... ok
 test_payload_changes_vulnerable_query_but_not_safe_query ... ok
 test_grouped_correlated_and_window_results_match ... ok
+test_curiosity_index_equality_and_wildcard_plans ... ok
 test_disposable_classroom_plan_reproduction ... ok
 test_generated_database_is_ignored ... ok
 test_markdown_has_no_unexpected_control_characters ... ok
@@ -21,6 +22,6 @@ test_task1_deterministic_result_and_order ... ok
 test_task1_edge_fixture_distinct_revenue_and_no_order_customer ... ok
 test_task1_saved_plan_exists ... ok
 
-Ran 19 tests in 10.869s
+Ran 20 tests in 8.886s
 
 OK

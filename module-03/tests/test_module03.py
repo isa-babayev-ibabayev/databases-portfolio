@@ -317,9 +317,65 @@ class RepositorySafetyTests(unittest.TestCase):
         self.assertIn("function-wrapped technician:", after)
         self.assertIn("SCAN maint_job", after)
 
+    def test_curiosity_index_equality_and_wildcard_plans(self):
+        connection = sqlite3.connect(":memory:")
+        self.addCleanup(connection.close)
+        connection.executescript(
+            """
+            CREATE TABLE technician_log (
+                log_id INTEGER PRIMARY KEY,
+                technician TEXT NOT NULL,
+                note TEXT NOT NULL
+            );
+            WITH RECURSIVE seq(n) AS (
+                SELECT 1
+                UNION ALL
+                SELECT n + 1 FROM seq WHERE n < 1000
+            )
+            INSERT INTO technician_log (log_id, technician, note)
+            SELECT n,
+                   CASE n % 4
+                       WHEN 0 THEN 'Beier'
+                       WHEN 1 THEN 'Kaya'
+                       WHEN 2 THEN 'Smith'
+                       ELSE 'Garcia'
+                   END,
+                   'maintenance log ' || n
+            FROM seq;
+            """
+        )
+
+        before = connection.execute(
+            "EXPLAIN QUERY PLAN SELECT * FROM technician_log "
+            "WHERE technician = 'Beier'"
+        ).fetchall()
+        connection.execute(
+            "CREATE INDEX ix_technician_log_name "
+            "ON technician_log(technician)"
+        )
+        after = connection.execute(
+            "EXPLAIN QUERY PLAN SELECT * FROM technician_log "
+            "WHERE technician = 'Beier'"
+        ).fetchall()
+        wildcard = connection.execute(
+            "EXPLAIN QUERY PLAN SELECT * FROM technician_log "
+            "WHERE technician LIKE '%ei%'"
+        ).fetchall()
+
+        self.assertIn("SCAN technician_log", before[0][3])
+        self.assertIn("SEARCH technician_log USING INDEX", after[0][3])
+        self.assertIn("SCAN technician_log", wildcard[0][3])
+        self.assertEqual(
+            connection.execute(
+                "SELECT count(*) FROM technician_log WHERE technician = 'Beier'"
+            ).fetchone()[0],
+            250,
+        )
+
     def test_required_documentation_files_exist(self):
         for relative in (
             "README.md",
+            "curiosity-index-experiment.sql",
             "having-example.sql",
             "sql-notes.md",
             "task1-report.md",
@@ -328,6 +384,7 @@ class RepositorySafetyTests(unittest.TestCase):
             "task5-window-functions.md",
             "technical-completion-report.md",
             "evidence/having-results.txt",
+            "evidence/curiosity-index-results.txt",
             "evidence/plan-safari-prediction-verification.txt",
         ):
             self.assertTrue((MODULE_DIR / relative).exists(), relative)

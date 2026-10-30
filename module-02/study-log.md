@@ -13,6 +13,10 @@ we did **not** carry out the required discussion with a **neighboring Task Pod**
 At that time we had **not yet joined the class Discord**, so we did not share a
 Module 2 diagram there. Our own-pod discussion and reciprocal GitHub reviews are
 recorded honestly; they are not presented as a completed neighboring-pod activity.
+This statement is limited to the Module 2 ER task. I later participated in a
+separate Module 3 SQL query-plan discussion with students from another group;
+that later activity is not evidence that Module 2 Task C or its Discord step
+was completed.
 
 Some implementation and technical checks were prepared with AI assistance.
 Saved SQL results and test records are portfolio evidence, not proof that I
@@ -560,6 +564,10 @@ For these reasons, the neighboring-pod and Discord parts of Task C remain
 claiming that these classroom activities took place. If the professor wants us
 to complete Task C later, we can arrange a real exchange with another pod and
 record that activity under its real date.
+
+This Module 2 limitation does not mean that I never interacted with another
+group in class: I later did so for Module 3 query-plan work. That separate
+Module 3 activity does not retrospectively complete this ER-diagram task.
 
 ### Reciprocal GitHub peer review with Tunay
 

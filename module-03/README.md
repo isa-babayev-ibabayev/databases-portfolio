@@ -8,12 +8,12 @@ workbook while preserving the student-supplied classroom Tasks A, B, and C.
 | Goal | Evidence |
 |---|---|
 | Complex DQL, joins, grouping/HAVING, subqueries, windows | [Task 1](task1-report.md), [HAVING SQL](having-example.sql), [HAVING results](evidence/having-results.txt), [optional Task 5](task5-window-functions.md) |
-| Execution-plan analysis | [raw Task 1 plan](evidence/task1-plan.txt), [benchmark plans](evidence/benchmark-plans.txt) |
+| Execution-plan analysis | [raw Task 1 plan](evidence/task1-plan.txt), [benchmark plans](evidence/benchmark-plans.txt), [Plan Safari verification](evidence/plan-safari-prediction-verification.txt) |
 | Index benchmarking | [benchmark report](task2-benchmark.md), [harness](bench.py) |
 | Verify AI SQL | [query source](task1-query.sql), [results](evidence/task1-query-results.txt), [verification JSON](evidence/task1-verification.json) |
 | SQL injection prevention | [demonstration](injection_demo.py), [analysis](task3-injection.md) |
 | Algebra ↔ SQL ↔ plan | [Task 4](task4-algebra-to-plan.md) |
-| Classroom and curiosity notes | [sql-notes.md](sql-notes.md) |
+| Classroom and curiosity notes | [sql-notes.md](sql-notes.md), [curiosity SQL](curiosity-index-experiment.sql), [curiosity results](evidence/curiosity-index-results.txt) |
 | Reflection | [ref03.md](../Reflections/ref03.md) |
 | Automated verification | [tests](tests/test_module03.py), [saved results](evidence/test-results.txt) |
 | Independent audit | [technical completion report](technical-completion-report.md) |
@@ -28,6 +28,7 @@ sqlite3 module-03/warehouse.db ".read module-03/setup.sql"
 sqlite3 module-03/warehouse.db ".read module-03/having-example.sql"
 uv run python module-03/collect_evidence.py
 uv run python module-03/reproduce_classroom_plans.py
+sqlite3 :memory: ".read module-03/curiosity-index-experiment.sql"
 uv run python module-03/bench.py --repeats 5 --batch-iterations 100
 uv run python module-03/injection_demo.py --output module-03/evidence/injection-output.txt
 uv run python -m unittest discover -s module-03/tests -v
@@ -81,11 +82,11 @@ generated fixture, so use a disposable database when preserving other work.
 
 ## Automated verification
 
-The current suite ran **19 tests; all 19 passed**. It checks the fixture,
+The current suite ran **20 tests; all 20 passed**. It checks the fixture,
 dashboard boundaries and edge cases, benchmark samples and medians, injection
 behavior, optional query
-equivalence, the HAVING result and plan, documentation links, and control
-characters. The saved output is in
+equivalence, the HAVING result and plan, the disposable curiosity experiment,
+documentation links, and control characters. The saved output is in
 [evidence/test-results.txt](evidence/test-results.txt).
 
 ## Classroom evidence and limitations
@@ -96,12 +97,28 @@ because it visibly contains another student's identifying filesystem path.
 Its commands, results, version, and initial missing-semicolon error are
 faithfully transcribed.
 
-The original Task A predictions were not recorded. A new, explicitly dated
-AI-assisted prediction-and-verification exercise demonstrates the technical
-behavior without pretending to be the missing classroom history. Task B has a
-documented student explanation and AI comparison. Task C remains
-student-reported because the neighboring pod's raw plan and SQLite version are
-not available. A second curiosity swap and Discord post are not claimed.
+The student confirms participating with students from another group and
+making Task A predictions, but the exact predictions were not preserved. The
+notes label the student recollection, screenshot observations, reconstructed
+explanations, and a new independently reproducible prediction exercise
+separately. Task B has a documented student explanation and AI comparison.
+Task C participation and topics are student-reported because the other group's
+raw plan, SQLite version, number, and names are not available.
+
+A second curiosity is now demonstrated through a disposable technical
+experiment, but it is not misrepresented as a second historical
+person-to-person swap. The workbook's Discord step is conditional on a shared
+or unresolved curiosity after the exchanges; no Discord post is claimed.
+
+| Portfolio area | Status |
+|---|---|
+| Five technical learning goals, Studios 1–4, optional Studio 5 | **VERIFIED** |
+| Task A participation and original predictions | **STUDENT-REPORTED; exact historical wording unavailable** |
+| Task B algebra comparison | **VERIFIED AS DOCUMENTED** |
+| Task C other-group exchange | **STUDENT-REPORTED; external raw evidence unavailable** |
+| Second curiosity technical exercise | **VERIFIED; not a second peer swap** |
+| Reflection | **VERIFIED AS DOCUMENTED** |
+| Discord follow-up | **NOT CLAIMED / CONDITIONAL** |
 
 The technically achievable portfolio work is complete. Any requirement for
 new neighboring-pod participation, raw external evidence, or instructor

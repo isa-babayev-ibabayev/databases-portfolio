@@ -34,14 +34,23 @@ the recorded environment. This taught me that an index can help one query and
 be ignored or harmful for another query. I also explored leading wildcards,
 function-wrapped columns, and covering indexes.
 
+I also ran a separate disposable curiosity experiment with 1,000 rows. The
+technician equality query changed from `SCAN` to `SEARCH` after its index was
+created, while `LIKE '%ei%'` still scanned. This made the difference between
+"an index exists" and "this particular predicate can use the index" clearer.
+
 ## Interaction with peers and instructors
 
-The study notes record a comparison between a Windows plan and a neighboring
-pod's macOS plan. The discussion focused on function-wrapped columns, leading
-wildcards, and covering indexes. The other pod's raw output and SQLite version
-were not saved, and there is no evidence of a Discord post or a second
-curiosity swap. I therefore keep this part as a student-reported activity and
-do not add details that are not available.
+I participated in a classroom discussion with students from another group.
+Our notes record a comparison between a Windows plan and the other group's
+macOS plan, with discussion of function-wrapped columns, leading wildcards,
+and covering indexes. I do not remember the group number or participant names,
+and their raw output and SQLite version were not saved. I therefore label
+those details as student-reported rather than independently verified. The
+illustrative exchange and later disposable experiment in the study notes are
+portfolio follow-up, not a verbatim classroom transcript or a second
+person-to-person swap. The workbook's Discord step is conditional; I do not
+claim a Discord post.
 
 ## How did you verify AI suggestions?
 
@@ -61,4 +70,6 @@ and timings were very different. The extra `HAVING` exercise also helped me
 connect the written SQL order with the logical order. AI assistance was used
 for drafting and technical verification, and the suggestions were checked
 with query results, plans, tests, and documentation rather than accepted
-without evidence.
+without evidence. The additional index-curiosity SQL and saved plan output
+provide another small example that a classmate can reproduce without using
+the generated warehouse database.

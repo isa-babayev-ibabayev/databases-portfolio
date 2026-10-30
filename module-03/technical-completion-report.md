@@ -9,9 +9,11 @@ is complete. The canonical directory was renamed from `Module03/` to
 `module-03/` on 2026-10-30; later references to `Module03/` in the historical
 repository narrative describe the earlier delivery state. The original
 benchmark measurements remain unchanged. Historical
-human evidence is still limited: the original Plan Safari predictions were not
-recorded, and neighboring-pod raw output/version, a second curiosity swap, and
-a Discord post are unavailable.
+human evidence is still limited: the student confirms making the original Plan
+Safari predictions and participating with students from another group, but the
+exact predictions and the other group's raw output/version were not preserved.
+A second curiosity is technically reproducible but is not claimed as a second
+historical person-to-person swap. No conditional Discord post is claimed.
 
 ## Executive summary
 
@@ -66,6 +68,11 @@ evidence limitation are in [sql-notes.md](sql-notes.md).
 The image is not represented as a before-index baseline or as proof of commands
 run on the portfolio owner's laptop.
 
+The student separately confirms classroom participation and making
+predictions before execution. Because the exact wording was not preserved,
+`sql-notes.md` labels the recollection and an illustrative reconstruction
+separately from the screenshot observations.
+
 An independent disposable reproduction used the Module 2 setup script. Before
 the index, all three plans scanned. After `ix_job_tech`, technician equality
 became an indexed SEARCH while Machine equality and leading-wildcard LIKE
@@ -80,10 +87,12 @@ why projection is optional for `SELECT *`.
 
 ### Task C
 
-The supplied neighboring-pod discussion is preserved as completed classroom
-evidence. The Windows/macOS match is marked student-reported because raw
-neighboring-pod output and version were not available. No names, transcript,
-second swap, timing, or Discord post was invented.
+The student confirms participating with students from another group. The
+Windows/macOS match and discussed topics are marked student-reported because
+the other group's raw output and version were not available. No group number,
+names, verbatim transcript, second historical swap, timing, or Discord post
+was invented. A clearly labeled illustrative dialogue explains the technical
+topics without presenting them as exact classroom speech.
 
 ## Warehouse setup
 
@@ -212,14 +221,15 @@ The first window draft's repeated-row trap is documented and corrected using
 | AI query verification | SQL, Python calculation, edge fixture | PASS |
 | SQL injection prevention | demo, raw output, tests | PASS |
 | Relational algebra | Task 4 | PASS |
-| Curiosity list with sources | sql-notes section 11 | PASS |
-| Classroom Task A historical record | image transcription; original predictions absent | PARTIAL — historical limitation |
+| Curiosity list with sources | sql-notes section 12 | PASS |
+| Classroom Task A historical record | student recollection plus screenshot; exact predictions absent | STUDENT-REPORTED — PARTIALLY VERIFIED |
 | New Plan Safari technical verification | dated AI-assisted predictions and disposable execution | PASS |
 | Classroom Task B preservation | original text plus clarification | PASS |
-| Classroom Task C record | supplied discussion; neighboring raw evidence unavailable | HUMAN ACTIVITY — UNVERIFIED |
-| Second curiosity swap | no supporting record | EXTERNAL/HUMAN LIMITATION |
+| Classroom Task C record | confirmed participation and supplied topics; other-group raw evidence unavailable | STUDENT-REPORTED — NOT INDEPENDENTLY VERIFIED |
+| Second curiosity technical exercise | disposable SQL and saved plans | PASS — not a second peer swap |
+| Second historical curiosity swap | no supporting record | EXTERNAL/HUMAN LIMITATION |
 | Reflection draft | seven complete template sections | PASS — student factual review recommended |
-| Discord evidence | no link/evidence supplied | EXTERNAL/HUMAN LIMITATION |
+| Discord evidence | conditional workbook step; no post claimed | NOT CLAIMED / CONDITIONAL |
 
 ## Files created or modified
 
@@ -229,6 +239,8 @@ The first window draft's repeated-row trap is documented and corrected using
 | `module-03/having-example.sql` | Executable GROUP BY/HAVING exercise |
 | `module-03/evidence/having-results.txt` | Verified HAVING output and plan |
 | `module-03/evidence/plan-safari-prediction-verification.txt` | Dated AI-assisted prediction and fresh disposable plan comparison |
+| `module-03/curiosity-index-experiment.sql` | Disposable second curiosity experiment |
+| `module-03/evidence/curiosity-index-results.txt` | Recorded plans and counts from the curiosity experiment |
 | `module-03/task1-query.sql` | Exact prompt and AI-generated query |
 | `module-03/task1-report.md` | Result, plan, and correctness audit |
 | `module-03/bench.py` | Repeatable disposable index benchmark |
@@ -255,6 +267,7 @@ sqlite3 module-03/warehouse.db ".read module-03/setup.sql"
 sqlite3 module-03/warehouse.db ".read module-03/having-example.sql"
 uv run python module-03/collect_evidence.py
 uv run python module-03/reproduce_classroom_plans.py
+sqlite3 :memory: ".read module-03/curiosity-index-experiment.sql"
 uv run python module-03/bench.py --repeats 5 --batch-iterations 100
 uv run python module-03/injection_demo.py --output module-03/evidence/injection-output.txt
 uv run python -m unittest discover -s module-03/tests -v
@@ -262,14 +275,15 @@ uv run python -m unittest discover -s module-03/tests -v
 
 ## Automated verification
 
-The current suite ran 19 tests: 19 passed, 0 failed. It rebuilt the warehouse,
+The current suite ran 20 tests: 20 passed, 0 failed. It rebuilt the warehouse,
 checked exact counts and ranges, reran setup, tested date boundaries,
 distinct-customer and no-order behavior, validated saved plans and benchmark
 medians, proved a genuine slowdown and two speedups, checked the injection
 payload and apostrophe case, compared all optional query variants, reproduced
-Task A on a disposable database, verified the HAVING result and plan, rejected
-unexpected Markdown control characters, verified ignored databases, and
-resolved every relative Markdown link. Raw output is in
+Task A on a disposable database, verified the HAVING result and plan, checked
+the new equality-versus-wildcard curiosity plans, rejected unexpected
+Markdown control characters, verified ignored databases, and resolved every
+relative Markdown link. Raw output is in
 [test-results.txt](evidence/test-results.txt).
 
 ## Risks and limitations
@@ -281,7 +295,9 @@ resolved every relative Markdown link. Raw output is in
 - The Task A image is authentic supplied evidence but intentionally not
   published because of another student's visible path.
 - The neighboring macOS comparison lacks raw corroborating output/version.
-- No evidence confirms a Discord post or a second curiosity swap.
+- The second curiosity is a reproducible technical follow-up, not evidence of
+  a second historical person-to-person swap.
+- The Discord step is conditional in the workbook; no post is claimed.
 - The fixture intentionally omits foreign keys; that is Module 4 material.
 
 ## Remaining external and final-review actions
@@ -295,9 +311,10 @@ resolved every relative Markdown link. Raw output is in
 - Add a real Discord link only if one exists.
 - Complete instructor-specific checkpoint requirements.
 
-Technical automation cannot reconstruct the missing original Task A
-predictions or independently confirm Task C. If the professor requires new
-human participation or corroboration, that remains an external dependency.
+Technical automation cannot recover the exact wording of the original Task A
+predictions or independently corroborate the other group's Task C output. If
+the professor requires raw external evidence, that remains an external
+dependency.
 
 ## Delivery
 

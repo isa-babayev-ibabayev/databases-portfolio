@@ -134,6 +134,9 @@ ER diagram there.
 
 This situation is documented in the study log. We do not present the
 neighboring-pod discussion or Discord sharing as completed activities.
+This limitation applies specifically to the Module 2 ER Task C. The student's
+later Module 3 SQL query-plan discussion with students from another group is a
+separate activity and does not complete the missing Module 2 exchange.
 
 ### Repository Structure
 

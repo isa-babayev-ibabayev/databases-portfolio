@@ -1,0 +1,39 @@
+Execution date: 2026-10-30
+SQLite CLI: 3.53.4
+Database: isolated in-memory database
+Command: sqlite3 -header -column :memory: ".read module-03/curiosity-index-experiment.sql"
+
+## Deterministic fixture
+
+total_rows  technicians  beier_rows
+----------  -----------  ----------
+1000        4            250
+
+## Equality before index
+
+SCAN technician_log
+
+## Equality after ix_technician_log_name
+
+SEARCH technician_log USING INDEX ix_technician_log_name (technician=?)
+
+## Leading-wildcard LIKE after index
+
+SCAN technician_log
+
+## Created index
+
+CREATE INDEX ix_technician_log_name
+ON technician_log(technician)
+
+The equality predicate changed from a table scan to an indexed search. The
+leading-wildcard predicate still scanned because an ordinary B-tree cannot use
+`%ei%` as a selective prefix range. No timing claim is made: this small
+in-memory fixture is intended to demonstrate planner choices, not portable
+performance.
+
+Indexes also have a maintenance cost that is not measured by this read-only
+query-plan exercise. Inserts, updates to indexed values, and deletes must keep
+the index consistent, and the index uses additional storage. This is why an
+index should be justified by actual query patterns instead of added to every
+column automatically.

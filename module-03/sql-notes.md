@@ -106,7 +106,26 @@ leading-wildcard technician: SCAN maint_job
 It also records an initial missing-semicolon error while entering
 `CREATE INDEX`. It does not establish a clean before-index baseline and does
 not contain the original pre-execution predictions. Those historical
-predictions cannot be reconstructed honestly.
+predictions cannot be recovered word for word.
+
+### Student recollection and reconstructed explanation
+
+I participated in this classroom activity with students from another group
+and remember making predictions before running the queries. I did not preserve
+the exact wording of those predictions, the other group's number, or the
+participants' names. The following is therefore an **illustrative
+reconstruction of the reasoning, not a contemporaneous transcript**:
+
+| Query | Reconstructed expectation | Screenshot observation |
+|---|---|---|
+| `technician = 'Beier'` | An equality predicate can use a matching technician index | `SEARCH maint_job USING INDEX ix_job_tech` |
+| `machine_name = 'cnc-02'` | A technician index cannot help a query on Machine | `SCAN machine` |
+| `technician LIKE '%ei%'` | A leading wildcard gives an ordinary B-tree no fixed prefix | `SCAN maint_job` |
+
+The screenshot supports the displayed observations, while the recollection of
+making predictions is student-reported. The clean, independently reproducible
+before/after exercise below supplies technical evidence without replacing the
+missing historical record.
 
 ## 8. New AI-assisted Plan Safari prediction and verification
 
@@ -131,6 +150,31 @@ wildcard has no starting prefix for an ordinary B-tree range search. A
 function-wrapped column needs a matching expression index. None of these scans
 is automatically a mistake, especially in the four-row classroom fixture.
 
+### Task A — Additional Plan Safari Practice
+
+I practiced reading SQLite query plans using the Module 2 maintenance database.
+
+**Runtime distinction:** the preserved classroom screenshot displays SQLite
+3.53.4. The clean disposable reproduction linked above used Python's SQLite
+3.50.4. These are separate executions and are not merged into one record.
+
+I used `EXPLAIN QUERY PLAN` before and after creating the index `ix_job_tech`.
+
+| Query                         | Before index   | After index                              |
+| ----------------------------- | -------------- | ---------------------------------------- |
+| `technician = 'Beier'`        | SCAN maint_job | SEARCH maint_job USING INDEX ix_job_tech |
+| `machine_name = 'cnc-02'`     | SCAN machine   | SCAN machine                             |
+| `technician LIKE '%ei%'`      | SCAN maint_job | SCAN maint_job                           |
+| `UPPER(technician) = 'BEIER'` | Not tested     | SCAN maint_job                           |
+
+**What I learned from the results:**
+
+An index can help SQLite search for a specific value. However, it does not help every query. The machine-name query used a different column, so the technician index did not help.
+
+The query with `LIKE '%ei%'` still used SCAN because the pattern starts with a wildcard. The `UPPER(technician)` query also used SCAN because the ordinary index was not created on that expression.
+
+This was an additional practice exercise. My original classroom predictions were not recorded before the first execution, so these results are not presented as historical predictions.
+
 ## 9. Classroom Task B — algebra comparison
 
 The student-provided explanation selected:
@@ -147,17 +191,36 @@ The preserved Gemini comparison agreed on selection `σ`. Projection `π` can
 be omitted because `SELECT *` keeps all attributes, and no join belongs in
 this expression.
 
-## 10. Classroom Task C — neighboring-pod record and limits
+## 10. Classroom Task C — neighboring-pod exchange and limits
 
-The student-provided notes report that a Windows plan matched a neighboring
-pod's macOS equality-search plan. They also report discussion of
+I participated in the classroom discussion with students from another group.
+The student-provided notes report that a Windows plan matched the other
+group's macOS equality-search plan. They also report discussion of
 function-wrapped columns, leading wildcards, and covering indexes, followed by
 one curiosity exchange.
 
-The neighboring participant names, raw plan, SQLite version, second curiosity
-swap, and any Discord post are not available. Therefore, the cross-platform
-comparison remains student-reported rather than independently verified. No
-missing meeting, version, screenshot, or message has been invented.
+The other group's number, participant names, raw plan, SQLite version, and a
+second person-to-person curiosity swap are not available. Therefore, the
+participation and cross-platform comparison are **student-reported and not
+independently corroborated**. No missing name, version, output, or transcript
+has been invented.
+
+### Illustrative exchange reconstruction — not a verbatim transcript
+
+The following dialogue is a teaching reconstruction of the reported topics:
+
+- **Question:** Why can the equality query become `SEARCH`? **Explanation:** A
+  matching equality constraint can probe `ix_job_tech` directly.
+- **Question:** Why does `LIKE '%ei%'` remain a scan? **Explanation:** The
+  leading wildcard removes the fixed prefix needed for the usual B-tree range
+  optimization.
+- **Question:** Why can `upper(technician)` remain a scan? **Explanation:** The
+  expression does not match an ordinary index on the raw column.
+- **Question:** When is an index covering? **Explanation:** When it contains
+  every column needed by that query, avoiding a table lookup.
+
+These questions and answers demonstrate the technical comparison; they are
+not claimed as exact words spoken by either group.
 
 Technical research suggests matching `COLLATE NOCASE` indexes for compatible
 case-insensitive prefix/equality searches, expression indexes for matching
@@ -202,6 +265,26 @@ The record supports one student-reported classroom collection swap. The
 workbook asks for another swap at the end, but no second historical swap is
 claimed.
 
+### Curiosity Exchange 2 — When Indexes Do Not Help
+
+**Status:** independently reproducible technical follow-up, not a claim of a
+second person-to-person classroom exchange.
+
+**Question:** Will an ordinary index on `technician` help both an equality
+predicate and `LIKE '%ei%'`?
+
+**Prediction:** equality should change from `SCAN` to `SEARCH`; the
+leading-wildcard query should remain `SCAN`.
+
+The disposable [SQL experiment](curiosity-index-experiment.sql) creates 1,000
+in-memory rows, records the equality plan, adds the index, and records both the
+equality and wildcard plans. The [saved output](evidence/curiosity-index-results.txt)
+shows `SCAN technician_log` before the index, `SEARCH technician_log USING
+INDEX ix_technician_log_name` afterward, and `SCAN technician_log` for the
+wildcard query. No timing claim is made. The result also illustrates the
+trade-off: the index occupies storage and must be maintained on writes even
+when a particular query cannot use it.
+
 ## 13. LLM questions, checks, and corrections
 
 | Prompt or question | AI-assisted claim | Verification and correction |
@@ -215,8 +298,27 @@ claimed.
 
 ## 14. Remaining external limitations
 
-- The original classroom Plan Safari predictions were not recorded.
+- The exact original classroom Plan Safari predictions were not recorded; the
+  student recollection and reconstructed explanation are labeled separately.
 - Neighboring-pod raw output and SQLite version are unavailable.
-- A second curiosity swap and Discord post are not documented.
+- A second technical curiosity is reproducible, but it is not evidence of a
+  second historical person-to-person swap.
+- The workbook's Discord step is conditional on a curiosity remaining shared
+  or unresolved after the pod exchanges. No Discord post is claimed.
 - These historical human activities require genuine external evidence; they
   cannot be completed retrospectively by technical automation.
+
+## 15. Final completion matrix
+
+| Requirement | Status | Evidence or limitation |
+|---|---|---|
+| Five technical learning goals | **VERIFIED** | Queries, plans, benchmarks, injection demo, algebra mapping, tests |
+| Task A classroom participation | **STUDENT-REPORTED — PARTIALLY VERIFIED** | Participation and prior predictions are recollection; screenshot verifies displayed after-index plans; fresh reproduction verifies behavior |
+| Task B algebra comparison | **VERIFIED** | Selection expression and documented Gemini comparison |
+| Task C other-group exchange | **STUDENT-REPORTED — NOT INDEPENDENTLY VERIFIED** | Topics and cross-platform match recorded; other group's raw output/version and identities unavailable |
+| Studios 1–4 | **VERIFIED** | Task reports, SQL, plan evidence, benchmark and injection output |
+| Optional Studio 5 | **VERIFIED** | Three equivalent query forms and automated comparison |
+| Curiosity 1 | **STUDENT-REPORTED** | One classroom collection swap recorded |
+| Curiosity 2 | **VERIFIED AS TECHNICAL EXERCISE** | Disposable SQL and saved output; not a second peer swap |
+| Reflection | **VERIFIED AS DOCUMENTED** | Seven required reflection headings in `../Reflections/ref03.md` |
+| Discord follow-up | **NOT CLAIMED / CONDITIONAL** | No unresolved/shared curiosity post is documented |

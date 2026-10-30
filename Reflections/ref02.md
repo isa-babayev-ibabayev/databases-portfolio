@@ -18,7 +18,7 @@ The most interesting thing to explore was the difference between text and number
 
 ## Interaction with peers and instructors
 
-I worked with my Task Pod partner, Tunay Daldaban. On 15 October 2026, we had a 15-minute discussion about Module 2 because we had missed the class when the task was introduced. I also spent one hour studying the material myself. We reviewed each other's work on GitHub. Tunay looked at my ER models, integrity audit, and data contract, and I looked at his ER diagrams, SQL checks, and corrected schema. The reviews helped me think about whether my explanations were clear enough for another student to follow. We did not record a specific disagreement or a change requested by the other person, so I do not want to invent one. I do not have any individual instructor feedback to report for this module.
+I worked with my Task Pod partner, Tunay Daldaban. On 15 October 2026, we had a 15-minute discussion about Module 2 because we had missed the class when the task was introduced. I also spent one hour studying the material myself. We reviewed each other's work on GitHub. Tunay looked at my ER models, integrity audit, and data contract, and I looked at his ER diagrams, SQL checks, and corrected schema. The reviews helped me think about whether my explanations were clear enough for another student to follow. We did not record a specific disagreement or a change requested by the other person, so I do not want to invent one. I later participated in a separate Module 3 query-plan discussion with students from another group, but that does not complete the missing Module 2 ER Task C activity. I do not have any individual instructor feedback to report for this module.
 
 ## How did you verify AI suggestions?
 
