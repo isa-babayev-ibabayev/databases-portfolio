@@ -24,13 +24,13 @@ Run from the repository root in PowerShell:
 
 ```powershell
 uv sync
-sqlite3 Module03/warehouse.db ".read Module03/setup.sql"
-sqlite3 Module03/warehouse.db ".read Module03/having-example.sql"
-uv run python Module03/collect_evidence.py
-uv run python Module03/reproduce_classroom_plans.py
-uv run python Module03/bench.py --repeats 5 --batch-iterations 100
-uv run python Module03/injection_demo.py --output Module03/evidence/injection-output.txt
-uv run python -m unittest discover -s Module03/tests -v
+sqlite3 module-03/warehouse.db ".read module-03/setup.sql"
+sqlite3 module-03/warehouse.db ".read module-03/having-example.sql"
+uv run python module-03/collect_evidence.py
+uv run python module-03/reproduce_classroom_plans.py
+uv run python module-03/bench.py --repeats 5 --batch-iterations 100
+uv run python module-03/injection_demo.py --output module-03/evidence/injection-output.txt
+uv run python -m unittest discover -s module-03/tests -v
 ```
 
 `warehouse.db`, journals, WAL/SHM files, caches, and benchmark databases are

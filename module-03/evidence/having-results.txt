@@ -1,7 +1,7 @@
 Execution date: 2026-10-30
 SQLite runtime: 3.50.4
-Database: Module03/warehouse.db opened read-only
-Source query: Module03/having-example.sql
+Database: module-03/warehouse.db opened read-only
+Source query: module-03/having-example.sql
 
 ## Independent result summary
 

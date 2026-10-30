@@ -5,7 +5,10 @@
 This section updates the historical delivery record below. The executable
 HAVING exercise now closes the remaining complex-DQL evidence gap, the formal
 relational algebra has been repaired, and the seven-section reflection draft
-is complete. The original benchmark measurements remain unchanged. Historical
+is complete. The canonical directory was renamed from `Module03/` to
+`module-03/` on 2026-10-30; later references to `Module03/` in the historical
+repository narrative describe the earlier delivery state. The original
+benchmark measurements remain unchanged. Historical
 human evidence is still limited: the original Plan Safari predictions were not
 recorded, and neighboring-pod raw output/version, a second curiosity swap, and
 a Discord post are unavailable.
@@ -222,25 +225,25 @@ The first window draft's repeated-row trap is documented and corrected using
 
 | File | Purpose |
 |---|---|
-| `Module03/setup.sql` | Professor's generated warehouse fixture |
-| `Module03/having-example.sql` | Executable GROUP BY/HAVING exercise |
-| `Module03/evidence/having-results.txt` | Verified HAVING output and plan |
-| `Module03/evidence/plan-safari-prediction-verification.txt` | Dated AI-assisted prediction and fresh disposable plan comparison |
-| `Module03/task1-query.sql` | Exact prompt and AI-generated query |
-| `Module03/task1-report.md` | Result, plan, and correctness audit |
-| `Module03/bench.py` | Repeatable disposable index benchmark |
-| `Module03/task2-benchmark.md` | Timings and plan interpretation |
-| `Module03/injection_demo.py` | Isolated unsafe/safe demonstration |
-| `Module03/task3-injection.md` | Security analysis |
-| `Module03/task4-algebra-to-plan.md` | SQL/algebra/plan mapping |
-| `Module03/task5-queries.sql` | Optional three query variants |
-| `Module03/task5-window-functions.md` | Optional comparison |
-| `Module03/collect_evidence.py` | Deterministic evidence generator |
-| `Module03/reproduce_classroom_plans.py` | Disposable Task A before/after reproduction |
-| `Module03/sql-notes.md` | Classroom evidence, workstreams, curiosities |
-| `Module03/README.md` | Navigation and reproduction |
-| `Module03/tests/test_module03.py` | Automated verification |
-| `Module03/evidence/*` | Raw plans, outputs, timings, and checks |
+| `module-03/setup.sql` | Professor's generated warehouse fixture |
+| `module-03/having-example.sql` | Executable GROUP BY/HAVING exercise |
+| `module-03/evidence/having-results.txt` | Verified HAVING output and plan |
+| `module-03/evidence/plan-safari-prediction-verification.txt` | Dated AI-assisted prediction and fresh disposable plan comparison |
+| `module-03/task1-query.sql` | Exact prompt and AI-generated query |
+| `module-03/task1-report.md` | Result, plan, and correctness audit |
+| `module-03/bench.py` | Repeatable disposable index benchmark |
+| `module-03/task2-benchmark.md` | Timings and plan interpretation |
+| `module-03/injection_demo.py` | Isolated unsafe/safe demonstration |
+| `module-03/task3-injection.md` | Security analysis |
+| `module-03/task4-algebra-to-plan.md` | SQL/algebra/plan mapping |
+| `module-03/task5-queries.sql` | Optional three query variants |
+| `module-03/task5-window-functions.md` | Optional comparison |
+| `module-03/collect_evidence.py` | Deterministic evidence generator |
+| `module-03/reproduce_classroom_plans.py` | Disposable Task A before/after reproduction |
+| `module-03/sql-notes.md` | Classroom evidence, workstreams, curiosities |
+| `module-03/README.md` | Navigation and reproduction |
+| `module-03/tests/test_module03.py` | Automated verification |
+| `module-03/evidence/*` | Raw plans, outputs, timings, and checks |
 | `Reflections/ref03.md` | Complete seven-section student-level draft |
 | `README.md` | Module 3 navigation |
 | `.gitignore` | WAL/SHM and cache exclusions |
@@ -248,13 +251,13 @@ The first window draft's repeated-row trap is documented and corrected using
 ## Reproduction commands
 
 ```powershell
-sqlite3 Module03/warehouse.db ".read Module03/setup.sql"
-sqlite3 Module03/warehouse.db ".read Module03/having-example.sql"
-uv run python Module03/collect_evidence.py
-uv run python Module03/reproduce_classroom_plans.py
-uv run python Module03/bench.py --repeats 5 --batch-iterations 100
-uv run python Module03/injection_demo.py --output Module03/evidence/injection-output.txt
-uv run python -m unittest discover -s Module03/tests -v
+sqlite3 module-03/warehouse.db ".read module-03/setup.sql"
+sqlite3 module-03/warehouse.db ".read module-03/having-example.sql"
+uv run python module-03/collect_evidence.py
+uv run python module-03/reproduce_classroom_plans.py
+uv run python module-03/bench.py --repeats 5 --batch-iterations 100
+uv run python module-03/injection_demo.py --output module-03/evidence/injection-output.txt
+uv run python -m unittest discover -s module-03/tests -v
 ```
 
 ## Automated verification

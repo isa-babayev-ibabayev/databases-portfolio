@@ -1,5 +1,5 @@
 Command:
-uv run --no-sync python -B -m unittest discover -s Module03/tests -v
+uv run --no-sync python -B -m unittest discover -s module-03/tests -v
 
 test_benchmark_has_five_runs_and_correct_medians ... ok
 test_benchmark_rows_and_measured_effects ... ok
@@ -21,6 +21,6 @@ test_task1_deterministic_result_and_order ... ok
 test_task1_edge_fixture_distinct_revenue_and_no_order_customer ... ok
 test_task1_saved_plan_exists ... ok
 
-Ran 19 tests in 8.174s
+Ran 19 tests in 10.869s
 
 OK
