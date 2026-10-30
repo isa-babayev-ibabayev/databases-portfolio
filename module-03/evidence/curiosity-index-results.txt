@@ -21,16 +21,48 @@ SEARCH technician_log USING INDEX ix_technician_log_name (technician=?)
 
 SCAN technician_log
 
-## Created index
+## UPPER(technician) with ordinary column index
+
+SCAN technician_log
+
+## UPPER(technician) with matching expression index
+
+SEARCH technician_log USING INDEX ix_technician_log_upper (<expr>=?)
+
+## Covering-index comparison
+
+SELECT a FROM covering_demo WHERE a = 1:
+SEARCH covering_demo USING COVERING INDEX ix_covering_demo_a (a=?)
+
+SELECT a, b FROM covering_demo WHERE a = 1:
+SEARCH covering_demo USING INDEX ix_covering_demo_a (a=?)
+
+## Created indexes
 
 CREATE INDEX ix_technician_log_name
 ON technician_log(technician)
+
+CREATE INDEX ix_technician_log_upper
+ON technician_log(UPPER(technician))
+
+CREATE INDEX ix_covering_demo_a
+ON covering_demo(a)
 
 The equality predicate changed from a table scan to an indexed search. The
 leading-wildcard predicate still scanned because an ordinary B-tree cannot use
 `%ei%` as a selective prefix range. No timing claim is made: this small
 in-memory fixture is intended to demonstrate planner choices, not portable
 performance.
+
+The ordinary technician index did not match `UPPER(technician)`, so that query
+scanned. A matching expression index changed it to `SEARCH`. This demonstrates
+that a function can prevent use of a normal column index, but not that
+function-based searches can never be indexed.
+
+The `SELECT a` query was covered by `ix_covering_demo_a`: SQLite could answer
+it from the index alone. Adding `b` kept the indexed search but removed the
+covering benefit because `b` is not stored in that index, so SQLite also had to
+visit the table row.
 
 Indexes also have a maintenance cost that is not measured by this read-only
 query-plan exercise. Inserts, updates to indexed values, and deletes must keep

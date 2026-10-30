@@ -191,42 +191,35 @@ The preserved Gemini comparison agreed on selection `σ`. Projection `π` can
 be omitted because `SELECT *` keeps all attributes, and no join belongs in
 this expression.
 
-## 10. Classroom Task C — neighboring-pod exchange and limits
+## 10. Task C — Neighboring-Pod Discussion
 
-I participated in the classroom discussion with students from another group.
-The student-provided notes report that a Windows plan matched the other
-group's macOS equality-search plan. They also report discussion of
-function-wrapped columns, leading wildcards, and covering indexes, followed by
-one curiosity exchange.
+**Participants:** Isa Babayev and another group (group number not recorded).
 
-The other group's number, participant names, raw plan, SQLite version, and a
-second person-to-person curiosity swap are not available. Therefore, the
-participation and cross-platform comparison are **student-reported and not
-independently corroborated**. No missing name, version, output, or transcript
-has been invented.
+**Query-plan comparison:** We discussed why `WHERE technician = 'Beier'`
+used `SEARCH ... USING INDEX ix_job_tech`, while `LIKE '%ei%'` produced
+`SCAN maint_job`.
 
-### Illustrative exchange reconstruction — not a verbatim transcript
+**Our index surprise:** Using a function such as `UPPER(technician)` can
+prevent SQLite from using a normal index on that column. The disposable
+[curiosity results](evidence/curiosity-index-results.txt) reproduce the scan
+and also show that a matching expression index can support the query.
 
-The following dialogue is a teaching reconstruction of the reported topics:
+**Another interesting finding:** Selecting columns not included in an index
+removes its covering benefit, although SQLite may still use the index for
+searching. The same disposable results contain the verified covering and
+non-covering plans.
 
-- **Question:** Why can the equality query become `SEARCH`? **Explanation:** A
-  matching equality constraint can probe `ix_job_tech` directly.
-- **Question:** Why does `LIKE '%ei%'` remain a scan? **Explanation:** The
-  leading wildcard removes the fixed prefix needed for the usual B-tree range
-  optimization.
-- **Question:** Why can `upper(technician)` remain a scan? **Explanation:** The
-  expression does not match an ordinary index on the raw column.
-- **Question:** When is an index covering? **Explanation:** When it contains
-  every column needed by that query, avoiding a table lookup.
+**Curiosity questions collected:**
 
-These questions and answers demonstrate the technical comparison; they are
-not claimed as exact words spoken by either group.
+- Why do leading wildcards prevent normal index searches?
+- How can we optimize case-insensitive and partial-text searches?
 
-Technical research suggests matching `COLLATE NOCASE` indexes for compatible
-case-insensitive prefix/equality searches, expression indexes for matching
-expressions such as `lower(column)`, and FTS5 trigram indexes for suitable
-substring searches. The classroom pattern `%ei%` is too short for the usual
-three-character trigram advantage.
+**What I learned:** An index does not automatically improve every query. Its
+usefulness depends on the search conditions and the columns requested.
+
+This is my account of the classroom activity. The other group's raw plan and
+SQLite version were not recorded, so I do not claim that their exact output or
+a cross-platform match was independently verified.
 
 ## 11. Independently reproduced technical checks
 
@@ -246,12 +239,28 @@ three-character trigram advantage.
 
 ## 12. Curiosities and sources
 
-- `upper(technician)` can defeat an ordinary index — Task A notes and
-  [SQLite expression indexes](https://www.sqlite.org/expridx.html).
-- `LIKE '%ei%'` scans despite a technician index — Task A evidence and
-  [LIKE optimization](https://www.sqlite.org/optoverview.html#the_like_optimization).
-- Adding an output column can make a covering index non-covering — benchmark
-  plans and the [SQLite query planner](https://www.sqlite.org/queryplanner.html#covering_indexes).
+### Questions collected during Task C
+
+- **Why do leading wildcards prevent normal index searches?** An ordinary
+  B-tree is ordered from the beginning of each indexed value. A pattern such
+  as `%ei%` has no fixed beginning that SQLite can use to narrow the index
+  range, so the verified example scans. See the
+  [LIKE optimization conditions](https://www.sqlite.org/optoverview.html#the_like_optimization).
+- **How can we optimize case-insensitive and partial-text searches?** A
+  `COLLATE NOCASE` index can support compatible case-insensitive equality or
+  prefix comparisons. An expression index such as
+  `ON technician_log(UPPER(technician))` can support a query using the same
+  expression. FTS5 can support full-text use cases; configured with its
+  `trigram` tokenizer it can support many substring searches, but normal
+  trigram matching needs at least three characters. Therefore the two-letter
+  pattern `%ei%` does not gain the usual trigram-index benefit. See
+  [SQLite expression indexes](https://www.sqlite.org/expridx.html) and the
+  [FTS5 trigram tokenizer](https://www.sqlite.org/fts5.html#the_trigram_tokenizer).
+- **Why does selecting another column remove a covering benefit?** An index is
+  covering only when it contains every value required by the query. The
+  disposable experiment changes from `USING COVERING INDEX` for `SELECT a` to
+  `USING INDEX` for `SELECT a, b`. See the
+  [SQLite query planner](https://www.sqlite.org/queryplanner.html#covering_indexes).
 - The dashboard uses three temporary B-trees —
   [raw plan](evidence/task1-plan.txt).
 - An added index changed the plan and made an aggregate nearly nine times
@@ -277,13 +286,14 @@ predicate and `LIKE '%ei%'`?
 leading-wildcard query should remain `SCAN`.
 
 The disposable [SQL experiment](curiosity-index-experiment.sql) creates 1,000
-in-memory rows, records the equality plan, adds the index, and records both the
-equality and wildcard plans. The [saved output](evidence/curiosity-index-results.txt)
-shows `SCAN technician_log` before the index, `SEARCH technician_log USING
-INDEX ix_technician_log_name` afterward, and `SCAN technician_log` for the
-wildcard query. No timing claim is made. The result also illustrates the
-trade-off: the index occupies storage and must be maintained on writes even
-when a particular query cannot use it.
+in-memory rows and records equality, wildcard, function-expression, covering,
+and non-covering plans. The [saved output](evidence/curiosity-index-results.txt)
+shows the equality query changing from `SCAN` to `SEARCH`, the wildcard and
+function-wrapped queries scanning with only the ordinary column index, the
+matching expression index enabling a function-based `SEARCH`, and the extra
+output column removing the covering benefit. No timing claim is made. The
+result also illustrates the trade-off: indexes occupy storage and must be
+maintained on writes even when a particular query cannot use them.
 
 ## 13. LLM questions, checks, and corrections
 
@@ -315,7 +325,7 @@ when a particular query cannot use it.
 | Five technical learning goals | **VERIFIED** | Queries, plans, benchmarks, injection demo, algebra mapping, tests |
 | Task A classroom participation | **STUDENT-REPORTED — PARTIALLY VERIFIED** | Participation and prior predictions are recollection; screenshot verifies displayed after-index plans; fresh reproduction verifies behavior |
 | Task B algebra comparison | **VERIFIED** | Selection expression and documented Gemini comparison |
-| Task C other-group exchange | **STUDENT-REPORTED — NOT INDEPENDENTLY VERIFIED** | Topics and cross-platform match recorded; other group's raw output/version and identities unavailable |
+| Task C other-group exchange | **STUDENT-REPORTED — NOT INDEPENDENTLY VERIFIED** | Isa Babayev and another group; discussion topics recorded; other group's raw output/version and identities unavailable |
 | Studios 1–4 | **VERIFIED** | Task reports, SQL, plan evidence, benchmark and injection output |
 | Optional Studio 5 | **VERIFIED** | Three equivalent query forms and automated comparison |
 | Curiosity 1 | **STUDENT-REPORTED** | One classroom collection swap recorded |

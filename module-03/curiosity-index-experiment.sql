@@ -44,6 +44,42 @@ SELECT * FROM technician_log WHERE technician = 'Beier';
 EXPLAIN QUERY PLAN
 SELECT * FROM technician_log WHERE technician LIKE '%ei%';
 
+-- Prediction: the ordinary column index does not match this expression.
+EXPLAIN QUERY PLAN
+SELECT * FROM technician_log WHERE UPPER(technician) = 'BEIER';
+
+-- A matching expression index can support the function-based predicate.
+CREATE INDEX ix_technician_log_upper
+ON technician_log(UPPER(technician));
+
+EXPLAIN QUERY PLAN
+SELECT * FROM technician_log WHERE UPPER(technician) = 'BEIER';
+
+-- Covering-index demonstration. The first query needs only indexed column a;
+-- the second also needs b, so SQLite must visit the table row.
+CREATE TABLE IF NOT EXISTS covering_demo (
+    a INTEGER,
+    b TEXT
+);
+
+INSERT INTO covering_demo(a, b)
+VALUES (1, 'one'), (2, 'two'), (3, 'three');
+
+CREATE INDEX ix_covering_demo_a
+ON covering_demo(a);
+
+EXPLAIN QUERY PLAN
+SELECT a FROM covering_demo WHERE a = 1;
+
+EXPLAIN QUERY PLAN
+SELECT a, b FROM covering_demo WHERE a = 1;
+
 SELECT name, sql
 FROM sqlite_master
-WHERE type = 'index' AND name = 'ix_technician_log_name';
+WHERE type = 'index'
+  AND name IN (
+      'ix_technician_log_name',
+      'ix_technician_log_upper',
+      'ix_covering_demo_a'
+  )
+ORDER BY name;

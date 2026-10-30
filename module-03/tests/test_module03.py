@@ -317,7 +317,7 @@ class RepositorySafetyTests(unittest.TestCase):
         self.assertIn("function-wrapped technician:", after)
         self.assertIn("SCAN maint_job", after)
 
-    def test_curiosity_index_equality_and_wildcard_plans(self):
+    def test_curiosity_index_expression_and_covering_plans(self):
         connection = sqlite3.connect(":memory:")
         self.addCleanup(connection.close)
         connection.executescript(
@@ -361,10 +361,44 @@ class RepositorySafetyTests(unittest.TestCase):
             "EXPLAIN QUERY PLAN SELECT * FROM technician_log "
             "WHERE technician LIKE '%ei%'"
         ).fetchall()
+        expression_before = connection.execute(
+            "EXPLAIN QUERY PLAN SELECT * FROM technician_log "
+            "WHERE UPPER(technician) = 'BEIER'"
+        ).fetchall()
+        connection.execute(
+            "CREATE INDEX ix_technician_log_upper "
+            "ON technician_log(UPPER(technician))"
+        )
+        expression_after = connection.execute(
+            "EXPLAIN QUERY PLAN SELECT * FROM technician_log "
+            "WHERE UPPER(technician) = 'BEIER'"
+        ).fetchall()
+        connection.executescript(
+            """
+            CREATE TABLE covering_demo (a INTEGER, b TEXT);
+            INSERT INTO covering_demo(a, b)
+            VALUES (1, 'one'), (2, 'two'), (3, 'three');
+            CREATE INDEX ix_covering_demo_a ON covering_demo(a);
+            """
+        )
+        covering = connection.execute(
+            "EXPLAIN QUERY PLAN SELECT a FROM covering_demo WHERE a = 1"
+        ).fetchall()
+        noncovering = connection.execute(
+            "EXPLAIN QUERY PLAN SELECT a, b FROM covering_demo WHERE a = 1"
+        ).fetchall()
 
         self.assertIn("SCAN technician_log", before[0][3])
         self.assertIn("SEARCH technician_log USING INDEX", after[0][3])
         self.assertIn("SCAN technician_log", wildcard[0][3])
+        self.assertIn("SCAN technician_log", expression_before[0][3])
+        self.assertIn(
+            "SEARCH technician_log USING INDEX ix_technician_log_upper",
+            expression_after[0][3],
+        )
+        self.assertIn("USING COVERING INDEX ix_covering_demo_a", covering[0][3])
+        self.assertIn("USING INDEX ix_covering_demo_a", noncovering[0][3])
+        self.assertNotIn("COVERING", noncovering[0][3])
         self.assertEqual(
             connection.execute(
                 "SELECT count(*) FROM technician_log WHERE technician = 'Beier'"

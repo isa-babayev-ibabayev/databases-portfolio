@@ -13,7 +13,10 @@ workbook while preserving the student-supplied classroom Tasks A, B, and C.
 | Verify AI SQL | [query source](task1-query.sql), [results](evidence/task1-query-results.txt), [verification JSON](evidence/task1-verification.json) |
 | SQL injection prevention | [demonstration](injection_demo.py), [analysis](task3-injection.md) |
 | Algebra ↔ SQL ↔ plan | [Task 4](task4-algebra-to-plan.md) |
-| Classroom and curiosity notes | [sql-notes.md](sql-notes.md), [curiosity SQL](curiosity-index-experiment.sql), [curiosity results](evidence/curiosity-index-results.txt) |
+| Task A — Plan Safari | [classroom notes and predictions](sql-notes.md), [fresh plan verification](evidence/plan-safari-prediction-verification.txt) |
+| Task B — algebra check | [classroom notes](sql-notes.md), [formal algebra mapping](task4-algebra-to-plan.md) |
+| Task C — neighboring-pod discussion | [student discussion notes](sql-notes.md), [reproduced function and covering plans](evidence/curiosity-index-results.txt) |
+| Curiosity experiment | [SQL](curiosity-index-experiment.sql), [saved results](evidence/curiosity-index-results.txt) |
 | Reflection | [ref03.md](../Reflections/ref03.md) |
 | Automated verification | [tests](tests/test_module03.py), [saved results](evidence/test-results.txt) |
 | Independent audit | [technical completion report](technical-completion-report.md) |
@@ -102,8 +105,10 @@ making Task A predictions, but the exact predictions were not preserved. The
 notes label the student recollection, screenshot observations, reconstructed
 explanations, and a new independently reproducible prediction exercise
 separately. Task B has a documented student explanation and AI comparison.
-Task C participation and topics are student-reported because the other group's
-raw plan, SQLite version, number, and names are not available.
+Task C records **Isa Babayev and another group (group number not recorded)**.
+The participation and discussion topics are student-reported because the
+other group's raw plan, SQLite version, number, and names are not available.
+The portfolio does not claim an independently verified Windows/macOS match.
 
 A second curiosity is now demonstrated through a disposable technical
 experiment, but it is not misrepresented as a second historical
@@ -120,6 +125,6 @@ or unresolved curiosity after the exchanges; no Discord post is claimed.
 | Reflection | **VERIFIED AS DOCUMENTED** |
 | Discord follow-up | **NOT CLAIMED / CONDITIONAL** |
 
-The technically achievable portfolio work is complete. Any requirement for
-new neighboring-pod participation, raw external evidence, or instructor
-approval remains a genuine human/external dependency.
+The technically achievable portfolio work is complete. Raw external evidence
+from the other group and any instructor-specific approval remain genuine
+external dependencies.

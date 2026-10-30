@@ -87,12 +87,18 @@ why projection is optional for `SELECT *`.
 
 ### Task C
 
-The student confirms participating with students from another group. The
-Windows/macOS match and discussed topics are marked student-reported because
-the other group's raw output and version were not available. No group number,
+The recorded participants are **Isa Babayev and another group (group number
+not recorded)**. The student reports discussing the indexed equality search,
+leading-wildcard scan, function-wrapped predicates, covering indexes, and two
+curiosity questions. The other group's raw output and SQLite version were not
+available, so no exact cross-platform plan match is claimed. No group number,
 names, verbatim transcript, second historical swap, timing, or Discord post
-was invented. A clearly labeled illustrative dialogue explains the technical
-topics without presenting them as exact classroom speech.
+was invented.
+
+The local disposable experiment independently verifies the technical ideas:
+`UPPER(technician)` scans with only the ordinary column index and searches with
+a matching expression index; selecting only `a` uses a covering index while
+selecting `a, b` still uses the index but must also visit the table.
 
 ## Warehouse setup
 
@@ -225,8 +231,8 @@ The first window draft's repeated-row trap is documented and corrected using
 | Classroom Task A historical record | student recollection plus screenshot; exact predictions absent | STUDENT-REPORTED — PARTIALLY VERIFIED |
 | New Plan Safari technical verification | dated AI-assisted predictions and disposable execution | PASS |
 | Classroom Task B preservation | original text plus clarification | PASS |
-| Classroom Task C record | confirmed participation and supplied topics; other-group raw evidence unavailable | STUDENT-REPORTED — NOT INDEPENDENTLY VERIFIED |
-| Second curiosity technical exercise | disposable SQL and saved plans | PASS — not a second peer swap |
+| Classroom Task C record | Isa Babayev and another group; supplied topics; other-group raw evidence unavailable | STUDENT-REPORTED — NOT INDEPENDENTLY VERIFIED |
+| Second curiosity technical exercise | disposable equality, wildcard, expression-index and covering-index plans | PASS — not a second peer swap |
 | Second historical curiosity swap | no supporting record | EXTERNAL/HUMAN LIMITATION |
 | Reflection draft | seven complete template sections | PASS — student factual review recommended |
 | Discord evidence | conditional workbook step; no post claimed | NOT CLAIMED / CONDITIONAL |
@@ -281,9 +287,9 @@ distinct-customer and no-order behavior, validated saved plans and benchmark
 medians, proved a genuine slowdown and two speedups, checked the injection
 payload and apostrophe case, compared all optional query variants, reproduced
 Task A on a disposable database, verified the HAVING result and plan, checked
-the new equality-versus-wildcard curiosity plans, rejected unexpected
-Markdown control characters, verified ignored databases, and resolved every
-relative Markdown link. Raw output is in
+the equality, wildcard, expression-index, covering and non-covering curiosity
+plans, rejected unexpected Markdown control characters, verified ignored
+databases, and resolved every relative Markdown link. Raw output is in
 [test-results.txt](evidence/test-results.txt).
 
 ## Risks and limitations
@@ -294,7 +300,8 @@ relative Markdown link. Raw output is in
 - Timing depends on this machine, filesystem cache, load, and SQLite build.
 - The Task A image is authentic supplied evidence but intentionally not
   published because of another student's visible path.
-- The neighboring macOS comparison lacks raw corroborating output/version.
+- The other group's exact plan and SQLite version were not recorded, so the
+  classroom discussion is student-reported rather than independently verified.
 - The second curiosity is a reproducible technical follow-up, not evidence of
   a second historical person-to-person swap.
 - The Discord step is conditional in the workbook; no post is claimed.

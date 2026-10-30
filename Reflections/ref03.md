@@ -41,16 +41,15 @@ created, while `LIKE '%ei%'` still scanned. This made the difference between
 
 ## Interaction with peers and instructors
 
-I participated in a classroom discussion with students from another group.
-Our notes record a comparison between a Windows plan and the other group's
-macOS plan, with discussion of function-wrapped columns, leading wildcards,
-and covering indexes. I do not remember the group number or participant names,
-and their raw output and SQLite version were not saved. I therefore label
-those details as student-reported rather than independently verified. The
-illustrative exchange and later disposable experiment in the study notes are
-portfolio follow-up, not a verbatim classroom transcript or a second
-person-to-person swap. The workbook's Discord step is conditional; I do not
-claim a Discord post.
+During the classroom activity, I discussed SQL query plans with students from
+another group. We compared index searches and table scans, including equality
+conditions, functions, leading wildcards, and covering indexes. The discussion
+helped me understand that an index does not automatically improve every query
+and that the query structure affects SQLite's execution plan. I do not
+remember the group number or participant names, and their exact plan and
+SQLite version were not saved. The later disposable experiment in the study
+notes is reproducible portfolio follow-up, not a second historical peer swap.
+The workbook's Discord step is conditional; I do not claim a Discord post.
 
 ## How did you verify AI suggestions?
 
