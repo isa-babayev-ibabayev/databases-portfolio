@@ -49,7 +49,10 @@ and that the query structure affects SQLite's execution plan. I do not
 remember the group number or participant names, and their exact plan and
 SQLite version were not saved. The later disposable experiment in the study
 notes is reproducible portfolio follow-up, not a second historical peer swap.
-The workbook's Discord step is conditional; I do not claim a Discord post.
+Separately, I prepared two curiosity questions for Tunay about leading
+wildcards and covering indexes. I do not yet have his response or an exchange
+date, so I do not claim that second swap as completed. The workbook's Discord
+step is conditional; I do not claim a Discord post.
 
 ## How did you verify AI suggestions?
 

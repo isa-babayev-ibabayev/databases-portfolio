@@ -12,8 +12,10 @@ benchmark measurements remain unchanged. Historical
 human evidence is still limited: the student confirms making the original Plan
 Safari predictions and participating with students from another group, but the
 exact predictions and the other group's raw output/version were not preserved.
-A second curiosity is technically reproducible but is not claimed as a second
-historical person-to-person swap. No conditional Discord post is claimed.
+A second curiosity is technically reproducible, and two sourced questions are
+prepared for Tunay. No response, date, or medium is available, so a completed
+second person-to-person swap is not claimed. No conditional Discord post is
+claimed.
 
 ## Executive summary
 
@@ -99,6 +101,13 @@ The local disposable experiment independently verifies the technical ideas:
 `UPPER(technician)` scans with only the ordinary column index and searches with
 a matching expression index; selecting only `a` uses a covering index while
 selecting `a, b` still uses the index but must also visit the table.
+
+A second downloaded Python experiment reproduces the screenshot's three
+after-index plan types using the same `maint_job` and `machine` query shapes.
+The supplied output used Python SQLite 3.46.1; the fresh local run used Python
+SQLite 3.50.4. Both are controlled reproductions, not the unnamed group's
+measurements. The screenshot separately displays SQLite CLI 3.53.4 in another
+worktree.
 
 ## Warehouse setup
 
@@ -233,7 +242,7 @@ The first window draft's repeated-row trap is documented and corrected using
 | Classroom Task B preservation | original text plus clarification | PASS |
 | Classroom Task C record | Isa Babayev and another group; supplied topics; other-group raw evidence unavailable | STUDENT-REPORTED — NOT INDEPENDENTLY VERIFIED |
 | Second curiosity technical exercise | disposable equality, wildcard, expression-index and covering-index plans | PASS — not a second peer swap |
-| Second historical curiosity swap | no supporting record | EXTERNAL/HUMAN LIMITATION |
+| Second curiosity swap with Tunay | two sourced questions prepared; no response/date/medium supplied | PREPARED — AWAITING ACTUAL EXCHANGE EVIDENCE |
 | Reflection draft | seven complete template sections | PASS — student factual review recommended |
 | Discord evidence | conditional workbook step; no post claimed | NOT CLAIMED / CONDITIONAL |
 
@@ -245,6 +254,8 @@ The first window draft's repeated-row trap is documented and corrected using
 | `module-03/having-example.sql` | Executable GROUP BY/HAVING exercise |
 | `module-03/evidence/having-results.txt` | Verified HAVING output and plan |
 | `module-03/evidence/plan-safari-prediction-verification.txt` | Dated AI-assisted prediction and fresh disposable plan comparison |
+| `module-03/plan-comparison.py` | Downloaded experiment integrated as an independently executable in-memory reproduction |
+| `module-03/evidence/plan-comparison-results.txt` | Fresh Python SQLite 3.50.4 output and comparison with supplied 3.46.1 output |
 | `module-03/curiosity-index-experiment.sql` | Disposable second curiosity experiment |
 | `module-03/evidence/curiosity-index-results.txt` | Recorded plans and counts from the curiosity experiment |
 | `module-03/task1-query.sql` | Exact prompt and AI-generated query |
@@ -273,6 +284,7 @@ sqlite3 module-03/warehouse.db ".read module-03/setup.sql"
 sqlite3 module-03/warehouse.db ".read module-03/having-example.sql"
 uv run python module-03/collect_evidence.py
 uv run python module-03/reproduce_classroom_plans.py
+uv run python module-03/plan-comparison.py
 sqlite3 :memory: ".read module-03/curiosity-index-experiment.sql"
 uv run python module-03/bench.py --repeats 5 --batch-iterations 100
 uv run python module-03/injection_demo.py --output module-03/evidence/injection-output.txt
@@ -281,29 +293,31 @@ uv run python -m unittest discover -s module-03/tests -v
 
 ## Automated verification
 
-The current suite ran 20 tests: 20 passed, 0 failed. It rebuilt the warehouse,
+The current suite ran 21 tests: 21 passed, 0 failed. It rebuilt the warehouse,
 checked exact counts and ranges, reran setup, tested date boundaries,
 distinct-customer and no-order behavior, validated saved plans and benchmark
 medians, proved a genuine slowdown and two speedups, checked the injection
 payload and apostrophe case, compared all optional query variants, reproduced
 Task A on a disposable database, verified the HAVING result and plan, checked
 the equality, wildcard, expression-index, covering and non-covering curiosity
-plans, rejected unexpected Markdown control characters, verified ignored
-databases, and resolved every relative Markdown link. Raw output is in
+plans, executed the Python plan-comparison script and checked its classifications,
+rejected unexpected Markdown control characters, verified ignored databases,
+and resolved every relative Markdown link. Raw output is in
 [test-results.txt](evidence/test-results.txt).
 
 ## Risks and limitations
 
 - Workbook content below its draft boundary is provisional.
-- CLI SQLite is 3.53.4 while Python benchmarking uses SQLite 3.50.4; versions
-  are recorded with each relevant artifact.
+- The screenshot displays CLI SQLite 3.53.4, the downloaded result records
+  Python SQLite 3.46.1, and the fresh local reproduction uses Python SQLite
+  3.50.4. Versions and evidence origins are kept separate.
 - Timing depends on this machine, filesystem cache, load, and SQLite build.
 - The Task A image is authentic supplied evidence but intentionally not
   published because of another student's visible path.
 - The other group's exact plan and SQLite version were not recorded, so the
   classroom discussion is student-reported rather than independently verified.
-- The second curiosity is a reproducible technical follow-up, not evidence of
-  a second historical person-to-person swap.
+- The second curiosity is technically reproducible and questions are prepared
+  for Tunay, but no response/date/medium verifies a completed second swap.
 - The Discord step is conditional in the workbook; no post is claimed.
 - The fixture intentionally omits foreign keys; that is Module 4 material.
 
@@ -315,13 +329,15 @@ databases, and resolved every relative Markdown link. Raw output is in
 - Practise explaining algebra, join multiplicity, indexing, and parameters.
 - Add neighboring-pod raw output if formal corroboration is desired and
   available.
+- Record Tunay's actual questions, answers, date, and medium only after a real
+  second curiosity exchange occurs.
 - Add a real Discord link only if one exists.
 - Complete instructor-specific checkpoint requirements.
 
 Technical automation cannot recover the exact wording of the original Task A
-predictions or independently corroborate the other group's Task C output. If
-the professor requires raw external evidence, that remains an external
-dependency.
+predictions, independently corroborate the other group's Task C output, or
+provide Tunay's response. If the professor requires raw external evidence,
+that remains an external dependency.
 
 ## Delivery
 

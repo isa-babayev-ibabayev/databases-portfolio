@@ -4,6 +4,7 @@ import csv
 import json
 import sqlite3
 import statistics
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -317,6 +318,29 @@ class RepositorySafetyTests(unittest.TestCase):
         self.assertIn("function-wrapped technician:", after)
         self.assertIn("SCAN maint_job", after)
 
+    def test_plan_comparison_script_is_reproducible(self):
+        completed = subprocess.run(
+            [sys.executable, str(MODULE_DIR / "plan-comparison.py")],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        output = completed.stdout
+        self.assertIn(
+            "Source: independent reproducible local Python sqlite3 test, "
+            "not a neighboring pod",
+            output,
+        )
+        self.assertIn(f"SQLite runtime version: {sqlite3.sqlite_version}", output)
+        self.assertIn("BEFORE INDEX: Equality on technician", output)
+        self.assertIn("SCAN maint_job", output)
+        self.assertIn(
+            "SEARCH maint_job USING INDEX ix_job_tech (technician=?)", output
+        )
+        self.assertIn("SCAN machine", output)
+        self.assertIn("AFTER INDEX: Leading wildcard", output)
+        self.assertGreaterEqual(output.count("SCAN maint_job"), 2)
+
     def test_curiosity_index_expression_and_covering_plans(self):
         connection = sqlite3.connect(":memory:")
         self.addCleanup(connection.close)
@@ -411,6 +435,7 @@ class RepositorySafetyTests(unittest.TestCase):
             "README.md",
             "curiosity-index-experiment.sql",
             "having-example.sql",
+            "plan-comparison.py",
             "sql-notes.md",
             "task1-report.md",
             "task2-benchmark.md",
@@ -419,6 +444,7 @@ class RepositorySafetyTests(unittest.TestCase):
             "technical-completion-report.md",
             "evidence/having-results.txt",
             "evidence/curiosity-index-results.txt",
+            "evidence/plan-comparison-results.txt",
             "evidence/plan-safari-prediction-verification.txt",
         ):
             self.assertTrue((MODULE_DIR / relative).exists(), relative)

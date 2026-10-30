@@ -11,6 +11,7 @@ test_curiosity_index_expression_and_covering_plans ... ok
 test_disposable_classroom_plan_reproduction ... ok
 test_generated_database_is_ignored ... ok
 test_markdown_has_no_unexpected_control_characters ... ok
+test_plan_comparison_script_is_reproducible ... ok
 test_relative_markdown_links_resolve ... ok
 test_required_documentation_files_exist ... ok
 test_expected_tables_and_row_counts ... ok
@@ -22,6 +23,6 @@ test_task1_deterministic_result_and_order ... ok
 test_task1_edge_fixture_distinct_revenue_and_no_order_customer ... ok
 test_task1_saved_plan_exists ... ok
 
-Ran 20 tests in 8.294s
+Ran 21 tests in 19.070s
 
 OK

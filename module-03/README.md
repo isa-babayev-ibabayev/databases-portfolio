@@ -15,7 +15,7 @@ workbook while preserving the student-supplied classroom Tasks A, B, and C.
 | Algebra ↔ SQL ↔ plan | [Task 4](task4-algebra-to-plan.md) |
 | Task A — Plan Safari | [classroom notes and predictions](sql-notes.md), [fresh plan verification](evidence/plan-safari-prediction-verification.txt) |
 | Task B — algebra check | [classroom notes](sql-notes.md), [formal algebra mapping](task4-algebra-to-plan.md) |
-| Task C — neighboring-pod discussion | [student discussion notes](sql-notes.md), [reproduced function and covering plans](evidence/curiosity-index-results.txt) |
+| Task C — neighboring-pod discussion | [student discussion notes](sql-notes.md), [Python plan comparison](plan-comparison.py), [fresh comparison output](evidence/plan-comparison-results.txt) |
 | Curiosity experiment | [SQL](curiosity-index-experiment.sql), [saved results](evidence/curiosity-index-results.txt) |
 | Reflection | [ref03.md](../Reflections/ref03.md) |
 | Automated verification | [tests](tests/test_module03.py), [saved results](evidence/test-results.txt) |
@@ -31,6 +31,7 @@ sqlite3 module-03/warehouse.db ".read module-03/setup.sql"
 sqlite3 module-03/warehouse.db ".read module-03/having-example.sql"
 uv run python module-03/collect_evidence.py
 uv run python module-03/reproduce_classroom_plans.py
+uv run python module-03/plan-comparison.py
 sqlite3 :memory: ".read module-03/curiosity-index-experiment.sql"
 uv run python module-03/bench.py --repeats 5 --batch-iterations 100
 uv run python module-03/injection_demo.py --output module-03/evidence/injection-output.txt
@@ -85,7 +86,7 @@ generated fixture, so use a disposable database when preserving other work.
 
 ## Automated verification
 
-The current suite ran **20 tests; all 20 passed**. It checks the fixture,
+The current suite ran **21 tests; all 21 passed**. It checks the fixture,
 dashboard boundaries and edge cases, benchmark samples and medians, injection
 behavior, optional query
 equivalence, the HAVING result and plan, the disposable curiosity experiment,
@@ -109,6 +110,9 @@ Task C records **Isa Babayev and another group (group number not recorded)**.
 The participation and discussion topics are student-reported because the
 other group's raw plan, SQLite version, number, and names are not available.
 The portfolio does not claim an independently verified Windows/macOS match.
+The screenshot's SQLite CLI 3.53.4 plans are compared with a supplied Python
+SQLite 3.46.1 reproduction and a fresh local Python SQLite 3.50.4 run. The
+matching plan types are technical agreement, not the unnamed group's output.
 
 A second curiosity is now demonstrated through a disposable technical
 experiment, but it is not misrepresented as a second historical
@@ -121,7 +125,8 @@ or unresolved curiosity after the exchanges; no Discord post is claimed.
 | Task A participation and original predictions | **STUDENT-REPORTED; exact historical wording unavailable** |
 | Task B algebra comparison | **VERIFIED AS DOCUMENTED** |
 | Task C other-group exchange | **STUDENT-REPORTED; external raw evidence unavailable** |
-| Second curiosity technical exercise | **VERIFIED; not a second peer swap** |
+| Second curiosity technical exercise | **VERIFIED** |
+| Second curiosity swap with Tunay | **PREPARED; response/date/medium not supplied** |
 | Reflection | **VERIFIED AS DOCUMENTED** |
 | Discord follow-up | **NOT CLAIMED / CONDITIONAL** |
 

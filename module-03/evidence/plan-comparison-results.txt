@@ -1,0 +1,36 @@
+Command:
+uv run python module-03/plan-comparison.py
+
+Execution date: 2026-10-30
+Source: independent reproducible local Python sqlite3 test, not a neighboring pod
+SQLite runtime version: 3.50.4
+Database: disposable in-memory simulation, NOT the original legacy.db
+Data: 1000 maint_job rows; 10 machine rows
+
+BEFORE INDEX: Equality on technician
+EXPLAIN QUERY PLAN SELECT * FROM maint_job WHERE technician = 'Beier';
+2 | 0 | 216 | SCAN maint_job
+
+AFTER INDEX: Equality on technician
+EXPLAIN QUERY PLAN SELECT * FROM maint_job WHERE technician = 'Beier';
+3 | 0 | 62 | SEARCH maint_job USING INDEX ix_job_tech (technician=?)
+
+AFTER INDEX: Machine name
+EXPLAIN QUERY PLAN SELECT * FROM machine WHERE machine_name = 'cnc-02';
+2 | 0 | 216 | SCAN machine
+
+AFTER INDEX: Leading wildcard
+EXPLAIN QUERY PLAN SELECT * FROM maint_job WHERE technician LIKE '%ei%';
+2 | 0 | 216 | SCAN maint_job
+
+Supplied comparison result:
+The downloaded result file recorded the same four plan types using Python
+SQLite runtime 3.46.1. Its numeric planner fields were 0 instead of the
+3.50.4 run's estimated-row fields (216 and 62). Those numeric fields are
+version-dependent details; the relevant SCAN/SEARCH classifications agreed.
+
+Evidence boundary:
+The supplied 3.46.1 result and this fresh 3.50.4 run are independent technical
+reproductions. Neither is the unnamed neighboring group's measurement. The
+classroom screenshot separately displayed SQLite CLI 3.53.4 in a different
+worktree and showed the same three after-index SCAN/SEARCH classifications.

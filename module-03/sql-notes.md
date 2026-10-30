@@ -221,6 +221,24 @@ This is my account of the classroom activity. The other group's raw plan and
 SQLite version were not recorded, so I do not claim that their exact output or
 a cross-platform match was independently verified.
 
+### Cross-source technical comparison
+
+The classroom screenshot displays SQLite CLI **3.53.4** in a separate worktree
+whose visible path ends in `databases_portfolio_sanjay`. The downloaded
+independent result records Python SQLite **3.46.1**. I reran the supplied
+[Python experiment](plan-comparison.py) locally with Python SQLite **3.50.4**
+and saved the [fresh output](evidence/plan-comparison-results.txt).
+
+| Plan type | Screenshot 3.53.4 | Supplied reproduction 3.46.1 | Fresh reproduction 3.50.4 |
+|---|---|---|---|
+| Technician equality after index | `SEARCH ... USING INDEX ix_job_tech` | `SEARCH ... USING INDEX ix_job_tech` | `SEARCH ... USING INDEX ix_job_tech` |
+| Machine-name lookup | `SCAN machine` | `SCAN machine` | `SCAN machine` |
+| Leading-wildcard lookup | `SCAN maint_job` | `SCAN maint_job` | `SCAN maint_job` |
+
+The SCAN/SEARCH classifications agree, but these are not three measurements of
+one identical database environment. The two Python runs are controlled local
+reproductions, and none supplies the unnamed group's own version or raw plan.
+
 ## 11. Independently reproduced technical checks
 
 - Warehouse counts: Customer 2,000; Product 500; Orders 60,000; OrderLine
@@ -274,7 +292,7 @@ The record supports one student-reported classroom collection swap. The
 workbook asks for another swap at the end, but no second historical swap is
 claimed.
 
-### Curiosity Exchange 2 — When Indexes Do Not Help
+### Independent curiosity experiment — when indexes do not help
 
 **Status:** independently reproducible technical follow-up, not a claim of a
 second person-to-person classroom exchange.
@@ -295,6 +313,29 @@ output column removing the covering benefit. No timing claim is made. The
 result also illustrates the trade-off: indexes occupy storage and must be
 maintained on writes even when a particular query cannot use them.
 
+### Curiosity swap 2 — prepared for Tunay
+
+**Status:** questions and verified explanations prepared; no response or
+exchange date from Tunay is available, so a second person-to-person swap is
+not claimed as complete.
+
+- **Question prepared by Isa:** Why does `WHERE technician LIKE '%ei%'`
+  usually produce `SCAN` even when `ix_job_tech` exists? The leading `%`
+  leaves an ordinary B-tree without a fixed starting prefix. Sources: the
+  [fresh reproduction](evidence/plan-comparison-results.txt) and
+  [SQLite query-plan documentation](https://www.sqlite.org/eqp.html).
+- **Follow-up question prepared by Isa:** Why can
+  `SELECT a FROM covering_demo WHERE a = 1` use a covering index, while
+  `SELECT a, b FROM covering_demo WHERE a = 1` uses an ordinary index lookup?
+  The index contains `a` but not `b`, so the second query must visit the table
+  to retrieve `b`. Sources: the
+  [curiosity experiment](curiosity-index-experiment.sql), its
+  [recorded plans](evidence/curiosity-index-results.txt), and the official
+  Module 3 covering-index material.
+
+After a real exchange, this section can record Tunay's actual questions,
+answers, date, and medium. None of those details has been invented here.
+
 ## 13. LLM questions, checks, and corrections
 
 | Prompt or question | AI-assisted claim | Verification and correction |
@@ -311,8 +352,9 @@ maintained on writes even when a particular query cannot use them.
 - The exact original classroom Plan Safari predictions were not recorded; the
   student recollection and reconstructed explanation are labeled separately.
 - Neighboring-pod raw output and SQLite version are unavailable.
-- A second technical curiosity is reproducible, but it is not evidence of a
-  second historical person-to-person swap.
+- A second technical curiosity is reproducible and questions for Tunay are
+  prepared, but no response or completed second person-to-person swap is
+  documented.
 - The workbook's Discord step is conditional on a curiosity remaining shared
   or unresolved after the pod exchanges. No Discord post is claimed.
 - These historical human activities require genuine external evidence; they
@@ -329,6 +371,7 @@ maintained on writes even when a particular query cannot use them.
 | Studios 1–4 | **VERIFIED** | Task reports, SQL, plan evidence, benchmark and injection output |
 | Optional Studio 5 | **VERIFIED** | Three equivalent query forms and automated comparison |
 | Curiosity 1 | **STUDENT-REPORTED** | One classroom collection swap recorded |
-| Curiosity 2 | **VERIFIED AS TECHNICAL EXERCISE** | Disposable SQL and saved output; not a second peer swap |
+| Curiosity 2 technical exercise | **VERIFIED** | Disposable SQL and saved output |
+| Curiosity swap 2 with Tunay | **PREPARED — AWAITING ACTUAL EXCHANGE EVIDENCE** | Questions and sources recorded; no response/date/medium supplied |
 | Reflection | **VERIFIED AS DOCUMENTED** | Seven required reflection headings in `../Reflections/ref03.md` |
 | Discord follow-up | **NOT CLAIMED / CONDITIONAL** | No unresolved/shared curiosity post is documented |
