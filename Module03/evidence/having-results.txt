@@ -1,0 +1,56 @@
+Execution date: 2026-10-30
+SQLite runtime: 3.50.4
+Database: Module03/warehouse.db opened read-only
+Source query: Module03/having-example.sql
+
+## Independent result summary
+
+The complete query returned 400 rows. Because every row has the same aggregate
+count, the evidence below keeps the exact summary plus the first and last five
+rows instead of repeating 400 nearly identical lines. The SQL file reproduces
+the complete result.
+
+qualifying_customers  first_customer_id  last_customer_id  minimum_late_orders  maximum_late_orders  distinct_late_order_counts
+--------------------  -----------------  ----------------  -------------------  -------------------  --------------------------
+400                   1                  1996              30                   30                   1
+
+## First five query rows
+
+customer_id  late_orders
+-----------  -----------
+1            30
+6            30
+11           30
+16           30
+21           30
+
+## Last five customer IDs
+
+customer_id  late_orders
+-----------  -----------
+1976         30
+1981         30
+1986         30
+1991         30
+1996         30
+
+## Supporting totals
+
+total_late_orders  late_customers
+-----------------  --------------
+12000              400
+
+Every qualifying customer has exactly 30 late orders. The generated order ID
+determines both status and customer ID: every fifth order is late, and those
+orders cycle through 400 customer IDs (1, 6, 11, ..., 1996). This deterministic
+correlation explains the uniform result.
+
+## EXPLAIN QUERY PLAN
+
+SCAN orders
+USE TEMP B-TREE FOR GROUP BY
+USE TEMP B-TREE FOR ORDER BY
+
+The table scan is reasonable for this fixture because no index exists on
+status or customer_id. WHERE keeps late order rows before grouping; HAVING
+then filters the completed customer groups by COUNT(*).

@@ -7,7 +7,7 @@ workbook while preserving the student-supplied classroom Tasks A, B, and C.
 
 | Goal | Evidence |
 |---|---|
-| Complex DQL, grouping, subqueries, windows | [Task 1](task1-report.md), [optional Task 5](task5-window-functions.md) |
+| Complex DQL, joins, grouping/HAVING, subqueries, windows | [Task 1](task1-report.md), [HAVING SQL](having-example.sql), [HAVING results](evidence/having-results.txt), [optional Task 5](task5-window-functions.md) |
 | Execution-plan analysis | [raw Task 1 plan](evidence/task1-plan.txt), [benchmark plans](evidence/benchmark-plans.txt) |
 | Index benchmarking | [benchmark report](task2-benchmark.md), [harness](bench.py) |
 | Verify AI SQL | [query source](task1-query.sql), [results](evidence/task1-query-results.txt), [verification JSON](evidence/task1-verification.json) |
@@ -15,6 +15,7 @@ workbook while preserving the student-supplied classroom Tasks A, B, and C.
 | Algebra ↔ SQL ↔ plan | [Task 4](task4-algebra-to-plan.md) |
 | Classroom and curiosity notes | [sql-notes.md](sql-notes.md) |
 | Reflection | [ref03.md](../Reflections/ref03.md) |
+| Automated verification | [tests](tests/test_module03.py), [saved results](evidence/test-results.txt) |
 | Independent audit | [technical completion report](technical-completion-report.md) |
 
 ## Setup and reproduction
@@ -24,6 +25,7 @@ Run from the repository root in PowerShell:
 ```powershell
 uv sync
 sqlite3 Module03/warehouse.db ".read Module03/setup.sql"
+sqlite3 Module03/warehouse.db ".read Module03/having-example.sql"
 uv run python Module03/collect_evidence.py
 uv run python Module03/reproduce_classroom_plans.py
 uv run python Module03/bench.py --repeats 5 --batch-iterations 100
@@ -66,12 +68,25 @@ generated fixture, so use a disposable database when preserving other work.
 
 - The correct city report returned four ordered groups and matched an
   independent Python calculation.
+- The executable `HAVING` query returned 400 customer groups; every group had
+  exactly 30 late orders in the deterministic fixture.
 - The baseline dashboard plan begins with `SCAN order_line`.
 - A date index helped a selective day lookup but was ignored by the dashboard.
 - A join index changed the dashboard plan and made it almost nine times slower.
 - Bound parameters treated the injection payload as data.
 - The optional three late-order query forms were result-equivalent, but the
   correlated form was far slower.
+- The corrected relational-algebra expression maps the same city report to
+  selection, projection, joins, grouping, aggregation, and sorting.
+
+## Automated verification
+
+The current suite ran **19 tests; all 19 passed**. It checks the fixture,
+dashboard boundaries and edge cases, benchmark samples and medians, injection
+behavior, optional query
+equivalence, the HAVING result and plan, documentation links, and control
+characters. The saved output is in
+[evidence/test-results.txt](evidence/test-results.txt).
 
 ## Classroom evidence and limitations
 
@@ -81,11 +96,13 @@ because it visibly contains another student's identifying filesystem path.
 Its commands, results, version, and initial missing-semicolon error are
 faithfully transcribed.
 
-## Personal actions still pending
+The original Task A predictions were not recorded. A new, explicitly dated
+AI-assisted prediction-and-verification exercise demonstrates the technical
+behavior without pretending to be the missing classroom history. Task B has a
+documented student explanation and AI comparison. Task C remains
+student-reported because the neighboring pod's raw plan and SQLite version are
+not available. A second curiosity swap and Discord post are not claimed.
 
-- Review the technical findings and practise explaining them.
-- Confirm or replace the personal TODOs in the reflection.
-- Add real Discord or neighboring-pod raw evidence only if it exists.
-- Complete any instructor-specific checkpoint requirement.
-
-The classroom Tasks A, B, and C do **not** need to be repeated.
+The technically achievable portfolio work is complete. Any requirement for
+new neighboring-pod participation, raw external evidence, or instructor
+approval remains a genuine human/external dependency.

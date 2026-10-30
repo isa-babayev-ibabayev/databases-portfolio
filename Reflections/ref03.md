@@ -1,65 +1,64 @@
-# Reflection 03 — SQL profiling and verification
+# Reflection 03 — Checking SQL instead of only running it
 
 ## Take-away
 
-The technical evidence shows that an index is not automatically an
-improvement: the query plan and repeated measurements both matter.
-
-TODO — STUDENT: Add the result you personally want to remember and advice to
-your past self.
+My main lesson from this module is that a working SQL query is not always a
+correct or efficient query. I learned that I should check the result, read the
+query plan, and measure the performance. The index benchmark was a useful
+example because one added index changed the plan and made the dashboard much
+slower instead of faster.
 
 ## What was good?
 
-The warehouse fixture rebuilt to the exact row counts, the AI-generated city
-query matched an independent Python calculation, and all three late-order
-query variants returned equivalent results. Bound parameters also handled both
-an apostrophe-containing name and the injection payload correctly.
-
-TODO — STUDENT: Confirm which result you personally considered successful.
+The city dashboard produced clear customer and revenue results for four
+cities. Its result was checked with a separate Python calculation and with a
+small edge-case dataset. The date boundaries were also checked, so orders from
+2025 were included while `2026-01-01` was excluded. I liked this verification
+because it showed more than simply saying that the query ran without an error.
 
 ## What was difficult?
 
-The measured dashboard changed from a 160.880 ms median to 1429.524 ms after
-the join index changed the loop order. This is technically important because
-the apparently more indexed plan was worse for this aggregate.
-
-TODO — STUDENT: Describe what you personally found difficult; do not simply
-adopt the technical statement above if it was not your experience.
+The most difficult concept was understanding why SQLite does not always use an
+index in the way I expect. I first connected an index with a faster query, but
+the plans showed that loop order and repeated lookups are also important. It
+also took care to understand the difference between `WHERE`, which filters
+rows, and `HAVING`, which filters groups after `GROUP BY`.
 
 ## Exploration and show stoppers
 
-The experiments compared a leading-wildcard scan, a function-wrapped date
-scan, an expression-index option, a covering index, and an FTS5 trigram option.
-The original classroom Task A also retained the initial missing-semicolon
-syntax error instead of hiding it.
-
-TODO — STUDENT: Add any real show stopper or instructor question you had.
+The most interesting experiment was the benchmark. The dashboard baseline
+median was about 160.88 ms, but the index-driven stage had a median of about
+1429.52 ms. In contrast, the date index made a one-day lookup about 12.9 times
+faster, and the product index made its direct filter about 4.9 times faster in
+the recorded environment. This taught me that an index can help one query and
+be ignored or harmful for another query. I also explored leading wildcards,
+function-wrapped columns, and covering indexes.
 
 ## Interaction with peers and instructors
 
-Student-supplied Task C notes report that the pod compared a Windows plan with
-a neighboring pod's macOS plan, discussed functions and leading wildcards, and
-prepared a question about case-insensitive and substring search. The other
-pod's raw plan/version and any Discord link were not supplied, so the report
-does not claim independent corroboration or posting.
-
-TODO — STUDENT: Add names or personal learning only if appropriate and
-factually supported.
+The study notes record a comparison between a Windows plan and a neighboring
+pod's macOS plan. The discussion focused on function-wrapped columns, leading
+wildcards, and covering indexes. The other pod's raw output and SQLite version
+were not saved, and there is no evidence of a Discord post or a second
+curiosity swap. I therefore keep this part as a student-reported activity and
+do not add details that are not available.
 
 ## How did you verify AI suggestions?
 
-The generated SQL was executed against 60,000 orders and 240,000 lines. Its
-result was checked with an independent Python aggregation and a small
-edge-case fixture. Index suggestions were tested with five timing runs and
-saved plans instead of assumed to help. Injection behavior and window-query
-equivalence were covered by automated tests.
+AI suggestions were used as a starting point, but the technical results were
+checked against SQLite output. The dashboard result was compared with an
+independent Python aggregation and an edge-case fixture. `EXPLAIN QUERY PLAN`
+showed that the actual loop order was different from the prediction. Five
+timing runs showed that an index suggestion could make the query slower. The
+window-function rewrite was checked for repeated customer rows, and the SQL
+injection example compared unsafe string building with bound parameters.
 
 ## Help and extra work
 
-The technical extension added repeatable benchmark, security, algebra, and
-optional window-function evidence. AI assistance was used for implementation
-and drafting, then checked against SQLite output, tests, and primary
-documentation. AI is not listed as a human pod member or contributor.
-
-TODO — STUDENT: Record any genuine help you gave or received and any real
-presentation/checkpoint work.
+The optional exercise compared a grouped query, a correlated subquery, and a
+window-function query. They returned the same 400 customers, but their plans
+and timings were very different. The extra `HAVING` exercise also helped me
+connect the written SQL order with the logical order. AI assistance was used
+for drafting and technical verification, and the suggestions were checked
+with query results, plans, tests, and documentation rather than accepted
+without evidence.

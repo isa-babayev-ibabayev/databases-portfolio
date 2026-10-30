@@ -151,6 +151,27 @@ class WarehouseTests(unittest.TestCase):
         self.assertIn("SCAN ol", plan)
         self.assertIn("USE TEMP B-TREE FOR count(DISTINCT)", plan)
 
+    def test_having_example_filters_completed_groups(self):
+        sql = """
+            SELECT customer_id, COUNT(*) AS late_orders
+            FROM orders
+            WHERE status = 'late'
+            GROUP BY customer_id
+            HAVING COUNT(*) > 20
+            ORDER BY late_orders DESC, customer_id
+        """
+        rows = self.conn.execute(sql).fetchall()
+        self.assertEqual(len(rows), 400)
+        self.assertEqual(rows[:3], [(1, 30), (6, 30), (11, 30)])
+        self.assertEqual(rows[-1], (1996, 30))
+        self.assertEqual({count for _, count in rows}, {30})
+        plan = [
+            row[3]
+            for row in self.conn.execute("EXPLAIN QUERY PLAN " + sql)
+        ]
+        self.assertIn("SCAN orders", plan)
+        self.assertIn("USE TEMP B-TREE FOR GROUP BY", plan)
+
 
 class BenchmarkEvidenceTests(unittest.TestCase):
     def test_benchmark_has_five_runs_and_correct_medians(self):
@@ -299,14 +320,35 @@ class RepositorySafetyTests(unittest.TestCase):
     def test_required_documentation_files_exist(self):
         for relative in (
             "README.md",
+            "having-example.sql",
             "sql-notes.md",
             "task1-report.md",
             "task2-benchmark.md",
             "task4-algebra-to-plan.md",
             "task5-window-functions.md",
             "technical-completion-report.md",
+            "evidence/having-results.txt",
+            "evidence/plan-safari-prediction-verification.txt",
         ):
             self.assertTrue((MODULE_DIR / relative).exists(), relative)
+
+    def test_markdown_has_no_unexpected_control_characters(self):
+        markdown_files = list(MODULE_DIR.glob("*.md")) + [
+            ROOT / "Reflections" / "ref03.md"
+        ]
+        problems = []
+        for source in markdown_files:
+            data = source.read_bytes()
+            controls = sorted({
+                byte
+                for index, byte in enumerate(data)
+                if byte < 32
+                and byte not in (9, 10)
+                and not (byte == 13 and index + 1 < len(data) and data[index + 1] == 10)
+            })
+            if controls:
+                problems.append(f"{source.name}: {controls}")
+        self.assertEqual(problems, [])
 
     def test_relative_markdown_links_resolve(self):
         import re

@@ -1,14 +1,24 @@
 # Module 3 technical completion report
 
+## Current status — 2026-10-30
+
+This section updates the historical delivery record below. The executable
+HAVING exercise now closes the remaining complex-DQL evidence gap, the formal
+relational algebra has been repaired, and the seven-section reflection draft
+is complete. The original benchmark measurements remain unchanged. Historical
+human evidence is still limited: the original Plan Safari predictions were not
+recorded, and neighboring-pod raw output/version, a second curiosity swap, and
+a Discord post are unavailable.
+
 ## Executive summary
 
 The technical Module 3 portfolio is implemented against the current professor
 workbook. It includes the generated warehouse, verified AI query, raw plans,
-five-run index benchmarks, injection demonstration, algebra mapping, optional
-window rewrite, automated tests, student-supplied classroom notes, and a
-template-aligned reflection. Academic completion is not claimed because
-personal comprehension/reflection and any unsupported Discord evidence remain
-student responsibilities.
+five-run index benchmarks, injection demonstration, executable GROUP BY/HAVING
+evidence, a readable algebra mapping, optional window rewrite, automated tests,
+student-supplied classroom notes, and a template-aligned reflection draft. All
+technically achievable requirements are implemented. Unsupported historical
+human activities remain explicitly limited rather than reconstructed.
 
 ## Repository and environment
 
@@ -88,6 +98,17 @@ Verified ranges include customer IDs 1–2000, product IDs 1–500, order IDs
 zero-padding, and the explicit `x=540` remainder check returns 2025-01-01.
 The script remains free of Module 4 foreign keys.
 
+## Learning Goal 1 — executable HAVING evidence
+
+[having-example.sql](having-example.sql) filters late Orders rows with `WHERE`,
+groups them by customer, and keeps completed groups with
+`HAVING COUNT(*) > 20`. Read-only execution on SQLite 3.50.4 returned 400
+customers. Every qualifying customer had exactly 30 late orders, with customer
+IDs from 1 through 1996 in steps of five. The plan contains `SCAN orders`,
+`USE TEMP B-TREE FOR GROUP BY`, and `USE TEMP B-TREE FOR ORDER BY`. Raw output
+and independent aggregate checks are in
+[having-results.txt](evidence/having-results.txt).
+
 ## Task 1 — AI query and verification
 
 The exact prompt and AI response are preserved in
@@ -154,8 +175,10 @@ modification.
 ## Task 4 — algebra to plan
 
 [task4-algebra-to-plan.md](task4-algebra-to-plan.md) maps the city query through
-selection (sigma), projection (pi), three joins (owtie), grouping
-(gamma), and sorting. It distinguishes set-oriented algebra from SQL
+selection `σ`, projection `π`, three joins `⋈`, grouping `γ`, and sorting `τ`.
+The repaired GitHub-compatible expression includes the exact join conditions,
+2025 selection, distinct-customer count, and revenue sum. It distinguishes
+set-oriented algebra from SQL
 duplicate semantics and separates logical meaning from the physical plan.
 
 ## Optional Task 5
@@ -176,8 +199,8 @@ The first window draft's repeated-row trap is documented and corrected using
 
 | Requirement | Evidence | Status |
 |---|---|---|
-| Complex joins, grouping, DQL | Task 1 and Task 5 | PASS |
-| HAVING/clause-order understanding | sql-notes workstream 2 | PASS |
+| Complex joins, grouping, DQL | Task 1, HAVING exercise, and Task 5 | PASS |
+| HAVING/clause-order understanding | `having-example.sql` and verified results | PASS |
 | Subquery | correlated Task 5 variant | PASS |
 | Window function | corrected Task 5 variant | OPTIONAL COMPLETED |
 | EXPLAIN QUERY PLAN | raw Task 1/benchmark/Task 5 plans | PASS |
@@ -187,18 +210,22 @@ The first window draft's repeated-row trap is documented and corrected using
 | SQL injection prevention | demo, raw output, tests | PASS |
 | Relational algebra | Task 4 | PASS |
 | Curiosity list with sources | sql-notes section 11 | PASS |
-| Classroom Task A preservation | transcribed image evidence/limitations | PASS |
+| Classroom Task A historical record | image transcription; original predictions absent | PARTIAL — historical limitation |
+| New Plan Safari technical verification | dated AI-assisted predictions and disposable execution | PASS |
 | Classroom Task B preservation | original text plus clarification | PASS |
-| Classroom Task C preservation | supplied discussion, no fabricated details | PASS |
-| Second curiosity swap | no supporting record | PENDING STUDENT |
-| Personal reflection confirmation | TODO prompts in ref03 | PENDING STUDENT |
-| Discord evidence | no link/evidence supplied | PENDING STUDENT |
+| Classroom Task C record | supplied discussion; neighboring raw evidence unavailable | HUMAN ACTIVITY — UNVERIFIED |
+| Second curiosity swap | no supporting record | EXTERNAL/HUMAN LIMITATION |
+| Reflection draft | seven complete template sections | PASS — student factual review recommended |
+| Discord evidence | no link/evidence supplied | EXTERNAL/HUMAN LIMITATION |
 
 ## Files created or modified
 
 | File | Purpose |
 |---|---|
 | `Module03/setup.sql` | Professor's generated warehouse fixture |
+| `Module03/having-example.sql` | Executable GROUP BY/HAVING exercise |
+| `Module03/evidence/having-results.txt` | Verified HAVING output and plan |
+| `Module03/evidence/plan-safari-prediction-verification.txt` | Dated AI-assisted prediction and fresh disposable plan comparison |
 | `Module03/task1-query.sql` | Exact prompt and AI-generated query |
 | `Module03/task1-report.md` | Result, plan, and correctness audit |
 | `Module03/bench.py` | Repeatable disposable index benchmark |
@@ -214,7 +241,7 @@ The first window draft's repeated-row trap is documented and corrected using
 | `Module03/README.md` | Navigation and reproduction |
 | `Module03/tests/test_module03.py` | Automated verification |
 | `Module03/evidence/*` | Raw plans, outputs, timings, and checks |
-| `Reflections/ref03.md` | Template-aligned factual draft and personal TODOs |
+| `Reflections/ref03.md` | Complete seven-section student-level draft |
 | `README.md` | Module 3 navigation |
 | `.gitignore` | WAL/SHM and cache exclusions |
 
@@ -222,6 +249,7 @@ The first window draft's repeated-row trap is documented and corrected using
 
 ```powershell
 sqlite3 Module03/warehouse.db ".read Module03/setup.sql"
+sqlite3 Module03/warehouse.db ".read Module03/having-example.sql"
 uv run python Module03/collect_evidence.py
 uv run python Module03/reproduce_classroom_plans.py
 uv run python Module03/bench.py --repeats 5 --batch-iterations 100
@@ -231,13 +259,14 @@ uv run python -m unittest discover -s Module03/tests -v
 
 ## Automated verification
 
-The final suite ran 17 tests: 17 passed, 0 failed. It rebuilt the warehouse,
+The current suite ran 19 tests: 19 passed, 0 failed. It rebuilt the warehouse,
 checked exact counts and ranges, reran setup, tested date boundaries,
 distinct-customer and no-order behavior, validated saved plans and benchmark
 medians, proved a genuine slowdown and two speedups, checked the injection
 payload and apostrophe case, compared all optional query variants, reproduced
-Task A on a disposable database, verified ignored databases, and resolved every
-relative Markdown link. Raw output is in
+Task A on a disposable database, verified the HAVING result and plan, rejected
+unexpected Markdown control characters, verified ignored databases, and
+resolved every relative Markdown link. Raw output is in
 [test-results.txt](evidence/test-results.txt).
 
 ## Risks and limitations
@@ -252,17 +281,20 @@ relative Markdown link. Raw output is in
 - No evidence confirms a Discord post or a second curiosity swap.
 - The fixture intentionally omits foreign keys; that is Module 4 material.
 
-## Student actions still needed
+## Remaining external and final-review actions
 
 - Read and understand the query-plan and benchmark findings.
-- Confirm or replace personal TODOs in `Reflections/ref03.md`.
+- Read the completed reflection and confirm that its conservative first-person
+  interpretations match the student's own experience.
 - Practise explaining algebra, join multiplicity, indexing, and parameters.
 - Add neighboring-pod raw output if formal corroboration is desired and
   available.
 - Add a real Discord link only if one exists.
 - Complete instructor-specific checkpoint requirements.
 
-The already reported classroom Tasks A, B, and C do not need to be repeated.
+Technical automation cannot reconstruct the missing original Task A
+predictions or independently confirm Task C. If the professor requires new
+human participation or corroboration, that remains an external dependency.
 
 ## Delivery
 
@@ -275,5 +307,5 @@ The already reported classroom Tasks A, B, and C do not need to be repeated.
 - Push: succeeded to `origin/main` through `c15b1e6`.
 - Final local/remote HEAD after this report-status commit is recorded in the
   delivery response; a commit cannot include its own hash without changing it.
-- Overall status: **technical implementation complete; personal confirmation
-  and unsupported human evidence pending**.
+- Overall status: **technically achievable implementation complete; student
+  factual review and unsupported external human evidence remain separate**.

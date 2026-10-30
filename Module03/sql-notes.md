@@ -3,48 +3,44 @@
 ## 1. Module purpose
 
 Module 3 connects complex SQL, relational algebra, query plans, measured index
-behavior, AI verification, and parameter binding. The technical work below is
-separate from the authentic classroom Task A/B/C evidence supplied by the
-student.
+behavior, AI verification, and parameter binding. Technical reproduction is
+kept separate from student-reported classroom Tasks A, B, and C.
 
 ## 2. Learning references
 
 | Reference | Use in this work |
 |---|---|
 | [Professor's Module 3 workbook](https://github.com/iotempire/iotempire-teaching/blob/main/full-classes/hsbi-databases-10d/modules/03-llm-assisted-sql-and-query-profiling.md) | Primary specification, fixture, queries, and exercise sequence |
-| [SQLite EXPLAIN QUERY PLAN](https://www.sqlite.org/eqp.html) | Official meanings of SCAN, SEARCH, and temporary B-trees |
+| [SQLite EXPLAIN QUERY PLAN](https://www.sqlite.org/eqp.html) | Meanings of `SCAN`, `SEARCH`, and temporary B-trees |
 | [SQLite query planner](https://www.sqlite.org/queryplanner.html) | Index selection and covering indexes |
 | [SQLite expression indexes](https://www.sqlite.org/expridx.html) | Why an expression index must match the query expression |
-| [SQLite query optimizer overview](https://www.sqlite.org/optoverview.html#the_like_optimization) | Conditions for prefix LIKE optimization and collations |
+| [SQLite LIKE optimization](https://www.sqlite.org/optoverview.html#the_like_optimization) | Conditions for prefix `LIKE` optimization |
 | [SQLite FTS5 trigram tokenizer](https://www.sqlite.org/fts5.html#the_trigram_tokenizer) | Indexed substring matching and short-token limits |
-| [Relational algebra](https://en.wikipedia.org/wiki/Relational_algebra) | Selection, projection, join, and extended grouping notation |
-| [SQLite plan operations](https://use-the-index-luke.com/sql/explain-plan/sqlite/operations) | Concise independent SCAN/SEARCH/covering glossary |
-| [OWASP SQL Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet) | Parameterized queries and why manual escaping is discouraged |
-| [Python 3.14 sqlite3](https://docs.python.org/3.14/library/sqlite3.html) | Python placeholder and parameter-binding API |
+| [Relational algebra](https://en.wikipedia.org/wiki/Relational_algebra) | Selection, projection, joins, and extended grouping notation |
+| [SQLite plan operations](https://use-the-index-luke.com/sql/explain-plan/sqlite/operations) | Independent plan glossary |
+| [OWASP SQL Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html) | Parameterized queries and manual-escaping risks |
+| [Python sqlite3](https://docs.python.org/3/library/sqlite3.html) | Placeholder and parameter-binding API |
 
-These sources were consulted during technical implementation. This is not a
-claim that the student personally read every source in a classroom session.
+These sources support the technical implementation. This list does not claim
+that the student personally read every source during one classroom session.
 
-## 3. Workstream 1 — Algebra ↔ SQL
+## 3. Workstream 1 — algebra ↔ SQL
 
 | Algebra | SQL | Purpose |
 |---|---|---|
-| (sigma) selection | `WHERE` | filter rows |
-| (pi) projection | `SELECT` list | choose output columns |
-| (owtie) join | `JOIN ... ON` | combine related relations |
-| (gamma) grouping | `GROUP BY` plus aggregates | calculate per-group values |
-| (ho) rename | `AS` | name relations or values |
+| Selection `σ` | `WHERE` | Filter rows |
+| Projection `π` | `SELECT` list | Choose output columns |
+| Join `⋈` | `JOIN ... ON` | Combine related relations |
+| Grouping `γ` | `GROUP BY` plus aggregates | Calculate values per group |
+| Rename `ρ` | `AS` | Name relations or calculated values |
 
-The complete city-revenue translation, including (sigma), (pi),
-(owtie), and (gamma), is in
-[task4-algebra-to-plan.md](task4-algebra-to-plan.md).
+The complete city-revenue translation is in
+[task4-algebra-to-plan.md](task4-algebra-to-plan.md). SQL preserves duplicate
+rows unless `DISTINCT` or grouping changes them, while classical relational
+algebra normally uses sets. That is why `COUNT(DISTINCT customer_id)` matters
+after Orders is joined to OrderLine.
 
-SQL keeps duplicate rows unless `DISTINCT` or a grouping operation changes
-them. Classical relational algebra normally uses sets. This is why
-`COUNT(DISTINCT customer_id)` is a meaningful part of the translation rather
-than decoration.
-
-## 4. Workstream 2 — clause order
+## 4. Workstream 2 — clause order and HAVING
 
 Written order:
 
@@ -54,7 +50,8 @@ Logical evaluation order:
 
 `FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY`
 
-A counterexample is trying to filter an aggregate in `WHERE`:
+This query is wrong because `WHERE` runs before the groups and their counts
+exist:
 
 ```sql
 SELECT city, COUNT(*) AS n
@@ -63,203 +60,163 @@ WHERE COUNT(*) > 10
 GROUP BY city;
 ```
 
-It fails because row filtering occurs before groups and their counts exist. The
-condition belongs in `HAVING COUNT(*) > 10`.
+An aggregate condition belongs in `HAVING`. The executable
+[HAVING exercise](having-example.sql) filters individual Orders rows with
+`WHERE status = 'late'`, creates one group per customer, and then keeps groups
+with `HAVING COUNT(*) > 20`. The verified output contains 400 customers with
+30 late orders each. See [having-results.txt](evidence/having-results.txt).
 
 ## 5. Workstream 3 — query-plan vocabulary
 
-- `SCAN table`: visit every row (possibly in index order).
-- `SEARCH table USING INDEX`: use an index to visit a subset, then read table
-  rows for other columns.
-- `USING COVERING INDEX`: every requested value is in the index, so no table
-  lookup is needed.
-- `USE TEMP B-TREE`: SQLite built a temporary structure for sorting,
-  grouping, or distinct processing.
+- `SCAN table`: visit every row, possibly in index order. A scan is reasonable
+  when most rows are needed or the table is small.
+- `SEARCH table USING INDEX`: use an index to select rows, then visit the table
+  for columns not stored in the index.
+- `SEARCH ... USING COVERING INDEX`: obtain every required value from the
+  index without a separate table lookup.
+- `USE TEMP B-TREE`: build temporary storage for sorting, grouping, or distinct
+  processing when no existing index supplies the required order.
 
-Plans are optimizer choices, not relational-algebra expressions. They can
-change with data size, statistics, indexes, and SQLite versions.
+Plan lines are a loop order: the first table is the outer loop. Plans can
+change with data size, statistics, indexes, and SQLite version.
 
 ## 6. Workstream 4 — tuning and security
 
-An index helps only a particular access pattern. The measured dashboard became
-almost nine times slower after its join order changed, while the same date
-index made a selective one-day query roughly thirteen times faster.
+An index helps a particular access pattern, not every query. The recorded
+dashboard became about 8.9 times slower after an index changed its loop order,
+while the date index made a selective one-day lookup about 12.9 times faster.
 
-SQL values must be bound with placeholders. The local payload experiment
-returned all rows through the vulnerable string-built query and zero rows
+SQL values must be bound with placeholders. The local payload returned all
+rows through the intentionally vulnerable string-built query and zero rows
 through the safe parameterized query. See [Task 3](task3-injection.md).
 
-## 7. Classroom Task A — original screenshot and observations
+## 7. Classroom Task A — preserved historical evidence
 
-### Original classroom notes — student-provided evidence
-
-The supplied screenshot was reviewed at:
-`Desktop/IMG-20261022-WA0019(1).jpg`. It was not copied into the public
-repository because it visibly identifies another student's filesystem path.
-The image is classroom-provided evidence, not proof that every command was run
-on the portfolio owner's laptop.
-
-Faithful transcription:
+The supplied classroom screenshot was inspected at
+`Desktop/IMG-20261022-WA0019(1).jpg`. It is not published because it visibly
+contains another student's filesystem path. It shows SQLite CLI 3.53.4 and
+these after-index plans:
 
 ```text
-EXPLAIN QUERY PLAN
-SELECT * FROM maint_job WHERE technician = 'Beier';
-SEARCH maint_job USING INDEX ix_job_tech (technician=?)
-
-EXPLAIN QUERY PLAN
-SELECT * FROM machine WHERE machine_name = 'cnc-02';
-SCAN machine
-
-EXPLAIN QUERY PLAN
-SELECT * FROM maint_job WHERE technician LIKE '%ei%';
-SCAN maint_job
+technician equality: SEARCH maint_job USING INDEX ix_job_tech (technician=?)
+machine-name equality: SCAN machine
+leading-wildcard technician: SCAN maint_job
 ```
 
-The screenshot shows SQLite CLI 3.53.4 and an existing
-`ix_job_tech(technician)` index. It also shows that `CREATE INDEX` was first
-entered without its terminating semicolon, so the next `EXPLAIN` was appended
-and produced a syntax error. Later commands succeeded. The screenshot does not
-establish a clean before-index baseline.
+It also records an initial missing-semicolon error while entering
+`CREATE INDEX`. It does not establish a clean before-index baseline and does
+not contain the original pre-execution predictions. Those historical
+predictions cannot be reconstructed honestly.
 
-### Technical clarification and reproducibility checks
+## 8. New AI-assisted Plan Safari prediction and verification
 
-- Appropriately indexed technician equality can use SEARCH.
-- The technician index cannot help a Machine-name predicate.
-- A leading wildcard has no fixed prefix for an ordinary B-tree range search.
-- `upper(technician)` does not match an ordinary index on `technician`; an
-  expression index on the same expression can help.
+This is a new technical exercise dated **2026-10-30**. The predictions were
+made by the AI-assisted development process before this fresh execution. They
+are not attributed to the student and are not presented as the missing
+classroom predictions.
 
-A separate local reproduction rebuilt Module 2's fixture in a disposable
-database and compared plans before and after `ix_job_tech`. Before the index,
-all three queries scanned. Afterwards, only technician equality changed to
-`SEARCH maint_job USING INDEX ix_job_tech`; Machine equality, leading-wildcard
-LIKE, and `upper(technician)` still scanned. See the
-[raw reproduction](evidence/classroom-plan-reproduction.txt). The classroom
-history above remains unchanged.
+| Query | Prediction before fresh run | Observed before index | Observed after `ix_job_tech` |
+|---|---|---|---|
+| `technician = 'Beier'` | SCAN before; selective SEARCH after | `SCAN maint_job` | `SEARCH maint_job USING INDEX ix_job_tech` |
+| `machine_name = 'cnc-02'` | SCAN both times because the new index belongs to another table | `SCAN machine` | `SCAN machine` |
+| `technician LIKE '%ei%'` | SCAN both times because the pattern has no fixed prefix | `SCAN maint_job` | `SCAN maint_job` |
+| `upper(technician)=upper('Beier')` | Ordinary technician index will not match the expression | Not part of the baseline three | `SCAN maint_job` |
 
-## 8. Classroom Task B — original human explanation and Gemini comparison
+All predictions matched the clean disposable reproduction. Raw output:
+[plan-safari-prediction-verification.txt](evidence/plan-safari-prediction-verification.txt).
 
-### Original classroom notes — student-provided evidence
+The technician equality can use the index because it searches the indexed
+column for one value. The Machine query is unrelated to that index. A leading
+wildcard has no starting prefix for an ordinary B-tree range search. A
+function-wrapped column needs a matching expression index. None of these scans
+is automatically a mistake, especially in the four-row classroom fixture.
 
-> For Task B, we need to make mathematical equation. For SELECT * FROM
-> maint_job WHERE technician = 'Beier'; command, logic and sequence should be
-> like this: sigma technician (because we select from WHERE? from technician)
-> equals 'Beier' is text value and (maint_job) means this means we are doing
-> filtering to the main job table.
+## 9. Classroom Task B — algebra comparison
 
-[
-sigma_{technician='Beier'}(maint\_job)
-]
+The student-provided explanation selected:
 
-> I asked Gemini to translate the same query. We completely agreed on using
-> the selection operator for the WHERE clause. The only difference was that
-> Gemini pointed out the projection operator is usually omitted entirely when
-> the SQL query uses SELECT *.
+```sql
+SELECT * FROM maint_job WHERE technician = 'Beier';
+```
 
-### Technical clarification
+Its relational algebra is:
 
-(sigma) means row selection, `technician='Beier'` is the predicate, and
-`maint_job` is the input relation. There is no join. Explicit projection can
-be omitted for `SELECT *`; if shown, it would project every attribute.
+`σ_{technician='Beier'}(maint_job)`
 
-## 9. Classroom Task C — neighboring-pod discussion
+The preserved Gemini comparison agreed on selection `σ`. Projection `π` can
+be omitted because `SELECT *` keeps all attributes, and no join belongs in
+this expression.
 
-### Original classroom notes — student-provided evidence
+## 10. Classroom Task C — neighboring-pod record and limits
 
-**Plan comparison:** Our Windows SQLite plan matched the macOS SQLite plan from
-the neighboring pod: both used SEARCH for direct equality matches.
+The student-provided notes report that a Windows plan matched a neighboring
+pod's macOS equality-search plan. They also report discussion of
+function-wrapped columns, leading wildcards, and covering indexes, followed by
+one curiosity exchange.
 
-**Our pod's surprise:** Wrapping an indexed column in a function, such as
-`upper(technician)`, can prevent the ordinary index from supporting the
-search and produce a scan.
+The neighboring participant names, raw plan, SQLite version, second curiosity
+swap, and any Discord post are not available. Therefore, the cross-platform
+comparison remains student-reported rather than independently verified. No
+missing meeting, version, screenshot, or message has been invented.
 
-**Neighboring pod's surprise:** Leading wildcards, such as `LIKE '%ei%'`,
-prevent ordinary B-tree prefix-range searches. Requesting columns absent from
-an index can also make a previously covering index non-covering.
+Technical research suggests matching `COLLATE NOCASE` indexes for compatible
+case-insensitive prefix/equality searches, expression indexes for matching
+expressions such as `lower(column)`, and FTS5 trigram indexes for suitable
+substring searches. The classroom pattern `%ei%` is too short for the usual
+three-character trigram advantage.
 
-**Unresolved question for Discord:** If functions and wildcards break indexes,
-how do we efficiently optimize case-insensitive searches or partial-text
-matches in SQLite?
-
-Task C is reported as completed. No participant names, transcript, timing, or
-unavailable neighboring-pod output has been invented. The cross-platform match
-is student-reported and awaits the neighboring pod's raw plan/version if formal
-corroboration is needed. There is no evidence that the question was posted to
-Discord.
-
-### Researched technical answer
-
-- For compatible ASCII case-insensitive equality or prefix searches, define
-  the column/index with `COLLATE NOCASE` and use a matching query collation.
-- For `lower(column) = ?`, an expression index such as
-  `CREATE INDEX ... ON t(lower(column))` can help when the query expression
-  matches the indexed expression.
-- For substring search, FTS5's trigram tokenizer supports suitable
-  `LIKE '%text%'` patterns. Full-text tokens shorter than three Unicode
-  characters do not match, and patterns without a non-wildcard run of at least
-  three characters fall back to a scan. Therefore the classroom `'%ei%'`
-  example is too short for the normal trigram advantage.
-- Always verify the actual plan on the deployed SQLite version and data.
-
-## 10. Independently reproduced technical checks
+## 11. Independently reproduced technical checks
 
 - Warehouse counts: Customer 2,000; Product 500; Orders 60,000; OrderLine
   240,000.
-- Disposable Task A reproduction: equality changed from SCAN to SEARCH only
-  after the technician index; unrelated, wildcard, and function predicates
-  remained scans.
-- Dashboard result: four cities; independent Python aggregation matched.
+- Plan Safari: only technician equality changed from SCAN to SEARCH after its
+  index was added.
+- HAVING exercise: 400 qualifying customers, each with 30 late orders.
+- Dashboard: four cities; independent Python aggregation matched the SQL.
 - Baseline dashboard plan: OrderLine scan, three primary-key searches, and
   three temporary B-trees.
-- Date index ignored by dashboard but used by the single-day lookup.
+- Date index ignored by the dashboard but used by the one-day lookup.
 - OrderLine join index changed the dashboard plan and made it much slower.
-- Product index was unused by the dashboard but improved a direct product
-  filter.
+- Product index unused by the dashboard but useful for a direct product filter.
 - Parameter binding neutralized the injection payload.
 - Grouped, correlated, and window late-order queries returned identical rows.
 
-## 11. Collected curiosities and sources
+## 12. Curiosities and sources
 
-### Student-supported classroom curiosities
-
-- `upper(technician)` can defeat the ordinary index — Task C notes and
+- `upper(technician)` can defeat an ordinary index — Task A notes and
   [SQLite expression indexes](https://www.sqlite.org/expridx.html).
-- `LIKE '%ei%'` scans despite a technician index — Task A screenshot and
+- `LIKE '%ei%'` scans despite a technician index — Task A evidence and
   [LIKE optimization](https://www.sqlite.org/optoverview.html#the_like_optimization).
-- Adding an output column can change a covering search into a table lookup —
-  Task C notes and [SQLite query planner](https://www.sqlite.org/queryplanner.html#covering_indexes).
+- Adding an output column can make a covering index non-covering — benchmark
+  plans and the [SQLite query planner](https://www.sqlite.org/queryplanner.html#covering_indexes).
+- The dashboard uses three temporary B-trees —
+  [raw plan](evidence/task1-plan.txt).
+- An added index changed the plan and made an aggregate nearly nine times
+  slower — [benchmark evidence](task2-benchmark.md).
+- An SQL query can run but count joined lines rather than customers if
+  `DISTINCT` is omitted — [edge-case tests](tests/test_module03.py).
+- Relational algebra describes meaning while a query plan describes a physical
+  strategy — [Task 4](task4-algebra-to-plan.md).
 
-### Additional AI-selected, experimentally verified curiosities
+The record supports one student-reported classroom collection swap. The
+workbook asks for another swap at the end, but no second historical swap is
+claimed.
 
-- The dashboard uses three `USE TEMP B-TREE` operations — [raw plan](evidence/task1-plan.txt).
-- An index can change a plan and make a query almost nine times slower —
-  [benchmark evidence](task2-benchmark.md).
-- A query can execute but count lines instead of customers if `DISTINCT` is
-  omitted — [edge-case tests](tests/test_module03.py).
-- Relational algebra describes meaning while `EXPLAIN QUERY PLAN` describes a
-  physical strategy — [algebra-to-plan exercise](task4-algebra-to-plan.md).
+## 13. LLM questions, checks, and corrections
 
-The current record supports one classroom collection swap in Task C. The latest
-workbook asks for swaps at the break and end; no second historical swap is
-invented here.
-
-## 12. LLM questions, responses, and verified corrections
-
-| Prompt/question | AI claim | Check and correction |
+| Prompt or question | AI-assisted claim | Verification and correction |
 |---|---|---|
-| Generate the city revenue report | Four joins, 2025 half-open range, distinct customers, revenue sum | Executed; Python aggregation and edge fixture matched |
-| Predict its plan | Expected Orders scan and possible OrderLine automatic search | Wrong loop order: actual plan starts with `SCAN ol` |
-| Which indexes optimize it? | Date and join indexes might help | Date index alone was ignored; join index changed plan but slowed median from 160.880 to 1429.524 ms |
-| Rewrite late-order count with a window | `COUNT(*) OVER (PARTITION BY ...)` | Count correct but repeated per order; corrected with `ROW_NUMBER()` |
-| How to handle substring search? | Consider trigram FTS | Verified limitation: a two-character term such as `ei` is too short for the normal trigram match |
+| Generate the city revenue report | Four-table join, half-open 2025 range, distinct customers, revenue sum | Executed; Python aggregation and edge fixture matched |
+| Predict its plan | Expected Orders scan and possible OrderLine automatic search | Actual plan starts with `SCAN ol`; prediction corrected |
+| Which indexes optimize it? | Date and join indexes might help | Date index alone was ignored; join-index stage slowed median from 160.880 to 1429.524 ms |
+| Rewrite late-order count with a window | Use `COUNT(*) OVER (PARTITION BY ...)` | Count repeated on every order row; corrected with `ROW_NUMBER()` |
+| Explain `GROUP BY` and `HAVING` | `WHERE` filters rows; `HAVING` filters groups | Executed against the warehouse and verified with aggregate checks |
+| How to handle substring search? | Consider trigram FTS | Two-character `ei` is too short for the normal trigram match |
 
-## 13. Remaining student checkpoints
+## 14. Remaining external limitations
 
-- TODO — STUDENT: Confirm the personal take-away and difficult parts in
-  [ref03.md](../Reflections/ref03.md).
-- TODO — STUDENT: Practise explaining one SCAN/SEARCH plan and the algebra
-  expression without notes.
-- TODO — STUDENT: Add a real Discord link only if the unresolved question was
-  actually posted.
-- TODO — STUDENT: Add neighboring-pod raw output/version only if available; do
-  not repeat the already completed discussion.
+- The original classroom Plan Safari predictions were not recorded.
+- Neighboring-pod raw output and SQLite version are unavailable.
+- A second curiosity swap and Discord post are not documented.
+- These historical human activities require genuine external evidence; they
+  cannot be completed retrospectively by technical automation.
