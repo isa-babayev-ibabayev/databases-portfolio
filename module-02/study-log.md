@@ -1,15 +1,23 @@
 # Study log: data contracts and legacy schemas
 
-This log combines the original Module 2 technical preparation with an additional
-source-based study guide and an independent SQLite check of the professor's
-legacy fixture. The new explanations and checks were prepared with AI assistance
-for the student to **read, challenge, and confirm**. They are not evidence that
-the student personally spent 30 minutes studying or attended a neighboring-pod
-meeting.
+This log contains Module 2 research references, an ER modeling study guide,
+existing SQL and Python verification evidence, and notes from my personal study.
+I studied the material for **one hour** on **15 October 2026** and also discussed
+Module 2 with my Task Pod partner, **Tunay Daldaban**, for **15 minutes**.
+The one-hour study and the 15-minute discussion are recorded separately because
+the available information does not establish whether the discussion was included
+within that hour.
 
-The student has reported completing reciprocal GitHub peer reviews with Tunay;
-the actual personal learning record and the professor's separate **neighboring
-Task Pod** discussion must still be completed truthfully.
+We **did not attend the class session when Module 2 was assigned**. Therefore,
+we did **not** carry out the required discussion with a **neighboring Task Pod**.
+At that time we had **not yet joined the class Discord**, so we did not share a
+Module 2 diagram there. Our own-pod discussion and reciprocal GitHub reviews are
+recorded honestly; they are not presented as a completed neighboring-pod activity.
+
+Some implementation and technical checks were prepared with AI assistance.
+Saved SQL results and test records are portfolio evidence, not proof that I
+personally executed every command. The informal personal-study explanations in
+this log should be kept only to the extent that they match my actual experience.
 
 ## Learning references
 
@@ -24,77 +32,163 @@ Task Pod** discussion must still be completed truthfully.
 | [SQLite CREATE TABLE](https://www.sqlite.org/lang_createtable.html) | SQLite project | Documents PRIMARY KEY, UNIQUE, NOT NULL, CHECK, and FOREIGN KEY constraints. |
 | [Pydantic fields](https://docs.pydantic.dev/latest/concepts/fields/) and [validators](https://docs.pydantic.dev/latest/concepts/validators/) | Pydantic project | Basis for required fields, ranges, patterns, date parsing, and custom list validation. |
 | [SQLAlchemy metadata](https://docs.sqlalchemy.org/en/21/core/metadata.html) and [constraints](https://docs.sqlalchemy.org/en/21/core/constraints.html) | SQLAlchemy project | Defines tables, columns, foreign keys, checks, uniqueness, and DDL creation. |
+| [Natural key](https://en.wikipedia.org/wiki/Natural_key) and [Surrogate key](https://en.wikipedia.org/wiki/Surrogate_key) | Wikipedia contributors | Supplementary references for choosing stable real-world identifiers versus database-generated identifiers. |
+| [SQLite datatypes and comparison rules](https://www.sqlite.org/datatype3.html) | SQLite project | Official explanation of type affinity, text comparisons, and numeric conversions used to interpret the price defect. |
 
 ## Questions and verified answers
 
-| Question | Verified answer | Evidence type |
-|---|---|---|
-| Entity or attribute? | Give it an entity when it needs identity, lifecycle, attributes, or relationships of its own. Context decides borderline cases. | Reference plus MaintenanceJob design |
-| When use a natural key? | When it is stable, compact, known, and truly unique. Otherwise use a surrogate and retain UNIQUE on the business identifier. | Reference and corrected DDL |
-| Why are duplicate natural keys dangerous? | One identifier resolves to multiple rows, causing ambiguous updates and duplicate join results. | Experiment: P-1003 yields two join rows |
-| How model 1:1, 1:n, m:n? | UNIQUE FK; FK on many side; junction table with two FKs and unique/composite key, respectively. | Four sketches and SQL |
-| Why does a comma list violate 1NF? | One column stores multiple independent part values, so each cannot be keyed or constrained. | Reference and failed naive join |
-| Why do missing FKs create orphans? | Text can be inserted without a matching parent. | Experiment: job 3 / cnc-05 |
-| What does SQLite enforce automatically? | Declared PK, UNIQUE, NOT NULL, and CHECK rules; FK enforcement must be enabled for each connection. | SQLite docs and `foreign_keys=1` run |
-| What must the application validate? | Input shape and domain semantics such as prefixes, calendar dates, decimal bounds, and duplicate list items; the DB still validates shared integrity. | Pydantic and database tests |
+The websites below are references supporting the answers. They were selected from
+existing Module 2 references, supplemented by the linked natural/surrogate-key
+and SQLite datatype documentation. The **portfolio evidence** column points to
+checks recorded in this project; the reference links do not, by themselves,
+prove which websites were personally browsed during a student study session.
+
+| Question researched | Finding | Verification evidence in this portfolio | Relevant website/reference |
+|---|---|---|---|
+| Entity or attribute? | An entity needs its own identity, facts, or relationships; an attribute describes another entity. The choice depends on what the application must track. | [ER modeling examples](er-examples.md) and [legacy model reconstruction](er-audit.md), especially MaintenanceJob versus its date. | [Entity–relationship model](https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model) |
+| When should a natural key be used? | Use a real-world identifier if it is genuinely unique, stable and suitable for references. Otherwise, a surrogate key can provide stable row identity while a natural business identifier stays `UNIQUE`. | [ER audit](er-audit.md) and [corrected schema](corrected-schema.sql): surrogate `machine_id`, unique `serial_no`, and natural `part_no`. | [Natural key](https://en.wikipedia.org/wiki/Natural_key), [Surrogate key](https://en.wikipedia.org/wiki/Surrogate_key) |
+| Why are duplicate natural keys dangerous? | Two rows with the same supposed identifier make joins ambiguous and can double-count results. | [Integrity queries](integrity-audit.sql) and [recorded results](integrity-results.txt): `P-1003` appears twice and causes two matches in the naive join. | [SQLite PRIMARY KEY and UNIQUE constraints](https://www.sqlite.org/lang_createtable.html) |
+| How do we model 1:1, 1:n and m:n? | Use a unique foreign key for an at-most-one child relationship, a foreign key on the many side for 1:n, and a junction table with two foreign keys and a composite/unique key for m:n. Minimum participation may require further rules. | [Four ER sketches](er-examples.md), [SQL proof](sketch-proof.sql), and [proof results](sketch-proof-results.txt). | [Mermaid ER cardinalities](https://mermaid.js.org/syntax/entityRelationshipDiagram.html), [SQLite foreign keys](https://www.sqlite.org/foreignkeys.html) |
+| Why is `parts_used = 'P-1001,P-1002'` a normalization problem? | A comma-separated list stores several independent part identifiers in one column, making individual references hard to join, validate and constrain. A `job_part` junction table models the associations as rows. | [Legacy fixture](legacy_setup.sql), [defect query](integrity-audit.sql), and [integrity results](integrity-results.txt): job 1 disappears from the naive equality join. | [First normal form](https://en.wikipedia.org/wiki/First_normal_form), [official Module 2 workbook](https://github.com/iotempire/iotempire-teaching/blob/main/full-classes/hsbi-databases-10d/modules/02-data-contracts-and-legacy-schemas.md) |
+| Why do missing foreign keys create orphans? | Without an enforced foreign-key relationship, a job can reference a machine that does not exist. | [Integrity query](integrity-audit.sql) and [results](integrity-results.txt): job 3 references nonexistent `cnc-05`. | [SQLite foreign-key support](https://www.sqlite.org/foreignkeys.html) |
+| What does SQLite enforce automatically? | Declared primary-key, UNIQUE, NOT NULL and CHECK rules operate according to SQLite's constraint semantics; foreign-key enforcement must also be enabled for the connection. | [Corrected schema](corrected-schema.sql), [contract](contract.py) and [11-test suite](tests/test_contract.py), including the foreign-key rejection case. | [SQLite CREATE TABLE and constraints](https://www.sqlite.org/lang_createtable.html), [SQLite foreign-key enforcement](https://www.sqlite.org/foreignkeys.html) |
+| What should the application validate? | Pydantic checks incoming values and business-level rules such as identifiers, actual calendar dates, nonnegative decimal prices and duplicate list entries; SQL constraints independently guard the rules declared in the database. | [Pydantic/SQLAlchemy contract](contract.py) and [test results](test-results.txt). | [Pydantic fields](https://docs.pydantic.dev/latest/concepts/fields/), [Pydantic validators](https://docs.pydantic.dev/latest/concepts/validators/), [SQLAlchemy constraints](https://docs.sqlalchemy.org/en/21/core/constraints.html) |
 
 ## LLM-assisted questions and checks
 
-These exact prompts were answered during implementation. Summaries are not
-accepted as proof; each was checked against SQL or documentation.
+The four prompts below were already documented as part of Module 2's
+AI-assisted technical preparation. For each, the answer is kept short and is
+paired with **existing executable evidence or a primary technical reference**.
+These checks are documented portfolio evidence, not a new claim that the student
+personally executed every query or consulted every source.
 
-### Prompt 1
+### Prompt 1 — Recover entities and constraints
+
+**Prompt**
 
 > Given the supplied legacy schema, what entities and hidden relationships does
 > it probably intend, and which relationships are actually enforced?
 
-Response summary: Machine, Part, MaintenanceJob, and implied Technician were
-identified, with JobPart needed for the hidden m:n. The response warned that
-matching column names are not constraints. Verification: `sqlite_master`
-showed no keys or foreign keys, and job 3 proved an orphan can exist. No
-unsupported relationship was treated as enforced.
+**Answer summary (2–3 lines):** The three original tables suggest the entities
+Machine, Part and MaintenanceJob, with Technician hidden as a text value and
+JobPart hidden in `parts_used`. Column names alone do not create SQL keys or
+relationships; the legacy schema does not enforce those intended links.
 
-### Prompt 2
+**How the answer was checked:** [legacy_setup.sql](legacy_setup.sql) defines the
+original three tables without declared foreign keys. The
+[ER audit](er-audit.md) reconstructs the conceptual model. The
+[orphan query](integrity-audit.sql) and [saved result](integrity-results.txt)
+show that job 3 refers to `cnc-05`, which has no corresponding machine. The
+original `maint_job` has no foreign keys (also recorded in the independent
+SQLite sanity check below).
+
+**Reference:** [SQLite foreign-key documentation](https://www.sqlite.org/foreignkeys.html)
+and [Entity–relationship model](https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model).
+
+**Important distinction:** An *intended* relationship is not an *enforced*
+relationship. Four sample rows also cannot establish universal participation
+rules.
+
+### Prompt 2 — Normalize the part list
+
+**Prompt**
 
 > Why does parts_used = 'P-1001,P-1002' violate 1NF, and what corrected schema
 > should replace it?
 
-Response summary: the field contains multiple values and should become
-`job_part(job_id, part_no)`. Verification: the naive equality join lost job 1;
-the corrected composite primary key test rejected a duplicate pair. Ambiguity:
-the legacy field does not record quantity, so quantity cannot be reconstructed.
+**Answer summary (2–3 lines):** One cell contains multiple separately
+identifiable parts, making valid associations difficult to join and constrain.
+The corrected design represents each job–part association as a row in
+`job_part(job_id, part_no)` with two foreign keys and a composite primary key.
 
-### Prompt 3
+**How the answer was checked:** The
+[legacy dataset](legacy_setup.sql) gives job 1 `P-1001,P-1002`. The
+[naive join](integrity-audit.sql) misses that job entirely, as shown in
+[integrity-results.txt](integrity-results.txt). The
+[contract tests](tests/test_contract.py) check that a duplicate job–part pair
+is rejected in the corrected model.
+
+**Reference:** [First normal form](https://en.wikipedia.org/wiki/First_normal_form)
+and [SQLite CREATE TABLE constraints](https://www.sqlite.org/lang_createtable.html).
+
+**Limitation:** The old `parts_used` string does not specify quantity, so
+quantities cannot be recovered from it without more evidence.
+
+### Prompt 3 — Text prices and numeric comparisons
+
+**Prompt**
 
 > Is unit_price TEXT harmless in SQLite if all current values look numeric?
 
-Response summary: no; comparisons may use text ordering and SQLite type
-affinity is not domain validation. Verification: `'9.90' < '15'` returned 0,
-while casting both to numeric logic returned 1. The initial broad claim
-“numeric comparisons always fail” would be too strong: behavior depends on
-operands and affinity, so the recorded counterexample is the precise evidence.
+**Answer summary (2–3 lines):** No. A column storing prices as TEXT can be
+compared lexicographically instead of numerically, depending on the operands
+and SQLite's type-affinity rules. A comparison can execute without errors yet
+return the wrong business result.
 
-### Prompt 4
+**How the answer was checked:** The
+[integrity audit](integrity-audit.sql) and [results](integrity-results.txt)
+show that the text predicate `unit_price < '15'` omits the `P-1003` records
+priced at `9.90`. Numeric conversion changes that result. The following
+minimal expression illustrates the difference:
+
+```sql
+SELECT '9.90' < '15' AS text_comparison;               -- 0
+SELECT CAST('9.90' AS NUMERIC) < 15 AS numeric_check;  -- 1
+```
+
+**Reference:** [SQLite datatypes and comparison rules](https://www.sqlite.org/datatype3.html).
+
+**Correction to an overbroad claim:** Not *all* numeric-looking TEXT
+comparisons fail. The precise behavior depends on affinity and operands; this
+fixture provides a concrete counterexample.
+
+### Prompt 4 — Can a foreign key guarantee exactly one nameplate?
+
+**Prompt**
 
 > Can a foreign key and UNIQUE constraint guarantee every machine has exactly
 > one nameplate?
 
-Response summary: they guarantee that a nameplate has a valid machine and at
-most one nameplate can point to that machine, but cannot force creation of a
-child row for every parent. Verification: this follows from the direction of
-the FK and SQLite constraint semantics. “Exactly one” needs a combined table or
-additional transactional/business enforcement.
+**Answer summary (2–3 lines):** A non-null, unique foreign key in Nameplate
+can ensure that each existing nameplate references one valid machine and that
+a machine is referenced by at most one nameplate. It does **not** force every
+machine to have a nameplate record.
+
+**How the answer was checked:** The [Machine–Nameplate sketch](er-examples.md)
+models the optionality, while [SQLite foreign-key support](https://www.sqlite.org/foreignkeys.html)
+and [SQLite UNIQUE constraints](https://www.sqlite.org/lang_createtable.html)
+explain the constraint semantics. The conclusion is based on schema and
+documentation reasoning; this section does **not** claim a separate original
+runtime test of mandatory parent participation.
+
+**Remaining design choice:** Guaranteeing *exactly one* on both sides requires
+an appropriate design or additional transaction/business rules, not just a
+child-side foreign key and UNIQUE constraint.
 
 ## Two educational ER/EER examples
 
-### Example A: Mermaid customer/property delivery example
+I included two sourced ER examples because they explain different parts of the
+same problem: **reading relationships in a diagram** and **enforcing them in a
+database**. The reasons below explain why these examples are useful for my
+study notes. They do not claim that I presented them during the missed class.
 
-Source and attribution: [Mermaid ER diagram documentation](https://mermaid.js.org/syntax/entityRelationshipDiagram.html),
-Mermaid project. Its examples demonstrate relationship labels, attributes, and
-crow's-foot cardinality. The useful lesson is that the two ends independently
+### Example A — Mermaid property/room cardinality example
+
+**Original source:** [Mermaid: Entity Relationship Diagrams](https://mermaid.js.org/syntax/entityRelationshipDiagram.html)
+(Mermaid project; relationship syntax and cardinality notation).
+
+**What the source shows:** Mermaid uses the example
+`PROPERTY ||--|{ ROOM : contains` to show a property with one or more rooms,
+where each room belongs to exactly one property. The symbols at both ends
 express minimum and maximum participation.
 
-Redraw adapted to this domain:
+**Why I selected this example for my study notes:** At first the
+little symbols at the end of the lines looked confusing. This example made it
+easier for me to read them: `||` means exactly one, `o{` means zero or more,
+and `|{` means one or more. I liked that I could understand the relationship
+from the picture before looking at any SQL.
+
+**Redraw adapted to the Module 2 maintenance domain:**
 
 ```mermaid
 erDiagram
@@ -102,15 +196,34 @@ erDiagram
     TECHNICIAN ||--o{ MAINTENANCE_JOB : performs
 ```
 
-### Example B: SQLite artist/track foreign-key example
+**What this example teaches that Example B does not:** A visual model
+communicates relationships and minimum/maximum participation before writing
+SQL. For instance, the diagram says each maintenance job belongs to exactly
+one machine, while a machine may have no jobs or many jobs. The diagram's
+business intent is not by itself evidence that the legacy database enforces
+those relationships.
 
-Source and attribution: [SQLite Foreign Key Support](https://www.sqlite.org/foreignkeys.html),
-SQLite project. The official example distinguishes parent and child keys and
-shows how a track references an artist. The lesson not visible in a purely
-conceptual diagram is that the child FK must reference a unique parent key and
-enforcement must be enabled.
+**Source acknowledgment:** The relationship notation comes from the Mermaid
+documentation. The machine/technician/maintenance-job drawing is a domain
+adaptation, not an original Mermaid-site diagram.
 
-Attributed redraw:
+### Example B — SQLite artist/track foreign-key example
+
+**Original source:** [SQLite: Foreign Key Support](https://www.sqlite.org/foreignkeys.html)
+(SQLite project; artist/track parent–child schema).
+
+**What the source shows:** The `artist` table supplies a parent key and the
+`track` table stores an `artistid` reference. SQLite uses foreign-key rules to
+reject invalid child references when enforcement is enabled.
+
+**Why I selected this example for my study notes:** I wanted a
+simple example that goes one step beyond a drawing. The Artist–Track example
+shows me where the foreign key belongs and why the database needs it. It also
+helped me understand the `cnc-05` problem in our maintenance data: without a
+real foreign-key rule, the database can accept a reference to something that
+does not exist.
+
+**Redraw with renamed column labels for readability:**
 
 ```mermaid
 erDiagram
@@ -125,6 +238,16 @@ erDiagram
         string track_name
     }
 ```
+
+**What this example teaches that Example A does not:** The foreign key must
+reference an appropriate parent key; the parent's identity must be unique;
+and SQLite foreign-key enforcement must be enabled for the connection. This
+helps explain why the legacy `maint_job.machine_name` column does not protect
+against `cnc-05`, while the corrected Module 2 schema can.
+
+**Source acknowledgment:** The artist/track relationship is adapted from the
+official SQLite documentation; the diagram is a teaching redraw rather than
+a screenshot of the original page.
 
 ## Remarkable technical findings
 
@@ -263,10 +386,11 @@ unresolved business-rule choice, not proof that the contract is invalid.
 
 ### Independent SQLite sanity check (AI-assisted, not student execution)
 
-I reconstructed the **12 original fixture rows** from the professor's supplied
-`CREATE TABLE` and `INSERT` statements in a fresh in-memory SQLite database,
-then independently ran the audit patterns. These are actual results of that
-check, but **do not label them as commands personally run by the student**.
+An earlier AI-assisted technical check reconstructed the **12 original fixture
+rows** from the professor's supplied `CREATE TABLE` and `INSERT` statements in
+a fresh in-memory SQLite database and ran the audit patterns. The recorded
+outputs belong to that check; **they must not be presented as commands the
+student personally ran**.
 
 | Executed check | Observed output |
 |---|---|
@@ -300,64 +424,233 @@ personally executed it.
 
 After attempting each yourself, compare with the explanations above.
 
-### Suggested 30-minute study route (a plan, not a completed attendance log)
+### Study guide for reviewing the material (not a timed attendance record)
 
-| Minutes | Activity |
+The professor suggests about 30 minutes for Task A; I reported spending **one
+hour** studying Module 2 concepts. The outline below is a guide to the topics
+in this log, not an invented minute-by-minute account of what happened:
+
+| Topic | Material to review |
 |---|---|
-| 0–8 | Read the key definitions, references, and original LLM verification notes. |
-| 8–16 | Inspect the four sketches and explain each cardinality aloud. |
-| 16–21 | Compare the original three tables with the five-entity corrected model. |
-| 21–26 | Understand how each of the five SQL defect queries proves its claim. |
-| 26–30 | Compare Pydantic with SQLAlchemy and answer the eight questions above. |
+| Basic vocabulary | Entities, attributes, relationships, and keys in this log. |
+| ER examples | Four sketches in [er-examples.md](er-examples.md) and the two sourced examples above. |
+| Legacy design | Three original tables and five intended logical entities in [er-audit.md](er-audit.md). |
+| SQL integrity | Five queries and recorded results in [integrity-audit.md](integrity-audit.md). |
+| Application versus database | Pydantic, SQLAlchemy, and constraints in [contract.py](contract.py). |
 
 
 ## Agreed learning (pod discussion)
 
-### Confirmed in-pod work: reciprocal GitHub peer review
+### My Task Pod discussion — 15 October 2026
 
-The student reports that **both pod partners have reviewed and commented on each
-other's Module 2 repositories**. The discussions can be reviewed at:
+**Date:** 15 October 2026  
+**Duration:** 15 minutes  
+**Participants:** İsa Babayev and Tunay Daldaban  
+**Type of activity:** Discussion inside our own Task Pod, **not** the neighboring-pod activity in Task C.
 
-- [Review of this portfolio by Tunay — Issue #2](https://github.com/isa-babayev-ibabayev/databases-portfolio/issues/2)
-- [Review of Tunay's portfolio — Issue #2](https://github.com/tunaydaldaban-beep/databases-portfolio/issues/2)
+We could not attend the class when Module 2 was introduced, so Tunay and I
+studied and discussed the material separately. We did not meet students from a
+neighboring Task Pod on that occasion.
 
-These are links to the peer-review evidence; the student should confirm that
-the precise findings summarized in those Issues reflect the actual exchange.
-The uploaded files show a meaningful discussion topic: a DATE column's format
-or type declaration is not sufficient to guarantee real calendar-date validity
-for arbitrary SQLite inserts, while Pydantic can validate `date` inputs.
+**What we worked from:** the Module 2 ER exercises and technical evidence in
+[er-examples.md](er-examples.md), [er-audit.md](er-audit.md), and
+[integrity-audit.md](integrity-audit.md). These contain the following four
+sketches. I have not recorded which individual sketches we displayed during the
+15-minute conversation, so the list below is our study material, not a claimed
+attendance-by-diagram record:
 
-**Important:** an in-pod review with Tunay is **not** the same as the professor's
-separate Task C conversation with a **neighboring pod**.
+1. **Machine–Nameplate (1:1):** one-to-one relationships and `UNIQUE` constraints.
+2. **Machine–Sensor (1:n):** why a sensor has the machine foreign key.
+3. **WorkOrder–Part (m:n):** how a junction table represents many-to-many links.
+4. **MaintenanceJob–Machine–Technician:** entities, attributes and relationships.
 
-### Neighboring-pod discussion — factual record to complete
+#### Five example learning points from our in-pod study
 
-**Status: NOT VERIFIED; do not mark as held until the students confirm the
-meeting and its actual content.**
+Tunay and I had a 15-minute Module 2 discussion on 15 October 2026.
+These are five **suggested conclusions** written in normal student language,
+based on the diagrams and SQL checks in this portfolio. I can use them to
+summarize our discussion **after checking with Tunay that we really agreed on
+them**. They are not evidence of a discussion with a neighboring pod.
 
-- Date and duration: **TO BE FILLED AFTER THE REAL DISCUSSION**
-- Other pod / participants: **TO BE FILLED**
-- Which ER sketches were shown: **TO BE FILLED**
-- Three to five points genuinely agreed by both pods: **TO BE FILLED**
-- Open disagreements / points that needed clarification: **TO BE FILLED**
-- Selected diagram and why: **TO BE FILLED**
-- Actual Discord post link or screenshot: **TO BE FILLED**
+1. **Just calling a column an ID does not make it a key.** For example, the old
+   `maint_job` table has a `job_id` column, but the database never declares it as
+   a primary key. We need an actual constraint, not just a meaningful name.
+2. **A diagram and a database are not always saying the same thing.** In an ER
+   diagram we can draw a Machine–MaintenanceJob relationship, but unless the SQL
+   defines and enforces a foreign key, the database may still accept a job with
+   a machine that does not exist.
+3. **Many-to-many relationships need a separate table.** A job may use several
+   parts, and a part may be used in several jobs. Putting `P-1001,P-1002` in
+   one text field causes problems; a `job_part` table makes the links clearer.
+4. **SQL can return the wrong answer without showing an error.** We saw that
+   job 1 disappears in the simple join, while the duplicated `P-1003` can make
+   other rows appear more than once. This showed us why testing with real queries
+   matters.
+5. **Checking input and checking the database are different jobs.** Pydantic
+   helps us reject invalid data before storing it. Primary keys, foreign keys,
+   and other SQLite constraints help protect data in the database. Both are
+   useful, but neither magically checks every possible rule.
 
-**Candidate discussion ideas (not agreed findings):**
+#### Four example disagreements or different interpretations
 
-1. A natural identifier is not an enforced natural key without a uniqueness
-   constraint.
-2. Cardinalities inferred from four example rows are not universal business
-   limits.
-3. SQLite foreign keys need declared constraints and enabled enforcement.
-4. Multi-valued part strings need a relational junction table.
-5. Validation at the application layer and integrity constraints in the
-   database solve related but different problems.
+A **disagreement** just means two people understand something differently at
+first, or suggest different solutions. It does not have to be an argument. The
+four examples below are **possible discussion examples, not a record of things
+Tunay and I definitely disagreed about**. No actual unresolved disagreement
+was reported from our 15-minute meeting. If we recognise a real disagreement,
+we can replace the relevant example with what each of us genuinely said.
 
-Suggested diagram to consider: the corrected model in
-[er-audit.md](er-audit.md).
+1. **Is Technician a separate entity, or just a text name?**
+   - Possible view A: Storing the technician's name in `maint_job` is enough.
+   - Possible view B: Technician should have its own table and ID.
+   - What the model teaches: A separate Technician entity is useful when we need
+     stable identity, details, or relationships across multiple jobs.
+2. **Can we use the machine's name as its primary key?**
+   - Possible view A: `cnc-01` is easy to recognise, so it can identify a row.
+   - Possible view B: `machine_id` is safer if names can change.
+   - What the model teaches: A surrogate `machine_id` is a reasonable design;
+     `serial_no` should still be unique if it is a business identifier.
+3. **Does `UNIQUE` plus a foreign key mean every machine has a nameplate?**
+   - Possible view A: Yes, because it is a one-to-one relationship.
+   - Possible view B: No, because a machine could still have no nameplate row.
+   - What the model teaches: A child-side unique foreign key enforces *at most
+     one* child for each parent, but does not automatically enforce *at least one*.
+4. **Should part numbers stay in one comma-separated column?**
+   - Possible view A: One text field is simpler because it uses fewer tables.
+   - Possible view B: A junction table is better because each link is a row.
+   - What the model teaches: The `job_part` design enables proper joins and
+     key constraints; the legacy comma-separated field causes missing results.
 
-Suggested Discord caption to discuss with the other pod:
-"We selected this diagram because it makes the hidden job–part
-many-to-many relationship explicit and explains how keys and foreign keys
-protect the corrected database."
+**Actual disagreement record:** None was specifically documented. These
+examples are provided as prompts to review with Tunay, not as statements of
+what either of us personally said on 15 October.
+
+#### Diagram selected for these study notes
+
+**My chosen diagram:** **WorkOrder–Part (m:n)** in
+[er-examples.md](er-examples.md).
+
+I chose this diagram as a clear example for the record because it shows why
+`work_order_part` is needed between WorkOrder and Part. One order can use many
+parts, and the same part can appear in many orders. This is easier to see as a
+diagram than as a comma-separated list in a database column.
+
+**Joint selection:** This is my documented choice for our study notes. Tunay's
+agreement to select it together has not been confirmed, so I am not claiming
+that we jointly selected it or submitted it to the class.
+
+#### Task C — Why we could not exchange with a neighboring pod
+
+Unfortunately, we did not have a chance to discuss our diagrams or exchange
+our work with another group because we did not attend the class session when
+Module 2 was assigned. Instead, Tunay and I studied the module separately and
+had our own 15-minute discussion on 15 October 2026.
+
+This was **a discussion inside our own Task Pod**, not the neighboring-pod
+exchange requested in Task C. Therefore, we cannot claim three to five points
+jointly agreed with a second pod, a diagram jointly selected by two pods, or
+feedback from another group.
+
+We had not yet joined the course Discord at that time, so **we did not post an
+ER diagram there**. There is no Discord image, message link, or screenshot to
+provide for Module 2.
+
+For these reasons, the neighboring-pod and Discord parts of Task C remain
+**not completed**. We are documenting what actually happened instead of
+claiming that these classroom activities took place. If the professor wants us
+to complete Task C later, we can arrange a real exchange with another pod and
+record that activity under its real date.
+
+### Reciprocal GitHub peer review with Tunay
+
+Our own-pod GitHub reviews are documented separately:
+
+- [Review of my portfolio by Tunay — Issue #2](https://github.com/isa-babayev-ibabayev/databases-portfolio/issues/2)
+- [My review of Tunay's portfolio — Issue #2](https://github.com/tunaydaldaban-beep/databases-portfolio/issues/2)
+
+Those reviews provide evidence of collaboration inside our pod. They do not
+replace the professor's neighboring-pod meeting or Discord post.
+
+---
+
+## My personal Module 2 study
+
+**Date:** 15 October 2026  
+**Study duration:** 1 hour (as reported)  
+**Participant:** İsa Babayev for the personal study. I also had the separate
+15-minute Module 2 discussion with Tunay described above.  
+**Class attendance:** We did not participate in the class when Module 2 was given.
+
+The following is a simple, everyday explanation of the learning experience.
+The details should reflect what I actually understood and reviewed; it is not
+a claim that I personally executed every SQL script or automated test.
+
+### What I learned
+
+I used to think that database design was mainly about creating tables. After
+looking at the old maintenance database, I understood that the bigger question
+is **what each table is supposed to represent**. A Machine and a Technician are
+things we want to keep records about, while the date of a maintenance job is
+just one piece of information about that job.
+
+I also understand 1:1, 1:n and m:n better now. For example, a machine can have
+many sensors, so the sensor has the machine's ID as a foreign key. A maintenance
+job can use different parts, and one part can be used in many jobs, so we need
+a separate table such as `job_part` instead of a list in one cell.
+
+The main idea I took from the module is that an ER diagram explains how the
+information should be connected, but the real keys and constraints are what
+help the database check those connections.
+
+### What surprised me
+
+What surprised me was how a database problem can stay hidden even when a SQL
+query runs without an error. In the old data, job 1 has `P-1001,P-1002` in one
+field. When we use an ordinary equality join to Part, that job disappears from
+the result because the whole string is not a single part number.
+
+I also found it strange that job 3 could refer to `cnc-05` when that machine
+was not even in the machine table. The duplicate `P-1003` was another good
+example of why we cannot just trust the data to be clean.
+
+### What was difficult
+
+At first, I mixed up entities, attributes and relationships. I understood the
+words, but choosing the right one for a real example was harder. Looking at
+MaintenanceJob helped: the job needs its own record, while its date is simply
+an attribute of the job.
+
+I also had to think carefully about the difference between what a diagram says
+and what SQL actually guarantees. For instance, a `UNIQUE` foreign key can stop
+two nameplates belonging to the same machine, but it cannot automatically
+make every machine have a nameplate.
+
+The text-price example was confusing too. `9.90` looks like a number, but if
+SQLite treats it as text, a comparison with `'15'` can give the wrong answer
+for a price filter.
+
+### How I checked my understanding
+
+I read through the four diagrams in [er-examples.md](er-examples.md) and
+compared them with the reconstructed design in [er-audit.md](er-audit.md).
+That helped me understand why Technician and JobPart were missing from the
+original three-table design.
+
+For the database problems, I looked at the queries in
+[integrity-audit.sql](integrity-audit.sql) and compared them with the saved
+results in [integrity-results.txt](integrity-results.txt). I tried to explain
+in simple words why `cnc-05` is an orphan reference, why `P-1003` leads to
+duplicates, and why job 1 is missing from the bad join. I also reviewed
+[contract.py](contract.py) to see the difference between Pydantic input checks
+and SQLAlchemy/SQLite database constraints.
+
+This is a review of existing code and recorded results. I am not claiming that
+I ran every original SQL query or all the tests myself on 15 October.
+
+### What I would explain to a classmate
+
+"The original maintenance database had tables but was missing some important
+relationships. We found actual problems with SQL queries instead of guessing.
+The corrected model uses proper keys and a JobPart table. Pydantic helps check
+input, and SQLite constraints help protect the database. We should always test
+what the data and rules really do rather than just trust a diagram."
