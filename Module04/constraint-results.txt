@@ -1,0 +1,45 @@
+Command: uv run python Module04/constraint-tests.py
+
+Python SQLite runtime: 3.50.4
+## Task A: unconstrained rows
+1 | temp_c | 9000.0 | real
+1 | temp_c | hot | text
+2 | bogus | -500.0 | real
+NULL | NULL | NULL | null
+
+## Constrained acceptance cases
+valid row: ACCEPTED
+temperature 9000: REJECTED | IntegrityError: CHECK constraint failed: value BETWEEN -273.15 AND 5000
+text hot in REAL: REJECTED | IntegrityError: cannot store TEXT value in REAL column t_constrained.value
+unsupported metric: REJECTED | IntegrityError: CHECK constraint failed: metric IN ('temp_c', 'vib_rms', 'spindle_load')
+value -500: REJECTED | IntegrityError: CHECK constraint failed: value BETWEEN -273.15 AND 5000
+NULL metric: REJECTED | IntegrityError: NOT NULL constraint failed: t_constrained.metric
+NULL value: REJECTED | IntegrityError: NOT NULL constraint failed: t_constrained.value
+duplicate natural key: REJECTED | IntegrityError: UNIQUE constraint failed: t_constrained.sensor_id, t_constrained.metric
+numeric string 42.5: ACCEPTED
+plausible but wrong 4500: ACCEPTED
+duplicate primary key: REJECTED | IntegrityError: UNIQUE constraint failed: t_constrained.sample_id
+numeric string stored as: 42.5 | real
+
+## CHECK and NULL
+NULL with CHECK only: ACCEPTED
+NULL with CHECK plus NOT NULL: REJECTED | IntegrityError: NOT NULL constraint failed: check_and_not_null.value
+
+## Main edge schema
+generated row: 1 | 1 | 41.5 | 1 | 41.5
+domain violation 9000: REJECTED | IntegrityError: CHECK constraint failed: value >= -273.15 AND value <= 5000
+STRICT type hot: REJECTED | IntegrityError: cannot store TEXT value in REAL column reading.value
+missing sensor 99: REJECTED | IntegrityError: FOREIGN KEY constraint failed
+duplicate machine metric: REJECTED | IntegrityError: UNIQUE constraint failed: sensor.machine_id, sensor.metric
+missing timestamp: REJECTED | IntegrityError: NOT NULL constraint failed: reading.ts
+zero interval: REJECTED | IntegrityError: CHECK constraint failed: interval_s > 0
+duplicate reading primary key: REJECTED | IntegrityError: UNIQUE constraint failed: reading.reading_id
+direct generated-column write: REJECTED | OperationalError: cannot INSERT into generated column "energy_j"
+lower boundary -273.15: ACCEPTED
+upper boundary 5000: ACCEPTED
+STRICT numeric string: ACCEPTED
+empty machine identifier: ACCEPTED
+numeric string stored as: 42.5 | real
+foreign_key_check rows: []
+integrity_check: ok
+final reading count: 4

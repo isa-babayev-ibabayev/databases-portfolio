@@ -1,0 +1,11 @@
+Command: uv run python Module04/access-control-demo.py
+
+Python SQLite runtime: 3.50.4
+mode=ro reading count: 1
+mode=ro view rows: 1
+mode=ro DELETE rejected: attempt to write a readonly database
+query_only setting: 1
+query_only DELETE rejected: attempt to write a readonly database
+icacls inspection exit code: 0
+icacls non-empty output lines: 4
+ACLs were inspected only; no permissions were modified.

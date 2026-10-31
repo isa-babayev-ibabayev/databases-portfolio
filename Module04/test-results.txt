@@ -1,0 +1,41 @@
+Command: uv run python -m unittest discover -s Module04/tests -v
+
+test_audit_old_and_new_values_are_accurate (test_module04.Module04Tests.test_audit_old_and_new_values_are_accurate) ... ok
+test_baseline_noop_update_audits_but_conditional_upsert_does_not (test_module04.Module04Tests.test_baseline_noop_update_audits_but_conditional_upsert_does_not) ... ok
+test_check_allows_null_without_not_null (test_module04.Module04Tests.test_check_allows_null_without_not_null) ... ok
+test_corrected_upsert_updates_existing_row (test_module04.Module04Tests.test_corrected_upsert_updates_existing_row) ... ok
+test_duplicate_sensor_natural_key_rejected (test_module04.Module04Tests.test_duplicate_sensor_natural_key_rejected) ... ok
+test_duplicate_upsert_replay_does_not_duplicate (test_module04.Module04Tests.test_duplicate_upsert_replay_does_not_duplicate) ... ok
+test_empty_machine_identifier_is_currently_accepted (test_module04.Module04Tests.test_empty_machine_identifier_is_currently_accepted) ... ok
+test_foreign_key_check_finds_no_violations (test_module04.Module04Tests.test_foreign_key_check_finds_no_violations) ... ok
+test_foreign_key_rejected (test_module04.Module04Tests.test_foreign_key_rejected) ... ok
+test_foreign_keys_are_enabled (test_module04.Module04Tests.test_foreign_keys_are_enabled) ... ok
+test_generated_column_calculation (test_module04.Module04Tests.test_generated_column_calculation) ... ok
+test_incorrect_real_type_rejected (test_module04.Module04Tests.test_incorrect_real_type_rejected) ... ok
+test_insert_only_alarm_misses_upsert_threshold_crossing (test_module04.Module04Tests.test_insert_only_alarm_misses_upsert_threshold_crossing) ... ok
+test_integrity_check_succeeds (test_module04.Module04Tests.test_integrity_check_succeeds) ... ok
+test_invalid_ingestion_rolls_back_complete_batch (test_module04.Module04Tests.test_invalid_ingestion_rolls_back_complete_batch) ... ok
+test_machine_health_view (test_module04.Module04Tests.test_machine_health_view) ... ok
+test_manual_generated_column_assignment_rejected (test_module04.Module04Tests.test_manual_generated_column_assignment_rejected) ... ok
+test_missing_mandatory_value_rejected (test_module04.Module04Tests.test_missing_mandatory_value_rejected) ... ok
+test_multiple_csv_imports_are_idempotent (test_module04.Module04Tests.test_multiple_csv_imports_are_idempotent) ... ok
+test_nonpositive_interval_rejected (test_module04.Module04Tests.test_nonpositive_interval_rejected) ... ok
+test_primary_key_uniqueness (test_module04.Module04Tests.test_primary_key_uniqueness) ... ok
+test_query_only_refuses_writes (test_module04.Module04Tests.test_query_only_refuses_writes) ... ok
+test_read_only_uri_refuses_writes (test_module04.Module04Tests.test_read_only_uri_refuses_writes) ... ok
+test_rejected_insert_creates_no_alarm (test_module04.Module04Tests.test_rejected_insert_creates_no_alarm) ... ok
+test_strict_numeric_string_is_coerced (test_module04.Module04Tests.test_strict_numeric_string_is_coerced) ... ok
+test_temperature_does_not_create_vibration_alarm (test_module04.Module04Tests.test_temperature_does_not_create_vibration_alarm) ... ok
+test_temperature_outside_domain_rejected (test_module04.Module04Tests.test_temperature_outside_domain_rejected) ... ok
+test_trigger_side_effect_rolls_back_with_reading (test_module04.Module04Tests.test_trigger_side_effect_rolls_back_with_reading) ... ok
+test_unsupported_metric_rejected (test_module04.Module04Tests.test_unsupported_metric_rejected) ... ok
+test_upsert_inserts_new_reading (test_module04.Module04Tests.test_upsert_inserts_new_reading) ... ok
+test_valid_sensor_insertion (test_module04.Module04Tests.test_valid_sensor_insertion) ... ok
+test_value_update_creates_audit (test_module04.Module04Tests.test_value_update_creates_audit) ... ok
+test_vibration_at_threshold_does_not_create_alarm (test_module04.Module04Tests.test_vibration_at_threshold_does_not_create_alarm) ... ok
+test_vibration_over_threshold_creates_alarm (test_module04.Module04Tests.test_vibration_over_threshold_creates_alarm) ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 0.614s
+
+OK

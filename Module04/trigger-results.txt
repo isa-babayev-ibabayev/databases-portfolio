@@ -1,0 +1,22 @@
+Command: uv run python Module04/trigger-demo.py
+
+Python SQLite runtime: 3.50.4
+## Assigned trigger example
+alarm: 1 | 2 | 2026-03-01 09:00:00 | 2.7 | vibration over 2.0 mm/s
+audit: 1 | 2 | 2.7 | 1.4 | 2026-10-31 17:02:41
+
+## Threshold and metric checks
+alarms after threshold/metric controls: 0
+invalid insert rejected: CHECK constraint failed: value >= -273.15 AND value <= 5000
+alarms after rejected insert: 0
+
+## UPDATE and UPSERT side effects
+alarms after below-to-above UPSERT: 0
+audits after below-to-above UPSERT: 1
+audits after baseline no-op UPSERT: 2
+audits after conditional no-op UPSERT: 2
+
+The required alarm trigger is INSERT-only. An UPSERT that follows its UPDATE
+branch can therefore cross the vibration threshold without creating an alarm.
+The assigned audit trigger records any UPDATE OF value, even a no-op; the
+conditional UPSERT in ingest.py avoids that redundant update.

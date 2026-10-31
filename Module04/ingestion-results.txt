@@ -1,0 +1,37 @@
+Commands: two normal imports followed by one negative batch against a disposable database
+
+## First import
+input rows: 4
+readings before: 1
+readings after: 4
+duplicate natural keys: 0
+audit rows: 1
+alarm rows: 1
+
+## Second import
+input rows: 4
+readings before: 4
+readings after: 4
+duplicate natural keys: 0
+audit rows: 1
+alarm rows: 1
+
+## Invalid batch
+ingestion failed: FOREIGN KEY constraint failed
+invalid batch exit code: 3
+
+## Final verification
+readings|4
+duplicates|0
+audits|1
+alarms|1
+1|2026-03-01 08:00:00|41.7|1|41.7
+1|2026-03-01 08:01:00|42.0|1|42.0
+2|2026-03-01 09:00:00|2.7|1|2.7
+2|2026-03-01 09:01:00|2.0|1|2.0
+foreign_key_check returned no rows
+integrity_check|ok
+
+The second import did not add readings or no-op audit rows. The invalid fixture
+contains a valid row before the missing sensor 99; the unchanged final counts
+show that the entire failed batch was rolled back.
