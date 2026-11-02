@@ -8,10 +8,12 @@ algebra is repaired, and the seven-section reflection is complete. The
 classroom pod was Sanjay, Sebastian, İsa, and Myo; İsa joined as a guest and
 owned the algebra ↔ SQL workstream. Jomarie was absent. İsa has now personally
 confirmed participation in Tasks A and C. The two shared Task A records still
-contain different predictions, and no exact individual prediction is
-invented. The neighboring pod's macOS version and complete raw output remain
-unavailable. A second curiosity swap and a Discord post also remain unverified.
-The original benchmark measurements remain unchanged.
+contain different predictions. A dated personal review now records İsa's later
+expectations and compares them with the saved plans without presenting them as
+the original contemporaneous prediction. The neighboring pod's macOS version
+and complete raw output remain unavailable. A second curiosity swap remains
+unverified. İsa supplied a real Discord message link for the Module 3 question;
+no answer is claimed. The original benchmark measurements remain unchanged.
 
 ## Executive summary
 
@@ -69,7 +71,10 @@ run on the portfolio owner's laptop.
 Sanjay's record predicts SCAN, SEARCH, SCAN for technician equality, Machine
 equality, and leading-wildcard LIKE. Sebastian's record predicts SCAN, SCAN,
 SEARCH. Both records are shown rather than silently merged. İsa confirmed
-participation, but his exact individual prediction was not saved.
+participation. His later prediction review expects SCAN for all three baseline
+queries and only the technician equality query to change to SEARCH after the
+index. It matches the saved plans but is clearly dated after the classroom
+activity, so the exact contemporaneous prediction is still not claimed.
 
 An independent disposable reproduction used the Module 2 setup script. Before
 the index, all three plans scanned. After `ix_job_tech`, technician equality
@@ -93,8 +98,8 @@ Windows/macOS plan classifications, a function-wrapped
 predicate scan, leading-wildcard and covering-index surprises, and an
 unresolved case-insensitive/partial-search question. The known Windows
 screenshot displays SQLite CLI 3.53.4; the macOS SQLite version and raw output
-were not preserved. No second swap, timing, transcript, or Discord post was
-invented.
+were not preserved. No second swap, timing, transcript, or Discord answer was
+invented. The supplied Discord link is recorded separately in `sql-notes.md`.
 
 The local disposable experiment independently verifies the technical ideas:
 `UPPER(technician)` scans with only the ordinary column index and searches with
@@ -237,14 +242,14 @@ The first window draft's repeated-row trap is documented and corrected using
 | SQL injection prevention | demo, raw output, tests | PASS |
 | Relational algebra | Task 4 | PASS |
 | Curiosity list with sources | sql-notes section 12 | PASS |
-| Classroom Task A historical record | participation confirmed; two conflicting prediction sets plus screenshot; exact individual prediction absent | COMPLETE — INDIVIDUAL PREDICTION NOT PRESERVED |
+| Classroom Task A historical record | participation confirmed; conflicting shared predictions retained; dated later review matches saved plans; exact contemporaneous prediction absent | COMPLETE — LATER REVIEW ADDED |
 | New Plan Safari technical verification | dated AI-assisted predictions and disposable execution | PASS |
 | Classroom Task B preservation | shared notes, İsa's mapping, Gemini comparison, and Sanjay's reflection | COMPLETE — SHARED RECORDS LINKED |
 | Classroom Task C record | participation confirmed; shared notes record Windows/macOS neighboring-pod exchange; macOS version/raw output unavailable | COMPLETE — TECHNICAL DETAILS PARTIAL |
 | Second curiosity technical exercise | disposable equality, wildcard, expression-index and covering-index plans | PASS — not a second peer swap |
 | Second curiosity swap | sourced example questions; no participant/response/date/medium supplied | REQUIRES REAL PEER ACTIVITY |
 | Reflection | seven complete template sections with first-person classroom confirmation | PASS |
-| Discord evidence | course server joined; no Module 3 post or message link verified | CONDITIONAL — NO POST LINK |
+| Discord evidence | [student-supplied Module 3 message link](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859); message body requires authenticated course access; no answer claimed | COMPLETE — LINK RECORDED |
 
 ## Files created or modified
 
@@ -322,8 +327,9 @@ and resolved every relative Markdown link. Raw output is in
   SQLite version and complete raw output are unavailable.
 - The second curiosity is technically reproducible and example questions are
   prepared, but no response/date/medium verifies a completed second swap.
-- İsa joined the course Discord server, but membership does not prove that the
-  Module 3 question was posted; no message link is available.
+- İsa supplied a Discord message link for the Module 3 question. The URL
+  resolves, but the message body could not be inspected without authenticated
+  course-server access; no answer is claimed.
 - The fixture intentionally omits foreign keys; that is Module 4 material.
 
 ## Remaining external and final-review actions
@@ -333,13 +339,12 @@ and resolved every relative Markdown link. Raw output is in
 - Add the neighboring-pod macOS version/raw output if it becomes available.
 - Record the actual participant, questions, answers, date, and medium only
   after a real second curiosity exchange occurs.
-- Add a real Discord link only if one exists.
 - Complete instructor-specific checkpoint requirements.
 
-Technical automation cannot recover İsa's exact individual Task A prediction
-or create a genuine second peer response. If the professor requires the
-neighboring pod's raw technical output, that also remains an external
-dependency.
+The later Task A review cannot recover the exact contemporaneous wording, and
+technical automation cannot create a genuine second peer response. If the
+professor requires the neighboring pod's raw technical output, that also
+remains an external dependency.
 
 ## Delivery
 
@@ -352,5 +357,6 @@ dependency.
 - Push: succeeded to `origin/main` through `c15b1e6`.
 - Final local/remote HEAD after this report-status commit is recorded in the
   delivery response; a commit cannot include its own hash without changing it.
-- Overall status: **technical implementation and confirmed Tasks A–C complete;
-  the second peer exchange and Discord post remain unverified**.
+- Overall status: **technical implementation, confirmed Tasks A–C, later
+  prediction review, and Discord link complete; the second peer exchange
+  remains unverified**.

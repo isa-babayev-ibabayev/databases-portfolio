@@ -41,6 +41,12 @@ technician equality query changed from `SCAN` to `SEARCH` after its index was
 created, while `LIKE '%ei%'` still scanned. This made the difference between
 "an index exists" and "this particular predicate can use the index" clearer.
 
+I also wrote a later review of my Plan Safari predictions. I expected all three
+queries to scan before the technician index. After the index, I expected only
+the technician equality query to change to `SEARCH`. These expectations matched
+the saved execution plans. This review was written after the classroom activity,
+not preserved from before the original execution.
+
 ## Interaction with peers and instructors
 
 During Module 3, I joined Sanjay's pod with Sebastian and Myo as a guest member.
@@ -48,8 +54,9 @@ My part was relational algebra. I mapped the Beier technician query to
 `σ_{technician='Beier'}(maint_job)` and explained it to the group. We also
 compared the expression with Gemini. I participated in the exchange with a
 neighboring pod, where we compared Windows and macOS plans and discussed
-leading wildcards, functions, and covering indexes. I have joined the course
-Discord server, but I do not claim that our unresolved question was posted.
+leading wildcards, functions, and covering indexes. I also posted our question
+about SQLite partial searches and index usage in the course Discord server. I
+do not claim that the question received an answer.
 
 ## How did you verify AI suggestions?
 

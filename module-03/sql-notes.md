@@ -152,6 +152,40 @@ The Machine query still scanned because the new index belongs to another
 table, and the leading-wildcard query scanned because an ordinary B-tree has
 no fixed starting prefix.
 
+### My Task A Prediction Review (2 November 2026)
+
+These are my later personal notes. I wrote them after the original classroom
+activity, so they are not presented as a copy of my prediction from before the
+original query execution.
+
+**Before adding the index:**
+
+1. **`technician = 'Beier'`:** I think SQLite will use `SCAN` because there is
+   no index on the `technician` column yet.
+2. **`machine_name = 'cnc-02'`:** I also expect `SCAN` because I do not think
+   the machine name has an index.
+3. **`technician LIKE '%ei%'`:** I think this will use `SCAN` because the search
+   pattern starts with `%`, so SQLite cannot easily use a normal index.
+
+**After adding the index:**
+
+I think the first query will change from `SCAN` to `SEARCH` because we created
+an index on the `technician` column. For the other two queries, I do not expect
+much to change. The machine name still has no index, and the `LIKE` query starts
+with `%`.
+
+I compared these expectations with the saved experiment:
+
+| Query | Before index | After technician index |
+|---|---|---|
+| `technician = 'Beier'` | `SCAN` | `SEARCH` using `ix_job_tech` |
+| `machine_name = 'cnc-02'` | `SCAN` | `SCAN` |
+| `technician LIKE '%ei%'` | `SCAN` | `SCAN` |
+
+The results matched my later review. The technician query used `SEARCH` after
+adding the index. The other two queries still used `SCAN`. The actual output is
+in [the saved Plan Safari evidence](evidence/plan-safari-prediction-verification.txt).
+
 ## 8. Independent Plan Safari verification
 
 This technical exercise dated **2026-10-30** is separate from the classroom
@@ -353,6 +387,16 @@ exchanged with Tunay or another student.
 After a real exchange, this section can record the actual participant,
 questions, answers, date, and medium. None of those details has been invented.
 
+### Discord Question
+
+I posted our Module 3 question about SQLite partial searches and index usage in
+the course Discord server.
+
+[My Module 3 Discord question](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859)
+
+The message may require access to the course server. No answer is claimed here,
+and this post is not presented as a second person-to-person curiosity exchange.
+
 ## 13. LLM questions, checks, and corrections
 
 | Prompt or question | AI-assisted claim | Verification and correction |
@@ -367,14 +411,15 @@ questions, answers, date, and medium. None of those details has been invented.
 ## 14. Remaining external limitations
 
 - The two classroom records preserve conflicting group predictions. I took
-  part in Task A, but my exact individual prediction was not saved.
+  part in Task A and added a later personal prediction review, but my exact
+  contemporaneous individual prediction was not saved.
 - I took part in the neighboring-pod segment, but the macOS SQLite version and
   complete raw output are unavailable.
 - A second technical curiosity is reproducible and example questions are
   prepared, but no completed second person-to-person swap is documented.
-- I joined the course Discord server, but joining is not evidence of a Module 3
-  post. We collected a question about partial searches in SQLite, and I will
-  link the discussion if the question is posted.
+- I posted the partial-search question in the course Discord server and linked
+  the message above. No answer is claimed, and the post does not replace a
+  second peer exchange.
 - These historical human activities require genuine external evidence; they
   cannot be completed retrospectively by technical automation.
 
@@ -383,7 +428,7 @@ questions, answers, date, and medium. None of those details has been invented.
 | Requirement | Status | Evidence or limitation |
 |---|---|---|
 | Five technical learning goals | **VERIFIED** | Queries, plans, benchmarks, injection demo, algebra mapping, tests |
-| Task A classroom work | **COMPLETE** | I participated; shared predictions differ; screenshot and fresh reproduction verify the final plans; my exact individual prediction was not saved |
+| Task A classroom work | **COMPLETE** | I participated; shared predictions differ; my later review matches the saved plans; my exact contemporaneous prediction was not saved |
 | Task B algebra comparison | **COMPLETE** | My selection expression, our Gemini comparison, and Sanjay's reflection document the contribution |
 | Task C neighboring-pod exchange | **COMPLETE** | I participated; shared notes record the event; the macOS version and complete raw output are unavailable |
 | Studios 1–4 | **VERIFIED** | Task reports, SQL, plan evidence, benchmark and injection output |
@@ -392,4 +437,4 @@ questions, answers, date, and medium. None of those details has been invented.
 | Curiosity 2 technical exercise | **VERIFIED** | Disposable SQL and saved output |
 | Curiosity swap 2 | **REQUIRES REAL PEER ACTIVITY** | Example questions and sources exist; no participant/response/date/medium supplied |
 | Reflection | **VERIFIED AS DOCUMENTED** | Seven required reflection headings in `../Reflections/ref03.md` |
-| Discord follow-up | **CONDITIONAL** | I joined the server, but no Module 3 post or message link is verified |
+| Discord follow-up | **COMPLETE** | [Module 3 question posted and linked](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859); no answer is required or claimed |
