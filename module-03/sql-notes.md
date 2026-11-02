@@ -308,7 +308,37 @@ plan.
 
 ## 12. Curiosities and sources
 
-### Questions collected during Task C
+### Curiosity Swap 1 — Classroom Discussion
+
+During Module 3, our group collected some questions about SQLite indexes and
+query plans. We found these questions interesting:
+
+1. Why does `LIKE '%ei%'` use `SCAN` even when the `technician` column has an
+   index?
+2. Why can using `UPPER()` on an indexed column prevent SQLite from using the
+   normal index?
+3. Why does an index stop being covering when a query needs another column?
+
+We discussed these topics with a neighboring pod. One interesting thing was
+that different queries could use different plans even when indexes were
+available.
+
+We also had a question about how to make partial-text searches faster. We could
+not fully explain it, so we kept it as an unresolved question for Discord.
+
+**Classroom and portfolio sources:**
+
+- [Sanjay's shared Module 3 notes](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Module03/sql-notes.md)
+- [Sebastian's Module 3 notes](https://github.com/Emannual20/databases-portfolio/blob/main/Module03/sql-notes.md)
+- [My saved Task A Plan Safari results](evidence/plan-safari-prediction-verification.txt)
+- [My Task C neighboring-pod notes](#10-task-c--neighboring-pod-discussion)
+- [My posted Discord question](#discord-question)
+
+I remember the questions and the neighboring-pod discussion. I do not have a
+separate record proving that this discussion happened during the exact break-
+time ritual in the workbook.
+
+#### Technical follow-up
 
 - **Why do leading wildcards prevent normal index searches?** An ordinary
   B-tree is ordered from the beginning of each indexed value. A pattern such
@@ -339,10 +369,9 @@ plan.
 - Relational algebra describes meaning while a query plan describes a physical
   strategy — [Task 4](task4-algebra-to-plan.md).
 
-The shared record preserves our questions and the neighboring-pod discussion.
-The exact timing and participants of a separate break-time curiosity swap are
-not completely documented. The workbook asks for a second swap at the end, but
-I do not claim that a second exchange happened.
+The shared record supports the questions and neighboring-pod discussion. The
+technical sources above explain the behavior, while the exact break-time timing
+remains unrecorded.
 
 ### Independent curiosity experiment — when indexes do not help
 
@@ -365,27 +394,16 @@ output column removing the covering benefit. No timing claim is made. The
 result also illustrates the trade-off: indexes occupy storage and must be
 maintained on writes even when a particular query cannot use them.
 
-### Example questions for a future second curiosity swap
+### Curiosity Swap 2 — Not Recorded
 
-**Status:** examples with verified explanations; they were not actually
-exchanged with Tunay or another student.
+I don't have a separate record of the second curiosity swap. Our shared
+classroom notes contain questions from the group discussion and the
+neighboring-pod exchange, but they do not clearly document another exchange at
+the end of class.
 
-- **Example A:** Why does `WHERE technician LIKE '%ei%'`
-  usually produce `SCAN` even when `ix_job_tech` exists? The leading `%`
-  leaves an ordinary B-tree without a fixed starting prefix. Sources: the
-  [fresh reproduction](evidence/plan-comparison-results.txt) and
-  [SQLite query-plan documentation](https://www.sqlite.org/eqp.html).
-- **Example B:** Why can
-  `SELECT a FROM covering_demo WHERE a = 1` use a covering index, while
-  `SELECT a, b FROM covering_demo WHERE a = 1` uses an ordinary index lookup?
-  The index contains `a` but not `b`, so the second query must visit the table
-  to retrieve `b`. Sources: the
-  [curiosity experiment](curiosity-index-experiment.sql), its
-  [recorded plans](evidence/curiosity-index-results.txt), and the official
-  Module 3 covering-index material.
-
-After a real exchange, this section can record the actual participant,
-questions, answers, date, and medium. None of those details has been invented.
+This does not prove that the exchange did not happen. If it is later completed
+or confirmed, this section can be updated with the real participant, questions,
+date, and medium.
 
 ### Discord Question
 
@@ -415,8 +433,8 @@ and this post is not presented as a second person-to-person curiosity exchange.
   contemporaneous individual prediction was not saved.
 - I took part in the neighboring-pod segment, but the macOS SQLite version and
   complete raw output are unavailable.
-- A second technical curiosity is reproducible and example questions are
-  prepared, but no completed second person-to-person swap is documented.
+- The technical curiosity experiment is reproducible, but a separate second
+  person-to-person swap is not recorded or confirmed.
 - I posted the partial-search question in the course Discord server and linked
   the message above. No answer is claimed, and the post does not replace a
   second peer exchange.
@@ -433,8 +451,9 @@ and this post is not presented as a second person-to-person curiosity exchange.
 | Task C neighboring-pod exchange | **COMPLETE** | I participated; shared notes record the event; the macOS version and complete raw output are unavailable |
 | Studios 1–4 | **VERIFIED** | Task reports, SQL, plan evidence, benchmark and injection output |
 | Optional Studio 5 | **VERIFIED** | Three equivalent query forms and automated comparison |
-| Curiosity 1 | **PARTLY DOCUMENTED** | Shared notes preserve the questions and neighboring-pod discussion; the separate swap's exact timing and participants are incomplete |
+| Classroom curiosity questions | **COMPLETE — STUDENT RECALLED AND DOCUMENTED** | Three index questions, their sources, and the neighboring-pod discussion are recorded above |
+| First break-time curiosity swap | **TIMING NOT INDEPENDENTLY DOCUMENTED** | I remember the discussion, but no separate record establishes the exact break-time timing |
 | Curiosity 2 technical exercise | **VERIFIED** | Disposable SQL and saved output |
-| Curiosity swap 2 | **REQUIRES REAL PEER ACTIVITY** | Example questions and sources exist; no participant/response/date/medium supplied |
+| Curiosity swap 2 | **NOT RECORDED / NOT CONFIRMED** | No separate end-of-class exchange record identifies a participant, questions, date, or medium |
 | Reflection | **VERIFIED AS DOCUMENTED** | Seven required reflection headings in `../Reflections/ref03.md` |
 | Discord follow-up | **COMPLETE** | [Module 3 question posted and linked](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859); no answer is required or claimed |

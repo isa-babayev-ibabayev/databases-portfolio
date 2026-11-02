@@ -58,6 +58,13 @@ leading wildcards, functions, and covering indexes. I also posted our question
 about SQLite partial searches and index usage in the course Discord server. I
 do not claim that the question received an answer.
 
+During this classroom work, we collected three questions: why a leading-
+wildcard `LIKE` still scans, why `UPPER()` can prevent use of a normal index,
+and why an index stops being covering when another column is needed. I remember
+discussing these ideas with the neighboring pod. I do not have a separate record
+of another curiosity swap at the end of class, so I do not claim that it was
+completed.
+
 ## How did you verify AI suggestions?
 
 I did not accept an AI suggestion only because the SQL executed. I ran the

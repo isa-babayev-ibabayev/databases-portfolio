@@ -12,8 +12,11 @@ contain different predictions. A dated personal review now records İsa's later
 expectations and compares them with the saved plans without presenting them as
 the original contemporaneous prediction. The neighboring pod's macOS version
 and complete raw output remain unavailable. A second curiosity swap remains
-unverified. İsa supplied a real Discord message link for the Module 3 question;
-no answer is claimed. The original benchmark measurements remain unchanged.
+unrecorded and unconfirmed. İsa has recalled and documented three classroom
+index questions and the neighboring-pod discussion, while the exact timing of
+the separate break ritual remains unsupported by a contemporaneous record. İsa
+also supplied a real Discord message link for the Module 3 question; no answer
+is claimed. The original benchmark measurements remain unchanged.
 
 ## Executive summary
 
@@ -246,8 +249,10 @@ The first window draft's repeated-row trap is documented and corrected using
 | New Plan Safari technical verification | dated AI-assisted predictions and disposable execution | PASS |
 | Classroom Task B preservation | shared notes, İsa's mapping, Gemini comparison, and Sanjay's reflection | COMPLETE — SHARED RECORDS LINKED |
 | Classroom Task C record | participation confirmed; shared notes record Windows/macOS neighboring-pod exchange; macOS version/raw output unavailable | COMPLETE — TECHNICAL DETAILS PARTIAL |
+| Classroom curiosity questions | three recalled index questions, source links, and neighboring-pod discussion | COMPLETE — STUDENT RECALLED AND DOCUMENTED |
+| First break-time curiosity swap | recalled discussion; no separate record fixes it to the workbook's break-time slot | TIMING NOT INDEPENDENTLY DOCUMENTED |
 | Second curiosity technical exercise | disposable equality, wildcard, expression-index and covering-index plans | PASS — not a second peer swap |
-| Second curiosity swap | sourced example questions; no participant/response/date/medium supplied | REQUIRES REAL PEER ACTIVITY |
+| Second curiosity swap | no separate end-of-class exchange record or confirmation | NOT RECORDED / NOT CONFIRMED |
 | Reflection | seven complete template sections with first-person classroom confirmation | PASS |
 | Discord evidence | [student-supplied Module 3 message link](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859); message body requires authenticated course access; no answer claimed | COMPLETE — LINK RECORDED |
 
@@ -325,8 +330,9 @@ and resolved every relative Markdown link. Raw output is in
   published because of another student's visible path.
 - İsa confirmed participation in the neighboring-pod event, but the macOS
   SQLite version and complete raw output are unavailable.
-- The second curiosity is technically reproducible and example questions are
-  prepared, but no response/date/medium verifies a completed second swap.
+- The technical curiosity experiment is reproducible but is not evidence of a
+  second person-to-person exchange. No separate end-of-class swap is recorded
+  or confirmed.
 - İsa supplied a Discord message link for the Module 3 question. The URL
   resolves, but the message body could not be inspected without authenticated
   course-server access; no answer is claimed.
@@ -337,13 +343,13 @@ and resolved every relative Markdown link. Raw output is in
 - Read and understand the query-plan and benchmark findings.
 - Practise explaining algebra, join multiplicity, indexing, and parameters.
 - Add the neighboring-pod macOS version/raw output if it becomes available.
-- Record the actual participant, questions, answers, date, and medium only
-  after a real second curiosity exchange occurs.
+- Update the second-swap section only if a real exchange occurs or an existing
+  exchange is later confirmed with accurate details.
 - Complete instructor-specific checkpoint requirements.
 
 The later Task A review cannot recover the exact contemporaneous wording, and
-technical automation cannot create a genuine second peer response. If the
-professor requires the neighboring pod's raw technical output, that also
+technical automation cannot establish an unrecorded second peer exchange. If
+the professor requires the neighboring pod's raw technical output, that also
 remains an external dependency.
 
 ## Delivery
@@ -357,6 +363,6 @@ remains an external dependency.
 - Push: succeeded to `origin/main` through `c15b1e6`.
 - Final local/remote HEAD after this report-status commit is recorded in the
   delivery response; a commit cannot include its own hash without changing it.
-- Overall status: **technical implementation, confirmed Tasks A–C, later
-  prediction review, and Discord link complete; the second peer exchange
-  remains unverified**.
+- Overall status: **technical implementation, confirmed Tasks A–C, classroom
+  curiosity questions, later prediction review, and Discord link complete; the
+  second peer exchange remains unrecorded and unconfirmed**.

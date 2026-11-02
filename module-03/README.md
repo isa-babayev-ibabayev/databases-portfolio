@@ -16,6 +16,8 @@ workbook and the notes from our classroom Tasks A, B, and C.
 | Task A — Plan Safari | [my later prediction review](sql-notes.md#my-task-a-prediction-review-2-november-2026), [classroom records](sql-notes.md), [saved plan verification](evidence/plan-safari-prediction-verification.txt) |
 | Task B — algebra check | [classroom notes](sql-notes.md), [formal algebra mapping](task4-algebra-to-plan.md) |
 | Task C — neighboring-pod discussion | [classroom discussion notes](sql-notes.md), [Python plan comparison](plan-comparison.py), [fresh comparison output](evidence/plan-comparison-results.txt) |
+| Classroom curiosity discussion | [Curiosity Swap 1 notes](sql-notes.md#curiosity-swap-1--classroom-discussion) |
+| Second curiosity swap status | [Curiosity Swap 2 — Not Recorded](sql-notes.md#curiosity-swap-2--not-recorded) |
 | Curiosity experiment | [SQL](curiosity-index-experiment.sql), [saved results](evidence/curiosity-index-results.txt) |
 | Discord question | [posted Module 3 question](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859) |
 | Reflection | [ref03.md](../Reflections/ref03.md) |
@@ -142,11 +144,15 @@ wildcards, covering indexes, and an unresolved question about partial searches.
 The known Windows screenshot shows SQLite CLI 3.53.4. The macOS SQLite version
 and the neighboring pod's complete raw output were not recorded.
 
-The first set of curiosity questions is recorded in the shared notes, although
-the exact timing and participants of a separate break-time swap are incomplete.
-The second curiosity is demonstrated through a disposable technical experiment,
-not presented as a completed person-to-person exchange. I posted our question
-about SQLite partial searches and index usage in the course Discord server:
+I remember our classroom questions about leading wildcards, `UPPER()` on an
+indexed column, and covering indexes. We discussed these topics with a
+neighboring pod, and the original group notes support the discussion. The exact
+break-time timing is not independently documented. A separate second exchange
+at the end of class is not recorded or confirmed.
+
+The disposable curiosity experiment is technical follow-up, not evidence of a
+person-to-person swap. I posted our question about SQLite partial searches and
+index usage in the course Discord server:
 [My Module 3 Discord question](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859).
 No answer is claimed, and the post does not count as a second peer exchange.
 
@@ -157,12 +163,15 @@ No answer is claimed, and the post does not count as a second peer exchange.
 | My original contemporaneous Task A prediction | **NOT PRESERVED — shared records remain unchanged** |
 | Task B algebra comparison | **COMPLETE — my workstream and Gemini comparison are documented** |
 | Task C neighboring-pod exchange | **COMPLETE — I participated; macOS version and full raw output are unavailable** |
-| Second curiosity technical exercise | **VERIFIED** |
-| First curiosity swap | **PARTLY DOCUMENTED — questions exist; exact timing and participants are incomplete** |
-| Second curiosity swap | **NOT COMPLETED — examples are prepared for a future exchange** |
+| Classroom curiosity questions | **COMPLETE — Student recalled and documented** |
+| Discussion with neighboring pod | **COMPLETE — Student confirmed and supported by group notes** |
+| First break-time curiosity swap | **TIMING NOT INDEPENDENTLY DOCUMENTED** |
+| Second end-of-class curiosity swap | **NOT RECORDED / NOT CONFIRMED** |
+| Technical curiosity SQL experiment | **VERIFIED — not a person-to-person swap** |
 | Reflection | **COMPLETE** |
 | Discord follow-up | **COMPLETE — [question posted and linked](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859); no answer claimed** |
 
-The technical portfolio and confirmed classroom Tasks A–C are complete. A real
-second curiosity exchange and any instructor-specific approval remain outside
-the current evidence.
+The technical portfolio, classroom questions, and confirmed Tasks A–C are
+complete. The separate second curiosity exchange remains unrecorded and
+unconfirmed; any instructor-specific approval remains outside the current
+evidence.
