@@ -1,21 +1,18 @@
 # Module 3 technical completion report
 
-## Current status — 2026-10-30
+## Current status — 2026-11-02
 
 This section updates the historical delivery record below. The executable
-HAVING exercise now closes the remaining complex-DQL evidence gap, the formal
-relational algebra has been repaired, and the seven-section reflection draft
-is complete. The canonical directory was renamed from `Module03/` to
-`module-03/` on 2026-10-30; later references to `Module03/` in the historical
-repository narrative describe the earlier delivery state. The original
-benchmark measurements remain unchanged. Historical
-human evidence is still limited: the student confirms making the original Plan
-Safari predictions and participating with students from another group, but the
-exact predictions and the other group's raw output/version were not preserved.
-A second curiosity is technically reproducible, and two sourced questions are
-prepared for Tunay. No response, date, or medium is available, so a completed
-second person-to-person swap is not claimed. No conditional Discord post is
-claimed.
+HAVING exercise closes the complex-DQL evidence gap, the formal relational
+algebra is repaired, and the seven-section reflection is complete. Cross-
+repository evidence now identifies the classroom pod as Sanjay, Sebastian,
+İsa, and Myo; İsa joined as a guest and owned the algebra ↔ SQL workstream.
+Jomarie was recorded absent. The two shared Task A records preserve conflicting
+group predictions, so no individual prediction is invented for İsa. Task C is
+documented at pod level, but İsa's presence for the entire neighboring-pod
+segment is not independently established. A second curiosity swap and a
+Discord post remain unverified. The original benchmark measurements remain
+unchanged.
 
 ## Executive summary
 
@@ -23,7 +20,7 @@ The technical Module 3 portfolio is implemented against the current professor
 workbook. It includes the generated warehouse, verified AI query, raw plans,
 five-run index benchmarks, injection demonstration, executable GROUP BY/HAVING
 evidence, a readable algebra mapping, optional window rewrite, automated tests,
-student-supplied classroom notes, and a template-aligned reflection draft. All
+reconciled classroom notes, and a template-aligned reflection. All
 technically achievable requirements are implemented. Unsupported historical
 human activities remain explicitly limited rather than reconstructed.
 
@@ -70,10 +67,10 @@ evidence limitation are in [sql-notes.md](sql-notes.md).
 The image is not represented as a before-index baseline or as proof of commands
 run on the portfolio owner's laptop.
 
-The student separately confirms classroom participation and making
-predictions before execution. Because the exact wording was not preserved,
-`sql-notes.md` labels the recollection and an illustrative reconstruction
-separately from the screenshot observations.
+Sanjay's record predicts SCAN, SEARCH, SCAN for technician equality, Machine
+equality, and leading-wildcard LIKE. Sebastian's record predicts SCAN, SCAN,
+SEARCH. Both records are shown rather than silently merged. No separate
+individual prediction is attributed to İsa.
 
 An independent disposable reproduction used the Module 2 setup script. Before
 the index, all three plans scanned. After `ix_job_tech`, technician equality
@@ -82,20 +79,23 @@ remained scans; `upper(technician)` also scanned.
 
 ### Task B
 
-The supplied human explanation and Gemini comparison are quoted without
-silently rewriting their wording. A separate clarification explains
-(sigma), the selection predicate, the input relation, absence of a join, and
-why projection is optional for `SELECT *`.
+The shared workstream record assigns relational algebra ↔ SQL to İsa. Sanjay's
+reflection also credits İsa's help with the mapping. The documented query is
+`SELECT * FROM maint_job WHERE technician = 'Beier'`, represented as
+`σ_{technician='Beier'}(maint_job)`. The recorded Gemini comparison agrees on
+selection; projection is optional because `SELECT *` retains all attributes.
+The exact original Gemini transcript is not claimed.
 
 ### Task C
 
-The recorded participants are **Isa Babayev and another group (group number
-not recorded)**. The student reports discussing the indexed equality search,
-leading-wildcard scan, function-wrapped predicates, covering indexes, and two
-curiosity questions. The other group's raw output and SQLite version were not
-available, so no exact cross-platform plan match is claimed. No group number,
-names, verbatim transcript, second historical swap, timing, or Discord post
-was invented.
+Sanjay's and Sebastian's notes document a neighboring-pod exchange with
+matching Windows/macOS plan classifications. They record a function-wrapped
+predicate scan, leading-wildcard and covering-index surprises, and an
+unresolved case-insensitive/partial-search question. The known Windows
+screenshot displays SQLite CLI 3.53.4; the macOS SQLite version and raw output
+were not preserved. The evidence establishes a pod-level event, not İsa's
+personal attendance for its full duration. No second swap, timing, transcript,
+or Discord post was invented.
 
 The local disposable experiment independently verifies the technical ideas:
 `UPPER(technician)` scans with only the ordinary column index and searches with
@@ -196,8 +196,9 @@ a covering index; adding `customer_id` made it non-covering.
 The normal lookup succeeded. An apostrophe broke the vulnerable string-built
 query but worked with a parameter. The payload `' OR '1'='1` returned 2,001
 rows through the vulnerable function and zero through the bound query. The
-temporary `O'Brien` row was rolled back. Unit tests confirm no unintended
-modification.
+source warehouse is opened read-only and copied to SQLite `:memory:` before
+the temporary `O'Brien` row is inserted. Unit tests compare the source file
+before and after the demo and confirm it is unchanged.
 
 ## Task 4 — algebra to plan
 
@@ -237,12 +238,12 @@ The first window draft's repeated-row trap is documented and corrected using
 | SQL injection prevention | demo, raw output, tests | PASS |
 | Relational algebra | Task 4 | PASS |
 | Curiosity list with sources | sql-notes section 12 | PASS |
-| Classroom Task A historical record | student recollection plus screenshot; exact predictions absent | STUDENT-REPORTED — PARTIALLY VERIFIED |
+| Classroom Task A historical record | two externally documented, conflicting prediction sets plus screenshot; İsa's individual prediction absent | DOCUMENTED — PARTIALLY ATTRIBUTED |
 | New Plan Safari technical verification | dated AI-assisted predictions and disposable execution | PASS |
-| Classroom Task B preservation | original text plus clarification | PASS |
-| Classroom Task C record | Isa Babayev and another group; supplied topics; other-group raw evidence unavailable | STUDENT-REPORTED — NOT INDEPENDENTLY VERIFIED |
+| Classroom Task B preservation | shared notes, İsa's mapping, Gemini comparison, and Sanjay's reflection | DOCUMENTED — EXTERNALLY CORROBORATED |
+| Classroom Task C record | shared notes record Windows/macOS neighboring-pod exchange; personal attendance and macOS version unavailable | DOCUMENTED AT POD LEVEL — PERSONAL CONFIRMATION NEEDED |
 | Second curiosity technical exercise | disposable equality, wildcard, expression-index and covering-index plans | PASS — not a second peer swap |
-| Second curiosity swap with Tunay | two sourced questions prepared; no response/date/medium supplied | PREPARED — AWAITING ACTUAL EXCHANGE EVIDENCE |
+| Second curiosity swap | sourced example questions; no participant/response/date/medium supplied | REQUIRES REAL PEER ACTIVITY |
 | Reflection draft | seven complete template sections | PASS — student factual review recommended |
 | Discord evidence | conditional workbook step; no post claimed | NOT CLAIMED / CONDITIONAL |
 
@@ -258,6 +259,8 @@ The first window draft's repeated-row trap is documented and corrected using
 | `module-03/evidence/plan-comparison-results.txt` | Fresh Python SQLite 3.50.4 output and comparison with supplied 3.46.1 output |
 | `module-03/curiosity-index-experiment.sql` | Disposable second curiosity experiment |
 | `module-03/evidence/curiosity-index-results.txt` | Recorded plans and counts from the curiosity experiment |
+| `module-03/covering-scan-demo.sql` | Isolated `SCAN ... USING COVERING INDEX` demonstration |
+| `module-03/evidence/covering-scan-results.txt` | Recorded covering-index scan and explanation |
 | `module-03/task1-query.sql` | Exact prompt and AI-generated query |
 | `module-03/task1-report.md` | Result, plan, and correctness audit |
 | `module-03/bench.py` | Repeatable disposable index benchmark |
@@ -286,6 +289,7 @@ uv run python module-03/collect_evidence.py
 uv run python module-03/reproduce_classroom_plans.py
 uv run python module-03/plan-comparison.py
 sqlite3 :memory: ".read module-03/curiosity-index-experiment.sql"
+sqlite3 :memory: ".read module-03/covering-scan-demo.sql"
 uv run python module-03/bench.py --repeats 5 --batch-iterations 100
 uv run python module-03/injection_demo.py --output module-03/evidence/injection-output.txt
 uv run python -m unittest discover -s module-03/tests -v
@@ -293,14 +297,15 @@ uv run python -m unittest discover -s module-03/tests -v
 
 ## Automated verification
 
-The current suite ran 21 tests: 21 passed, 0 failed. It rebuilt the warehouse,
+The current suite ran 23 tests: 23 passed, 0 failed. It rebuilt the warehouse,
 checked exact counts and ranges, reran setup, tested date boundaries,
 distinct-customer and no-order behavior, validated saved plans and benchmark
 medians, proved a genuine slowdown and two speedups, checked the injection
-payload and apostrophe case, compared all optional query variants, reproduced
+payload, apostrophe case, and source-file isolation, compared all optional query variants, reproduced
 Task A on a disposable database, verified the HAVING result and plan, checked
 the equality, wildcard, expression-index, covering and non-covering curiosity
-plans, executed the Python plan-comparison script and checked its classifications,
+plans, reproduced `SCAN ... USING COVERING INDEX`, executed the Python
+plan-comparison script and checked its classifications,
 rejected unexpected Markdown control characters, verified ignored databases,
 and resolved every relative Markdown link. Raw output is in
 [test-results.txt](evidence/test-results.txt).
@@ -314,10 +319,10 @@ and resolved every relative Markdown link. Raw output is in
 - Timing depends on this machine, filesystem cache, load, and SQLite build.
 - The Task A image is authentic supplied evidence but intentionally not
   published because of another student's visible path.
-- The other group's exact plan and SQLite version were not recorded, so the
-  classroom discussion is student-reported rather than independently verified.
-- The second curiosity is technically reproducible and questions are prepared
-  for Tunay, but no response/date/medium verifies a completed second swap.
+- Shared notes document the neighboring-pod event, but the macOS SQLite version
+  and İsa's attendance for the full segment are not independently verified.
+- The second curiosity is technically reproducible and example questions are
+  prepared, but no response/date/medium verifies a completed second swap.
 - The Discord step is conditional in the workbook; no post is claimed.
 - The fixture intentionally omits foreign keys; that is Module 4 material.
 
@@ -327,17 +332,17 @@ and resolved every relative Markdown link. Raw output is in
 - Read the completed reflection and confirm that its conservative first-person
   interpretations match the student's own experience.
 - Practise explaining algebra, join multiplicity, indexing, and parameters.
-- Add neighboring-pod raw output if formal corroboration is desired and
-  available.
-- Record Tunay's actual questions, answers, date, and medium only after a real
-  second curiosity exchange occurs.
+- Add the neighboring-pod macOS version/raw output and personal confirmation if
+  formal individual corroboration is required and available.
+- Record the actual participant, questions, answers, date, and medium only
+  after a real second curiosity exchange occurs.
 - Add a real Discord link only if one exists.
 - Complete instructor-specific checkpoint requirements.
 
-Technical automation cannot recover the exact wording of the original Task A
-predictions, independently corroborate the other group's Task C output, or
-provide Tunay's response. If the professor requires raw external evidence,
-that remains an external dependency.
+Technical automation cannot recover İsa's individual Task A prediction,
+confirm his presence for all of Task C, or create a genuine second peer
+response. If the professor requires that personal evidence, it remains an
+external dependency.
 
 ## Delivery
 

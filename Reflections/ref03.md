@@ -2,27 +2,24 @@
 
 ## Take-away
 
-My main lesson from this module is that a working SQL query is not always a
-correct or efficient query. I learned that I should check the result, read the
-query plan, and measure the performance. The index benchmark was a useful
-example because one added index changed the plan and made the dashboard much
-slower instead of faster.
+The most important thing I learned is that SQL and relational algebra describe
+the same database operations in different ways. A query that runs is not
+automatically correct or efficient. I should check its result, read its query
+plan, and measure it before deciding that an index helps.
 
 ## What was good?
 
-The city dashboard produced clear customer and revenue results for four
-cities. Its result was checked with a separate Python calculation and with a
-small edge-case dataset. The date boundaries were also checked, so orders from
-2025 were included while `2026-01-01` was excluded. I liked this verification
-because it showed more than simply saying that the query ran without an error.
+We divided the classroom topics between the pod members. I worked on
+relational algebra, while Sanjay, Sebastian, and Myo shared findings about
+query plans, clause order, and tuning and security. Comparing a real SQL query
+with a selection expression made the algebra easier to understand.
 
 ## What was difficult?
 
-The most difficult concept was understanding why SQLite does not always use an
-index in the way I expect. I first connected an index with a faster query, but
-the plans showed that loop order and repeated lookups are also important. It
-also took care to understand the difference between `WHERE`, which filters
-rows, and `HAVING`, which filters groups after `GROUP BY`.
+The difficult parts were deciding when a projection operator was needed and
+reading the different query-plan lines. For `SELECT *`, a separate projection
+is unnecessary because all columns remain. The plans also showed that an index
+can be ignored or can even lead to slower work.
 
 ## Exploration and show stoppers
 
@@ -34,44 +31,41 @@ the recorded environment. This taught me that an index can help one query and
 be ignored or harmful for another query. I also explored leading wildcards,
 function-wrapped columns, and covering indexes.
 
-I also ran a separate disposable curiosity experiment with 1,000 rows. The
+I also checked a SQLite-specific detail from the shared clause-order notes.
+SQLite accepted a `SELECT` alias in `WHERE` for the tested query, although this
+is not portable SQL. I kept the normal column name in the final example instead
+of repeating the claim that SQLite rejects it.
+
+The portfolio also includes a disposable curiosity experiment with 1,000 rows. The
 technician equality query changed from `SCAN` to `SEARCH` after its index was
 created, while `LIKE '%ei%'` still scanned. This made the difference between
 "an index exists" and "this particular predicate can use the index" clearer.
 
 ## Interaction with peers and instructors
 
-During the classroom activity, I discussed SQL query plans with students from
-another group. We compared index searches and table scans, including equality
-conditions, functions, leading wildcards, and covering indexes. The discussion
-helped me understand that an index does not automatically improve every query
-and that the query structure affects SQLite's execution plan. I do not
-remember the group number or participant names, and their exact plan and
-SQLite version were not saved. The later disposable experiment in the study
-notes is reproducible portfolio follow-up, not a second historical peer swap.
-Separately, I prepared two curiosity questions for Tunay about leading
-wildcards and covering indexes. I do not yet have his response or an exchange
-date, so I do not claim that second swap as completed. The workbook's Discord
-step is conditional; I do not claim a Discord post.
+During Module 3, I joined the pod with Sanjay, Sebastian, and Myo as a guest
+member. My documented part was relational algebra. I mapped the Beier
+technician query to `σ_{technician='Beier'}(maint_job)` and we compared it with
+Gemini. The pod's shared notes also record an exchange with a neighboring group
+about Windows and macOS plans, leading wildcards, functions, and covering
+indexes. Those notes support the group event, but they do not independently
+show that I stayed for the whole neighboring-pod segment. A second peer swap
+and a Discord post are not claimed because there is no evidence for them.
 
 ## How did you verify AI suggestions?
 
-AI suggestions were used as a starting point, but the technical results were
-checked against SQLite output. The dashboard result was compared with an
-independent Python aggregation and an edge-case fixture. `EXPLAIN QUERY PLAN`
-showed that the actual loop order was different from the prediction. Five
-timing runs showed that an index suggestion could make the query slower. The
-window-function rewrite was checked for repeated customer rows, and the SQL
-injection example compared unsafe string building with bound parameters.
+AI suggestions were a starting point, not the final proof. The portfolio runs
+the generated SQL, compares the result with a Python calculation and an edge
+fixture, and checks `EXPLAIN QUERY PLAN`. Five timing runs showed that one index
+suggestion made the query slower. We also compared the algebra expression with
+Gemini, checked the window rewrite for duplicate rows, and compared unsafe SQL
+string building with bound parameters.
 
 ## Help and extra work
 
-The optional exercise compared a grouped query, a correlated subquery, and a
-window-function query. They returned the same 400 customers, but their plans
-and timings were very different. The extra `HAVING` exercise also helped me
-connect the written SQL order with the logical order. AI assistance was used
-for drafting and technical verification, and the suggestions were checked
-with query results, plans, tests, and documentation rather than accepted
-without evidence. The additional index-curiosity SQL and saved plan output
-provide another small example that a classmate can reproduce without using
-the generated warehouse database.
+The optional Studio Task 5 compares a grouped query, a correlated subquery, and
+a window query. All three returned the same 400 customers, but their plans and
+timings were different. The extra `HAVING` exercise connects written clause
+order with logical evaluation order. The isolated covering-index scan and
+index-curiosity examples are also small enough to reproduce without the
+warehouse database.

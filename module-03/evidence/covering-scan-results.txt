@@ -1,0 +1,16 @@
+Execution date: 2026-11-02
+SQLite CLI: 3.53.4
+Database: isolated in-memory database
+Command: sqlite3 :memory: ".read module-03/covering-scan-demo.sql"
+
+QUERY PLAN
+`--SCAN t USING COVERING INDEX i
+1
+2
+3
+
+SQLite scans the complete index because the query has no selective WHERE
+condition. The index covers the query because column a is stored in index i,
+so SQLite does not need to visit table rows to return a. INDEXED BY forces this
+specific index for the small demonstration; it is not a general tuning
+recommendation.

@@ -280,6 +280,38 @@ class InjectionTests(unittest.TestCase):
             self.conn.execute("SELECT COUNT(*) FROM customer").fetchone()[0], 3
         )
 
+    def test_demo_uses_isolated_copy_and_preserves_source(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            database = Path(temporary) / "injection-source.db"
+            source = sqlite3.connect(database)
+            source.executescript(
+                """
+                CREATE TABLE customer(
+                    customer_id INTEGER PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    city TEXT NOT NULL
+                );
+                INSERT INTO customer VALUES
+                    (1,'Customer 1','A'),
+                    (2,'Customer 2','B'),
+                    (3,'Customer 3','C');
+                """
+            )
+            source.close()
+            before = database.read_bytes()
+            output = injection_demo.run_demo(database)
+            after = database.read_bytes()
+            verify = sqlite3.connect(database)
+            try:
+                rows = verify.execute("SELECT count(*) FROM customer").fetchone()[0]
+            finally:
+                verify.close()
+        self.assertEqual(before, after)
+        self.assertEqual(rows, 3)
+        self.assertIn("payload vulnerable lookup: 4 rows", output)
+        self.assertIn("payload safe lookup: []", output)
+        self.assertIn("source opened read-only", output)
+
 
 class OptionalWindowTests(unittest.TestCase):
     @classmethod
@@ -430,10 +462,27 @@ class RepositorySafetyTests(unittest.TestCase):
             250,
         )
 
+    def test_covering_index_scan_is_reproducible(self):
+        connection = sqlite3.connect(":memory:")
+        self.addCleanup(connection.close)
+        connection.executescript(
+            (MODULE_DIR / "covering-scan-demo.sql").read_text(encoding="utf-8")
+        )
+        plan = connection.execute(
+            "EXPLAIN QUERY PLAN SELECT a FROM t INDEXED BY i"
+        ).fetchall()
+        self.assertEqual(len(plan), 1)
+        self.assertIn("SCAN t USING COVERING INDEX i", plan[0][3])
+        self.assertEqual(
+            connection.execute("SELECT a FROM t INDEXED BY i").fetchall(),
+            [(1,), (2,), (3,)],
+        )
+
     def test_required_documentation_files_exist(self):
         for relative in (
             "README.md",
             "curiosity-index-experiment.sql",
+            "covering-scan-demo.sql",
             "having-example.sql",
             "plan-comparison.py",
             "sql-notes.md",
@@ -444,6 +493,7 @@ class RepositorySafetyTests(unittest.TestCase):
             "technical-completion-report.md",
             "evidence/having-results.txt",
             "evidence/curiosity-index-results.txt",
+            "evidence/covering-scan-results.txt",
             "evidence/plan-comparison-results.txt",
             "evidence/plan-safari-prediction-verification.txt",
         ):

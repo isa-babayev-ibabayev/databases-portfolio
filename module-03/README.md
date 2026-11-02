@@ -8,7 +8,7 @@ workbook while preserving the student-supplied classroom Tasks A, B, and C.
 | Goal | Evidence |
 |---|---|
 | Complex DQL, joins, grouping/HAVING, subqueries, windows | [Task 1](task1-report.md), [HAVING SQL](having-example.sql), [HAVING results](evidence/having-results.txt), [optional Task 5](task5-window-functions.md) |
-| Execution-plan analysis | [raw Task 1 plan](evidence/task1-plan.txt), [benchmark plans](evidence/benchmark-plans.txt), [Plan Safari verification](evidence/plan-safari-prediction-verification.txt) |
+| Execution-plan analysis | [raw Task 1 plan](evidence/task1-plan.txt), [benchmark plans](evidence/benchmark-plans.txt), [Plan Safari verification](evidence/plan-safari-prediction-verification.txt), [covering-index scan](evidence/covering-scan-results.txt) |
 | Index benchmarking | [benchmark report](task2-benchmark.md), [harness](bench.py) |
 | Verify AI SQL | [query source](task1-query.sql), [results](evidence/task1-query-results.txt), [verification JSON](evidence/task1-verification.json) |
 | SQL injection prevention | [demonstration](injection_demo.py), [analysis](task3-injection.md) |
@@ -33,6 +33,7 @@ uv run python module-03/collect_evidence.py
 uv run python module-03/reproduce_classroom_plans.py
 uv run python module-03/plan-comparison.py
 sqlite3 :memory: ".read module-03/curiosity-index-experiment.sql"
+sqlite3 :memory: ".read module-03/covering-scan-demo.sql"
 uv run python module-03/bench.py --repeats 5 --batch-iterations 100
 uv run python module-03/injection_demo.py --output module-03/evidence/injection-output.txt
 uv run python -m unittest discover -s module-03/tests -v
@@ -81,17 +82,43 @@ generated fixture, so use a disposable database when preserving other work.
 - Bound parameters treated the injection payload as data.
 - The optional three late-order query forms were result-equivalent, but the
   correlated form was far slower.
+- A forced full traversal of a one-column index produced
+  `SCAN t USING COVERING INDEX i`: it is a scan because no rows are filtered,
+  and covering because the requested value is available in the index.
 - The corrected relational-algebra expression maps the same city report to
   selection, projection, joins, grouping, aggregation, and sorting.
 
 ## Automated verification
 
-The current suite ran **21 tests; all 21 passed**. It checks the fixture,
+The current suite ran **23 tests; all 23 passed**. It checks the fixture,
 dashboard boundaries and edge cases, benchmark samples and medians, injection
-behavior, optional query
-equivalence, the HAVING result and plan, the disposable curiosity experiment,
-documentation links, and control characters. The saved output is in
+behavior and source-database isolation, optional query equivalence, the HAVING
+result and plan, both disposable index experiments, documentation links, and
+control characters. The saved output is in
 [evidence/test-results.txt](evidence/test-results.txt).
+
+## Classroom Collaboration — Module 3
+
+The shared classroom record identifies this pod and division of work:
+
+| Student | Documented workstream |
+|---|---|
+| Sanjay Pachan Maheshwari | Plan vocabulary |
+| Sebastian Emmanuel Soon | SQL clause order |
+| İsa Babayev | Relational algebra ↔ SQL |
+| Myo Min Lin | Tuning and security |
+
+İsa joined the pod as a guest member. His documented contribution was the
+algebra mapping for `SELECT * FROM maint_job WHERE technician = 'Beier'` and
+the comparison of that expression with Gemini. Jomarie was recorded absent.
+These are shared-classroom contributions; Sanjay's individual scripts and
+portfolio implementation are not presented as İsa's work.
+
+### Shared Classroom Evidence
+
+- [Sanjay's shared SQL notes](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Module03/sql-notes.md) record the pod, workstreams, Tasks A–C, and curiosity questions.
+- [Sebastian's Module 3 notes](https://github.com/Emannual20/databases-portfolio/blob/main/Module03/sql-notes.md) independently corroborate the pod work and shared exercises.
+- [Sanjay's Reflection 03](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Reflections/ref03.md) credits İsa's SQL-to-algebra contribution.
 
 ## Classroom evidence and limitations
 
@@ -101,18 +128,18 @@ because it visibly contains another student's identifying filesystem path.
 Its commands, results, version, and initial missing-semicolon error are
 faithfully transcribed.
 
-The student confirms participating with students from another group and
-making Task A predictions, but the exact predictions were not preserved. The
-notes label the student recollection, screenshot observations, reconstructed
-explanations, and a new independently reproducible prediction exercise
-separately. Task B has a documented student explanation and AI comparison.
-Task C records **Isa Babayev and another group (group number not recorded)**.
-The participation and discussion topics are student-reported because the
-other group's raw plan, SQLite version, number, and names are not available.
-The portfolio does not claim an independently verified Windows/macOS match.
-The screenshot's SQLite CLI 3.53.4 plans are compared with a supplied Python
-SQLite 3.46.1 reproduction and a fresh local Python SQLite 3.50.4 run. The
-matching plan types are technical agreement, not the unnamed group's output.
+Sanjay's and Sebastian's Task A records disagree on two original predictions,
+and no individual prediction for İsa was preserved. The notes show both
+records and compare them with the disposable reproduction. Task B is supported
+by all three portfolios and identifies İsa's algebra contribution.
+
+The pod's shared notes document a Task C exchange with a neighboring group:
+Windows and macOS plans matched, and the groups discussed function-wrapped
+predicates, leading wildcards, covering indexes, and a question for Discord.
+The known Windows screenshot shows SQLite CLI 3.53.4; the macOS SQLite version
+was not recorded. The shared notes establish the pod-level event, but they do
+not independently establish that İsa personally remained for the whole
+neighboring-pod segment. No stronger personal claim is made.
 
 A second curiosity is now demonstrated through a disposable technical
 experiment, but it is not misrepresented as a second historical
@@ -122,14 +149,16 @@ or unresolved curiosity after the exchanges; no Discord post is claimed.
 | Portfolio area | Status |
 |---|---|
 | Five technical learning goals, Studios 1–4, optional Studio 5 | **VERIFIED** |
-| Task A participation and original predictions | **STUDENT-REPORTED; exact historical wording unavailable** |
-| Task B algebra comparison | **VERIFIED AS DOCUMENTED** |
-| Task C other-group exchange | **STUDENT-REPORTED; external raw evidence unavailable** |
+| Task A group predictions and verified plans | **DOCUMENTED IN SHARED NOTES; records conflict; plans technically verified** |
+| İsa's individual Task A prediction | **PERSONAL CONFIRMATION NEEDED; not preserved** |
+| Task B algebra comparison | **DOCUMENTED IN SHARED NOTES AND EXTERNALLY CORROBORATED** |
+| Task C neighboring-pod exchange | **DOCUMENTED AT POD LEVEL; İsa's full personal attendance not independently verified** |
 | Second curiosity technical exercise | **VERIFIED** |
-| Second curiosity swap with Tunay | **PREPARED; response/date/medium not supplied** |
+| First curiosity swap | **POD NOTES RECORD QUESTIONS; person-to-person exchange not independently verified** |
+| Second curiosity swap | **EXAMPLES PREPARED; real peer activity still required** |
 | Reflection | **VERIFIED AS DOCUMENTED** |
 | Discord follow-up | **NOT CLAIMED / CONDITIONAL** |
 
-The technically achievable portfolio work is complete. Raw external evidence
-from the other group and any instructor-specific approval remain genuine
-external dependencies.
+The technically achievable portfolio work is complete. Personal confirmation,
+a real second peer swap, any genuine Discord link, and instructor-specific
+approval remain external requirements.

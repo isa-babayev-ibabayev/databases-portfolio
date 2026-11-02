@@ -1,4 +1,4 @@
-"""Educational SQL-injection demonstration using only the local warehouse DB."""
+"""Educational SQL-injection demonstration on an isolated in-memory copy."""
 
 from __future__ import annotations
 
@@ -24,13 +24,24 @@ def safe(conn: sqlite3.Connection, name: str) -> list[tuple[int, str]]:
     return conn.execute(sql, (name,)).fetchall()
 
 
-def run_demo(database: Path) -> str:
+def isolated_copy(database: Path) -> sqlite3.Connection:
+    """Copy a source database opened read-only into a writable memory database."""
     if not database.exists():
         raise FileNotFoundError(f"{database} not found; run setup.sql first")
-    conn = sqlite3.connect(database)
+    source = sqlite3.connect(database.resolve().as_uri() + "?mode=ro", uri=True)
+    destination = sqlite3.connect(":memory:")
+    try:
+        source.backup(destination)
+    finally:
+        source.close()
+    return destination
+
+
+def run_demo(database: Path) -> str:
+    conn = isolated_copy(database)
     lines = [f"SQLite runtime: {sqlite3.sqlite_version}"]
     try:
-        # The row exists only inside this transaction and is rolled back.
+        # This row exists only in the in-memory copy.
         test_id = conn.execute("SELECT MAX(customer_id) + 1 FROM customer").fetchone()[0]
         conn.execute(
             "INSERT INTO customer(customer_id, name, city) VALUES (?, ?, ?)",
@@ -50,10 +61,9 @@ def run_demo(database: Path) -> str:
         )
         lines.append(f"payload safe lookup: {safe(conn, PAYLOAD)}")
         lines.append(
-            "database change: rolled back; the demonstration does not persist the test row"
+            "database isolation: source opened read-only; in-memory copy discarded"
         )
     finally:
-        conn.rollback()
         conn.close()
     return "\n".join(lines) + "\n"
 

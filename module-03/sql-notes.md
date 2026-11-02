@@ -24,6 +24,27 @@ kept separate from student-reported classroom Tasks A, B, and C.
 These sources support the technical implementation. This list does not claim
 that the student personally read every source during one classroom session.
 
+## Classroom collaboration — Module 3
+
+The shared notes identify the classroom pod as Sanjay Pachan Maheshwari,
+Sebastian Emmanuel Soon, İsa Babayev, and Myo Min Lin. İsa joined this pod as a
+guest member; Jomarie was recorded absent. The group divided the work as
+follows:
+
+| Student | Workstream |
+|---|---|
+| Sanjay | Plan vocabulary |
+| Sebastian | SQL clause order |
+| İsa | Relational algebra ↔ SQL |
+| Myo | Tuning and security |
+
+The supporting records are [Sanjay's shared notes](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Module03/sql-notes.md),
+[Sebastian's notes](https://github.com/Emannual20/databases-portfolio/blob/main/Module03/sql-notes.md),
+and [Sanjay's reflection](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Reflections/ref03.md).
+They corroborate the classroom structure and shared exercises. They do not
+make Sanjay's individual code or benchmark results part of İsa's individual
+implementation.
+
 ## 3. Workstream 1 — algebra ↔ SQL
 
 | Algebra | SQL | Purpose |
@@ -66,6 +87,13 @@ An aggregate condition belongs in `HAVING`. The executable
 with `HAVING COUNT(*) > 20`. The verified output contains 400 customers with
 30 late orders each. See [having-results.txt](evidence/having-results.txt).
 
+One shared note claimed that SQLite rejects a `SELECT` alias in `WHERE`. An
+isolated SQLite CLI 3.53.4 check of
+`SELECT technician AS tech FROM maint_job WHERE tech = 'Beier'` returned
+`Beier`, so that claim is not repeated here. Alias use in `WHERE` is
+SQLite-specific and less portable than using `WHERE technician = 'Beier'`;
+the logical clause order above is still the useful general model.
+
 ## 5. Workstream 3 — query-plan vocabulary
 
 - `SCAN table`: visit every row, possibly in index order. A scan is reasonable
@@ -74,6 +102,12 @@ with `HAVING COUNT(*) > 20`. The verified output contains 400 customers with
   for columns not stored in the index.
 - `SEARCH ... USING COVERING INDEX`: obtain every required value from the
   index without a separate table lookup.
+- `SCAN ... USING COVERING INDEX`: traverse the index without a selective
+  lookup while obtaining every requested value from it. The isolated
+  [covering-scan demo](covering-scan-demo.sql) records
+  `SCAN t USING COVERING INDEX i`; `INDEXED BY` deliberately forces this index
+  so the plan shape can be studied. See the
+  [recorded output](evidence/covering-scan-results.txt).
 - `USE TEMP B-TREE`: build temporary storage for sorting, grouping, or distinct
   processing when no existing index supplies the required order.
 
@@ -90,11 +124,10 @@ SQL values must be bound with placeholders. The local payload returned all
 rows through the intentionally vulnerable string-built query and zero rows
 through the safe parameterized query. See [Task 3](task3-injection.md).
 
-## 7. Classroom Task A — preserved historical evidence
+## 7. Classroom Task A — reconciled group record
 
-The supplied classroom screenshot was inspected at
-`Desktop/IMG-20261022-WA0019(1).jpg`. It is not published because it visibly
-contains another student's filesystem path. It shows SQLite CLI 3.53.4 and
+The supplied classroom screenshot is not published because it visibly contains
+another student's filesystem path. It shows Windows SQLite CLI 3.53.4 and
 these after-index plans:
 
 ```text
@@ -103,36 +136,28 @@ machine-name equality: SCAN machine
 leading-wildcard technician: SCAN maint_job
 ```
 
-It also records an initial missing-semicolon error while entering
-`CREATE INDEX`. It does not establish a clean before-index baseline and does
-not contain the original pre-execution predictions. Those historical
-predictions cannot be recovered word for word.
+Sanjay's and Sebastian's shared notes preserve different original group
+predictions. They should not be presented as one unanimous prediction:
 
-### Student recollection and reconstructed explanation
+| Query | Sanjay's record | Sebastian's record | Verified baseline | Verified after `ix_job_tech` |
+|---|---|---|---|---|
+| `technician = 'Beier'` | SCAN | SCAN | `SCAN maint_job` | `SEARCH maint_job USING INDEX ix_job_tech` |
+| `machine_name = 'cnc-02'` | SEARCH | SCAN | `SCAN machine` | `SCAN machine` |
+| `technician LIKE '%ei%'` | SCAN | SEARCH | `SCAN maint_job` | `SCAN maint_job` |
 
-I participated in this classroom activity with students from another group
-and remember making predictions before running the queries. I did not preserve
-the exact wording of those predictions, the other group's number, or the
-participants' names. The following is therefore an **illustrative
-reconstruction of the reasoning, not a contemporaneous transcript**:
+The group records differ for the Machine and wildcard queries. The clean
+disposable reproduction resolves the technical behavior, but it does not
+recover a separate individual prediction for İsa. After checking the plans,
+the technician query changed to an index search. The Machine query still
+scanned because the new index belongs to another table, and the leading-
+wildcard query scanned because an ordinary B-tree has no fixed starting
+prefix.
 
-| Query | Reconstructed expectation | Screenshot observation |
-|---|---|---|
-| `technician = 'Beier'` | An equality predicate can use a matching technician index | `SEARCH maint_job USING INDEX ix_job_tech` |
-| `machine_name = 'cnc-02'` | A technician index cannot help a query on Machine | `SCAN machine` |
-| `technician LIKE '%ei%'` | A leading wildcard gives an ordinary B-tree no fixed prefix | `SCAN maint_job` |
+## 8. Independent Plan Safari verification
 
-The screenshot supports the displayed observations, while the recollection of
-making predictions is student-reported. The clean, independently reproducible
-before/after exercise below supplies technical evidence without replacing the
-missing historical record.
-
-## 8. New AI-assisted Plan Safari prediction and verification
-
-This is a new technical exercise dated **2026-10-30**. The predictions were
-made by the AI-assisted development process before this fresh execution. They
-are not attributed to the student and are not presented as the missing
-classroom predictions.
+This technical exercise dated **2026-10-30** is separate from the classroom
+record. Its predictions were made before the fresh execution and are not
+presented as İsa's missing original prediction.
 
 | Query | Prediction before fresh run | Observed before index | Observed after `ix_job_tech` |
 |---|---|---|---|
@@ -150,9 +175,7 @@ wildcard has no starting prefix for an ordinary B-tree range search. A
 function-wrapped column needs a matching expression index. None of these scans
 is automatically a mistake, especially in the four-row classroom fixture.
 
-### Task A — Additional Plan Safari Practice
-
-I practiced reading SQLite query plans using the Module 2 maintenance database.
+### Additional Plan Safari practice
 
 **Runtime distinction:** the preserved classroom screenshot displays SQLite
 3.53.4. The clean disposable reproduction linked above used Python's SQLite
@@ -173,11 +196,13 @@ An index can help SQLite search for a specific value. However, it does not help 
 
 The query with `LIKE '%ei%'` still used SCAN because the pattern starts with a wildcard. The `UPPER(technician)` query also used SCAN because the ordinary index was not created on that expression.
 
-This was an additional practice exercise. My original classroom predictions were not recorded before the first execution, so these results are not presented as historical predictions.
+This was additional technical practice. It does not supply an individual
+historical prediction for İsa.
 
-## 9. Classroom Task B — algebra comparison
+## 9. Classroom Task B — İsa's algebra contribution
 
-The student-provided explanation selected:
+The shared workstream record assigns relational algebra ↔ SQL to İsa. The
+selected query was:
 
 ```sql
 SELECT * FROM maint_job WHERE technician = 'Beier';
@@ -187,39 +212,31 @@ Its relational algebra is:
 
 `σ_{technician='Beier'}(maint_job)`
 
-The preserved Gemini comparison agreed on selection `σ`. Projection `π` can
-be omitted because `SELECT *` keeps all attributes, and no join belongs in
-this expression.
+The documented Gemini comparison agreed that `σ` represents the `WHERE`
+selection. A separate projection `π` is unnecessary here because `SELECT *`
+keeps all attributes, and no join belongs in this one-table expression. The
+exact original Gemini transcript was not preserved, so no new transcript is
+substituted for it. Sanjay's [reflection](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Reflections/ref03.md)
+also credits İsa with helping map this SQL query into relational algebra.
 
-## 10. Task C — Neighboring-Pod Discussion
+## 10. Task C — neighboring-pod discussion
 
-**Participants:** Isa Babayev and another group (group number not recorded).
+The pod's shared notes document an exchange with a neighboring group. The
+groups compared SQLite execution plans on Windows and macOS and recorded
+matching plan classifications. The known Windows screenshot shows SQLite CLI
+3.53.4. The macOS SQLite version was not recorded, so no version is invented.
 
-**Query-plan comparison:** We discussed why `WHERE technician = 'Beier'`
-used `SEARCH ... USING INDEX ix_job_tech`, while `LIKE '%ei%'` produced
-`SCAN maint_job`.
+The pod's surprising result was that a function-wrapped predicate such as
+`UPPER(technician)` still scanned when only an ordinary column index existed.
+The neighboring pod discussed the leading-wildcard scan and covering-index
+behavior. The groups recorded an unresolved question about optimizing
+case-insensitive or partial-text searches for possible Discord follow-up.
 
-**Our index surprise:** Using a function such as `UPPER(technician)` can
-prevent SQLite from using a normal index on that column. The disposable
-[curiosity results](evidence/curiosity-index-results.txt) reproduce the scan
-and also show that a matching expression index can support the query.
-
-**Another interesting finding:** Selecting columns not included in an index
-removes its covering benefit, although SQLite may still use the index for
-searching. The same disposable results contain the verified covering and
-non-covering plans.
-
-**Curiosity questions collected:**
-
-- Why do leading wildcards prevent normal index searches?
-- How can we optimize case-insensitive and partial-text searches?
-
-**What I learned:** An index does not automatically improve every query. Its
-usefulness depends on the search conditions and the columns requested.
-
-This is my account of the classroom activity. The other group's raw plan and
-SQLite version were not recorded, so I do not claim that their exact output or
-a cross-platform match was independently verified.
+[Sanjay's notes](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Module03/sql-notes.md)
+and [Sebastian's notes](https://github.com/Emannual20/databases-portfolio/blob/main/Module03/sql-notes.md)
+support this pod-level event. They do not independently show whether İsa was
+present for the whole neighboring-pod segment. This portfolio therefore does
+not turn the group record into a stronger personal-attendance claim.
 
 ### Cross-source technical comparison
 
@@ -237,7 +254,8 @@ and saved the [fresh output](evidence/plan-comparison-results.txt).
 
 The SCAN/SEARCH classifications agree, but these are not three measurements of
 one identical database environment. The two Python runs are controlled local
-reproductions, and none supplies the unnamed group's own version or raw plan.
+reproductions, not replacements for the neighboring pod's macOS version or raw
+plan.
 
 ## 11. Independently reproduced technical checks
 
@@ -288,9 +306,10 @@ reproductions, and none supplies the unnamed group's own version or raw plan.
 - Relational algebra describes meaning while a query plan describes a physical
   strategy — [Task 4](task4-algebra-to-plan.md).
 
-The record supports one student-reported classroom collection swap. The
-workbook asks for another swap at the end, but no second historical swap is
-claimed.
+The shared record preserves questions and a pod-level neighboring-group
+discussion. It does not independently prove a break-time person-to-person swap
+by İsa. The workbook asks for a second swap at the end, but no second historical
+swap is claimed.
 
 ### Independent curiosity experiment — when indexes do not help
 
@@ -313,18 +332,17 @@ output column removing the covering benefit. No timing claim is made. The
 result also illustrates the trade-off: indexes occupy storage and must be
 maintained on writes even when a particular query cannot use them.
 
-### Curiosity swap 2 — prepared for Tunay
+### Example questions for a future second curiosity swap
 
-**Status:** questions and verified explanations prepared; no response or
-exchange date from Tunay is available, so a second person-to-person swap is
-not claimed as complete.
+**Status:** examples with verified explanations; they were not actually
+exchanged with Tunay or another student.
 
-- **Question prepared by Isa:** Why does `WHERE technician LIKE '%ei%'`
+- **Example A:** Why does `WHERE technician LIKE '%ei%'`
   usually produce `SCAN` even when `ix_job_tech` exists? The leading `%`
   leaves an ordinary B-tree without a fixed starting prefix. Sources: the
   [fresh reproduction](evidence/plan-comparison-results.txt) and
   [SQLite query-plan documentation](https://www.sqlite.org/eqp.html).
-- **Follow-up question prepared by Isa:** Why can
+- **Example B:** Why can
   `SELECT a FROM covering_demo WHERE a = 1` use a covering index, while
   `SELECT a, b FROM covering_demo WHERE a = 1` uses an ordinary index lookup?
   The index contains `a` but not `b`, so the second query must visit the table
@@ -333,8 +351,8 @@ not claimed as complete.
   [recorded plans](evidence/curiosity-index-results.txt), and the official
   Module 3 covering-index material.
 
-After a real exchange, this section can record Tunay's actual questions,
-answers, date, and medium. None of those details has been invented here.
+After a real exchange, this section can record the actual participant,
+questions, answers, date, and medium. None of those details has been invented.
 
 ## 13. LLM questions, checks, and corrections
 
@@ -349,12 +367,12 @@ answers, date, and medium. None of those details has been invented here.
 
 ## 14. Remaining external limitations
 
-- The exact original classroom Plan Safari predictions were not recorded; the
-  student recollection and reconstructed explanation are labeled separately.
-- Neighboring-pod raw output and SQLite version are unavailable.
-- A second technical curiosity is reproducible and questions for Tunay are
-  prepared, but no response or completed second person-to-person swap is
-  documented.
+- The two classroom records preserve conflicting group predictions; no
+  separate individual prediction for İsa is available.
+- The neighboring-pod macOS SQLite version and raw output are unavailable, and
+  İsa's presence for the complete segment is not independently established.
+- A second technical curiosity is reproducible and example questions are
+  prepared, but no completed second person-to-person swap is documented.
 - The workbook's Discord step is conditional on a curiosity remaining shared
   or unresolved after the pod exchanges. No Discord post is claimed.
 - These historical human activities require genuine external evidence; they
@@ -365,13 +383,13 @@ answers, date, and medium. None of those details has been invented here.
 | Requirement | Status | Evidence or limitation |
 |---|---|---|
 | Five technical learning goals | **VERIFIED** | Queries, plans, benchmarks, injection demo, algebra mapping, tests |
-| Task A classroom participation | **STUDENT-REPORTED — PARTIALLY VERIFIED** | Participation and prior predictions are recollection; screenshot verifies displayed after-index plans; fresh reproduction verifies behavior |
-| Task B algebra comparison | **VERIFIED** | Selection expression and documented Gemini comparison |
-| Task C other-group exchange | **STUDENT-REPORTED — NOT INDEPENDENTLY VERIFIED** | Isa Babayev and another group; discussion topics recorded; other group's raw output/version and identities unavailable |
+| Task A group record | **DOCUMENTED — TECHNICALLY VERIFIED** | Sanjay and Sebastian recorded conflicting predictions; screenshot and fresh reproduction verify final plans; İsa's individual prediction is unavailable |
+| Task B algebra comparison | **DOCUMENTED — EXTERNALLY CORROBORATED** | İsa's selection expression, documented Gemini comparison, and Sanjay's credit |
+| Task C neighboring-pod exchange | **DOCUMENTED AT POD LEVEL — PERSONAL CONFIRMATION NEEDED** | Shared notes record the event; İsa's presence for the full segment is not independently established |
 | Studios 1–4 | **VERIFIED** | Task reports, SQL, plan evidence, benchmark and injection output |
 | Optional Studio 5 | **VERIFIED** | Three equivalent query forms and automated comparison |
-| Curiosity 1 | **STUDENT-REPORTED** | One classroom collection swap recorded |
+| Curiosity 1 | **POD QUESTIONS DOCUMENTED — PERSONAL EXCHANGE UNVERIFIED** | Shared notes preserve the questions and neighboring-pod discussion |
 | Curiosity 2 technical exercise | **VERIFIED** | Disposable SQL and saved output |
-| Curiosity swap 2 with Tunay | **PREPARED — AWAITING ACTUAL EXCHANGE EVIDENCE** | Questions and sources recorded; no response/date/medium supplied |
+| Curiosity swap 2 | **REQUIRES REAL PEER ACTIVITY** | Example questions and sources exist; no participant/response/date/medium supplied |
 | Reflection | **VERIFIED AS DOCUMENTED** | Seven required reflection headings in `../Reflections/ref03.md` |
 | Discord follow-up | **NOT CLAIMED / CONDITIONAL** | No unresolved/shared curiosity post is documented |

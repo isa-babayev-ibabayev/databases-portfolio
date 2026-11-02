@@ -1,8 +1,9 @@
 # Task 3 — SQL injection drill
 
-The demonstration is isolated in [injection_demo.py](injection_demo.py) and
-uses only the local exercise database. It inserts `O'Brien` inside a
-transaction, performs the checks, and rolls the transaction back.
+The demonstration is isolated in [injection_demo.py](injection_demo.py). It
+opens the generated warehouse read-only, copies it into SQLite `:memory:`, and
+runs every unsafe and safe query on that disposable copy. `O'Brien` is inserted
+only into memory; the source database is never written.
 
 Observed behavior:
 
@@ -11,7 +12,7 @@ Observed behavior:
 - parameterized lookup for `O'Brien`: the intended row;
 - vulnerable payload `' OR '1'='1`: 2,001 rows;
 - parameterized payload: no rows;
-- persistent row count unchanged after rollback.
+- the source database remains read-only and unchanged.
 
 Raw output: [injection-output.txt](evidence/injection-output.txt).
 
