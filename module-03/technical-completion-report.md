@@ -4,15 +4,14 @@
 
 This section updates the historical delivery record below. The executable
 HAVING exercise closes the complex-DQL evidence gap, the formal relational
-algebra is repaired, and the seven-section reflection is complete. Cross-
-repository evidence now identifies the classroom pod as Sanjay, Sebastian,
-İsa, and Myo; İsa joined as a guest and owned the algebra ↔ SQL workstream.
-Jomarie was recorded absent. The two shared Task A records preserve conflicting
-group predictions, so no individual prediction is invented for İsa. Task C is
-documented at pod level, but İsa's presence for the entire neighboring-pod
-segment is not independently established. A second curiosity swap and a
-Discord post remain unverified. The original benchmark measurements remain
-unchanged.
+algebra is repaired, and the seven-section reflection is complete. The
+classroom pod was Sanjay, Sebastian, İsa, and Myo; İsa joined as a guest and
+owned the algebra ↔ SQL workstream. Jomarie was absent. İsa has now personally
+confirmed participation in Tasks A and C. The two shared Task A records still
+contain different predictions, and no exact individual prediction is
+invented. The neighboring pod's macOS version and complete raw output remain
+unavailable. A second curiosity swap and a Discord post also remain unverified.
+The original benchmark measurements remain unchanged.
 
 ## Executive summary
 
@@ -69,8 +68,8 @@ run on the portfolio owner's laptop.
 
 Sanjay's record predicts SCAN, SEARCH, SCAN for technician equality, Machine
 equality, and leading-wildcard LIKE. Sebastian's record predicts SCAN, SCAN,
-SEARCH. Both records are shown rather than silently merged. No separate
-individual prediction is attributed to İsa.
+SEARCH. Both records are shown rather than silently merged. İsa confirmed
+participation, but his exact individual prediction was not saved.
 
 An independent disposable reproduction used the Module 2 setup script. Before
 the index, all three plans scanned. After `ix_job_tech`, technician equality
@@ -88,14 +87,14 @@ The exact original Gemini transcript is not claimed.
 
 ### Task C
 
-Sanjay's and Sebastian's notes document a neighboring-pod exchange with
-matching Windows/macOS plan classifications. They record a function-wrapped
+Sanjay's and Sebastian's notes document a neighboring-pod exchange, and İsa
+has personally confirmed participation. The groups recorded matching
+Windows/macOS plan classifications, a function-wrapped
 predicate scan, leading-wildcard and covering-index surprises, and an
 unresolved case-insensitive/partial-search question. The known Windows
 screenshot displays SQLite CLI 3.53.4; the macOS SQLite version and raw output
-were not preserved. The evidence establishes a pod-level event, not İsa's
-personal attendance for its full duration. No second swap, timing, transcript,
-or Discord post was invented.
+were not preserved. No second swap, timing, transcript, or Discord post was
+invented.
 
 The local disposable experiment independently verifies the technical ideas:
 `UPPER(technician)` scans with only the ordinary column index and searches with
@@ -238,14 +237,14 @@ The first window draft's repeated-row trap is documented and corrected using
 | SQL injection prevention | demo, raw output, tests | PASS |
 | Relational algebra | Task 4 | PASS |
 | Curiosity list with sources | sql-notes section 12 | PASS |
-| Classroom Task A historical record | two externally documented, conflicting prediction sets plus screenshot; İsa's individual prediction absent | DOCUMENTED — PARTIALLY ATTRIBUTED |
+| Classroom Task A historical record | participation confirmed; two conflicting prediction sets plus screenshot; exact individual prediction absent | COMPLETE — INDIVIDUAL PREDICTION NOT PRESERVED |
 | New Plan Safari technical verification | dated AI-assisted predictions and disposable execution | PASS |
-| Classroom Task B preservation | shared notes, İsa's mapping, Gemini comparison, and Sanjay's reflection | DOCUMENTED — EXTERNALLY CORROBORATED |
-| Classroom Task C record | shared notes record Windows/macOS neighboring-pod exchange; personal attendance and macOS version unavailable | DOCUMENTED AT POD LEVEL — PERSONAL CONFIRMATION NEEDED |
+| Classroom Task B preservation | shared notes, İsa's mapping, Gemini comparison, and Sanjay's reflection | COMPLETE — SHARED RECORDS LINKED |
+| Classroom Task C record | participation confirmed; shared notes record Windows/macOS neighboring-pod exchange; macOS version/raw output unavailable | COMPLETE — TECHNICAL DETAILS PARTIAL |
 | Second curiosity technical exercise | disposable equality, wildcard, expression-index and covering-index plans | PASS — not a second peer swap |
 | Second curiosity swap | sourced example questions; no participant/response/date/medium supplied | REQUIRES REAL PEER ACTIVITY |
-| Reflection draft | seven complete template sections | PASS — student factual review recommended |
-| Discord evidence | conditional workbook step; no post claimed | NOT CLAIMED / CONDITIONAL |
+| Reflection | seven complete template sections with first-person classroom confirmation | PASS |
+| Discord evidence | course server joined; no Module 3 post or message link verified | CONDITIONAL — NO POST LINK |
 
 ## Files created or modified
 
@@ -319,30 +318,28 @@ and resolved every relative Markdown link. Raw output is in
 - Timing depends on this machine, filesystem cache, load, and SQLite build.
 - The Task A image is authentic supplied evidence but intentionally not
   published because of another student's visible path.
-- Shared notes document the neighboring-pod event, but the macOS SQLite version
-  and İsa's attendance for the full segment are not independently verified.
+- İsa confirmed participation in the neighboring-pod event, but the macOS
+  SQLite version and complete raw output are unavailable.
 - The second curiosity is technically reproducible and example questions are
   prepared, but no response/date/medium verifies a completed second swap.
-- The Discord step is conditional in the workbook; no post is claimed.
+- İsa joined the course Discord server, but membership does not prove that the
+  Module 3 question was posted; no message link is available.
 - The fixture intentionally omits foreign keys; that is Module 4 material.
 
 ## Remaining external and final-review actions
 
 - Read and understand the query-plan and benchmark findings.
-- Read the completed reflection and confirm that its conservative first-person
-  interpretations match the student's own experience.
 - Practise explaining algebra, join multiplicity, indexing, and parameters.
-- Add the neighboring-pod macOS version/raw output and personal confirmation if
-  formal individual corroboration is required and available.
+- Add the neighboring-pod macOS version/raw output if it becomes available.
 - Record the actual participant, questions, answers, date, and medium only
   after a real second curiosity exchange occurs.
 - Add a real Discord link only if one exists.
 - Complete instructor-specific checkpoint requirements.
 
-Technical automation cannot recover İsa's individual Task A prediction,
-confirm his presence for all of Task C, or create a genuine second peer
-response. If the professor requires that personal evidence, it remains an
-external dependency.
+Technical automation cannot recover İsa's exact individual Task A prediction
+or create a genuine second peer response. If the professor requires the
+neighboring pod's raw technical output, that also remains an external
+dependency.
 
 ## Delivery
 
@@ -355,5 +352,5 @@ external dependency.
 - Push: succeeded to `origin/main` through `c15b1e6`.
 - Final local/remote HEAD after this report-status commit is recorded in the
   delivery response; a commit cannot include its own hash without changing it.
-- Overall status: **technically achievable implementation complete; student
-  factual review and unsupported external human evidence remain separate**.
+- Overall status: **technical implementation and confirmed Tasks A–C complete;
+  the second peer exchange and Discord post remain unverified**.

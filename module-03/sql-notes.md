@@ -4,7 +4,8 @@
 
 Module 3 connects complex SQL, relational algebra, query plans, measured index
 behavior, AI verification, and parameter binding. Technical reproduction is
-kept separate from student-reported classroom Tasks A, B, and C.
+kept separate from details that were not saved during our classroom Tasks A,
+B, and C.
 
 ## 2. Learning references
 
@@ -21,29 +22,27 @@ kept separate from student-reported classroom Tasks A, B, and C.
 | [OWASP SQL Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html) | Parameterized queries and manual-escaping risks |
 | [Python sqlite3](https://docs.python.org/3/library/sqlite3.html) | Placeholder and parameter-binding API |
 
-These sources support the technical implementation. This list does not claim
-that the student personally read every source during one classroom session.
+These sources support the technical implementation. I did not use every source
+during one classroom session; some were used later to check the explanations.
 
 ## Classroom collaboration — Module 3
 
-The shared notes identify the classroom pod as Sanjay Pachan Maheshwari,
-Sebastian Emmanuel Soon, İsa Babayev, and Myo Min Lin. İsa joined this pod as a
-guest member; Jomarie was recorded absent. The group divided the work as
-follows:
+In class, I joined the pod with Sanjay Pachan Maheshwari, Sebastian Emmanuel
+Soon, and Myo Min Lin as a guest member. Jomarie was absent. We divided the work
+as follows:
 
 | Student | Workstream |
 |---|---|
 | Sanjay | Plan vocabulary |
 | Sebastian | SQL clause order |
-| İsa | Relational algebra ↔ SQL |
+| Me | Relational algebra ↔ SQL |
 | Myo | Tuning and security |
 
 The supporting records are [Sanjay's shared notes](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Module03/sql-notes.md),
 [Sebastian's notes](https://github.com/Emannual20/databases-portfolio/blob/main/Module03/sql-notes.md),
 and [Sanjay's reflection](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Reflections/ref03.md).
-They corroborate the classroom structure and shared exercises. They do not
-make Sanjay's individual code or benchmark results part of İsa's individual
-implementation.
+These links support the group structure and shared exercises. Sanjay's
+individual code and benchmark results are not part of my own implementation.
 
 ## 3. Workstream 1 — algebra ↔ SQL
 
@@ -146,18 +145,18 @@ predictions. They should not be presented as one unanimous prediction:
 | `technician LIKE '%ei%'` | SCAN | SEARCH | `SCAN maint_job` | `SCAN maint_job` |
 
 The group records differ for the Machine and wildcard queries. The clean
-disposable reproduction resolves the technical behavior, but it does not
-recover a separate individual prediction for İsa. After checking the plans,
-the technician query changed to an index search. The Machine query still
-scanned because the new index belongs to another table, and the leading-
-wildcard query scanned because an ordinary B-tree has no fixed starting
-prefix.
+disposable reproduction resolves the technical behavior. I participated in
+this activity, but I did not save a separate copy of my own exact prediction.
+After we checked the plans, the technician query changed to an index search.
+The Machine query still scanned because the new index belongs to another
+table, and the leading-wildcard query scanned because an ordinary B-tree has
+no fixed starting prefix.
 
 ## 8. Independent Plan Safari verification
 
 This technical exercise dated **2026-10-30** is separate from the classroom
-record. Its predictions were made before the fresh execution and are not
-presented as İsa's missing original prediction.
+record. Its predictions were made before the fresh execution and do not
+replace my missing individual classroom prediction.
 
 | Query | Prediction before fresh run | Observed before index | Observed after `ix_job_tech` |
 |---|---|---|---|
@@ -196,13 +195,13 @@ An index can help SQLite search for a specific value. However, it does not help 
 
 The query with `LIKE '%ei%'` still used SCAN because the pattern starts with a wildcard. The `UPPER(technician)` query also used SCAN because the ordinary index was not created on that expression.
 
-This was additional technical practice. It does not supply an individual
-historical prediction for İsa.
+This was additional technical practice. It does not recreate the exact
+prediction I made in the classroom.
 
-## 9. Classroom Task B — İsa's algebra contribution
+## 9. Classroom Task B — my algebra contribution
 
-The shared workstream record assigns relational algebra ↔ SQL to İsa. The
-selected query was:
+My topic was relational algebra ↔ SQL. I translated this query and shared the
+expression with the group:
 
 ```sql
 SELECT * FROM maint_job WHERE technician = 'Beier';
@@ -212,21 +211,21 @@ Its relational algebra is:
 
 `σ_{technician='Beier'}(maint_job)`
 
-The documented Gemini comparison agreed that `σ` represents the `WHERE`
-selection. A separate projection `π` is unnecessary here because `SELECT *`
-keeps all attributes, and no join belongs in this one-table expression. The
-exact original Gemini transcript was not preserved, so no new transcript is
-substituted for it. Sanjay's [reflection](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Reflections/ref03.md)
-also credits İsa with helping map this SQL query into relational algebra.
+We compared the expression with Gemini. The comparison agreed that `σ`
+represents the `WHERE` selection. A separate projection `π` is unnecessary
+because `SELECT *` keeps all attributes, and no join belongs in this one-table
+expression. We did not save the exact original Gemini transcript, so I have
+not created a replacement. Sanjay's [reflection](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Reflections/ref03.md)
+also mentions my help with the SQL-to-algebra mapping.
 
 ## 10. Task C — neighboring-pod discussion
 
-The pod's shared notes document an exchange with a neighboring group. The
-groups compared SQLite execution plans on Windows and macOS and recorded
-matching plan classifications. The known Windows screenshot shows SQLite CLI
-3.53.4. The macOS SQLite version was not recorded, so no version is invented.
+I also participated in our exchange with a neighboring pod. We compared SQLite
+execution plans on Windows and macOS and recorded matching plan
+classifications. The known Windows screenshot shows SQLite CLI 3.53.4. We did
+not record the macOS SQLite version, so it is not listed here.
 
-The pod's surprising result was that a function-wrapped predicate such as
+One surprising result for our pod was that a function-wrapped predicate such as
 `UPPER(technician)` still scanned when only an ordinary column index existed.
 The neighboring pod discussed the leading-wildcard scan and covering-index
 behavior. The groups recorded an unresolved question about optimizing
@@ -234,9 +233,9 @@ case-insensitive or partial-text searches for possible Discord follow-up.
 
 [Sanjay's notes](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Module03/sql-notes.md)
 and [Sebastian's notes](https://github.com/Emannual20/databases-portfolio/blob/main/Module03/sql-notes.md)
-support this pod-level event. They do not independently show whether İsa was
-present for the whole neighboring-pod segment. This portfolio therefore does
-not turn the group record into a stronger personal-attendance claim.
+provide the shared record. My participation is also personally confirmed. The
+neighboring pod's complete raw output and macOS SQLite version are still
+unavailable.
 
 ### Cross-source technical comparison
 
@@ -306,10 +305,10 @@ plan.
 - Relational algebra describes meaning while a query plan describes a physical
   strategy — [Task 4](task4-algebra-to-plan.md).
 
-The shared record preserves questions and a pod-level neighboring-group
-discussion. It does not independently prove a break-time person-to-person swap
-by İsa. The workbook asks for a second swap at the end, but no second historical
-swap is claimed.
+The shared record preserves our questions and the neighboring-pod discussion.
+The exact timing and participants of a separate break-time curiosity swap are
+not completely documented. The workbook asks for a second swap at the end, but
+I do not claim that a second exchange happened.
 
 ### Independent curiosity experiment — when indexes do not help
 
@@ -367,14 +366,15 @@ questions, answers, date, and medium. None of those details has been invented.
 
 ## 14. Remaining external limitations
 
-- The two classroom records preserve conflicting group predictions; no
-  separate individual prediction for İsa is available.
-- The neighboring-pod macOS SQLite version and raw output are unavailable, and
-  İsa's presence for the complete segment is not independently established.
+- The two classroom records preserve conflicting group predictions. I took
+  part in Task A, but my exact individual prediction was not saved.
+- I took part in the neighboring-pod segment, but the macOS SQLite version and
+  complete raw output are unavailable.
 - A second technical curiosity is reproducible and example questions are
   prepared, but no completed second person-to-person swap is documented.
-- The workbook's Discord step is conditional on a curiosity remaining shared
-  or unresolved after the pod exchanges. No Discord post is claimed.
+- I joined the course Discord server, but joining is not evidence of a Module 3
+  post. We collected a question about partial searches in SQLite, and I will
+  link the discussion if the question is posted.
 - These historical human activities require genuine external evidence; they
   cannot be completed retrospectively by technical automation.
 
@@ -383,13 +383,13 @@ questions, answers, date, and medium. None of those details has been invented.
 | Requirement | Status | Evidence or limitation |
 |---|---|---|
 | Five technical learning goals | **VERIFIED** | Queries, plans, benchmarks, injection demo, algebra mapping, tests |
-| Task A group record | **DOCUMENTED — TECHNICALLY VERIFIED** | Sanjay and Sebastian recorded conflicting predictions; screenshot and fresh reproduction verify final plans; İsa's individual prediction is unavailable |
-| Task B algebra comparison | **DOCUMENTED — EXTERNALLY CORROBORATED** | İsa's selection expression, documented Gemini comparison, and Sanjay's credit |
-| Task C neighboring-pod exchange | **DOCUMENTED AT POD LEVEL — PERSONAL CONFIRMATION NEEDED** | Shared notes record the event; İsa's presence for the full segment is not independently established |
+| Task A classroom work | **COMPLETE** | I participated; shared predictions differ; screenshot and fresh reproduction verify the final plans; my exact individual prediction was not saved |
+| Task B algebra comparison | **COMPLETE** | My selection expression, our Gemini comparison, and Sanjay's reflection document the contribution |
+| Task C neighboring-pod exchange | **COMPLETE** | I participated; shared notes record the event; the macOS version and complete raw output are unavailable |
 | Studios 1–4 | **VERIFIED** | Task reports, SQL, plan evidence, benchmark and injection output |
 | Optional Studio 5 | **VERIFIED** | Three equivalent query forms and automated comparison |
-| Curiosity 1 | **POD QUESTIONS DOCUMENTED — PERSONAL EXCHANGE UNVERIFIED** | Shared notes preserve the questions and neighboring-pod discussion |
+| Curiosity 1 | **PARTLY DOCUMENTED** | Shared notes preserve the questions and neighboring-pod discussion; the separate swap's exact timing and participants are incomplete |
 | Curiosity 2 technical exercise | **VERIFIED** | Disposable SQL and saved output |
 | Curiosity swap 2 | **REQUIRES REAL PEER ACTIVITY** | Example questions and sources exist; no participant/response/date/medium supplied |
 | Reflection | **VERIFIED AS DOCUMENTED** | Seven required reflection headings in `../Reflections/ref03.md` |
-| Discord follow-up | **NOT CLAIMED / CONDITIONAL** | No unresolved/shared curiosity post is documented |
+| Discord follow-up | **CONDITIONAL** | I joined the server, but no Module 3 post or message link is verified |

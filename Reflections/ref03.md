@@ -2,24 +2,24 @@
 
 ## Take-away
 
-The most important thing I learned is that SQL and relational algebra describe
-the same database operations in different ways. A query that runs is not
-automatically correct or efficient. I should check its result, read its query
-plan, and measure it before deciding that an index helps.
+In this module, I learned how SQL, relational algebra, and query plans describe
+different parts of the same database work. I also learned that a query that
+runs is not automatically correct or efficient. I need to check the result and
+the plan before deciding that an index helps.
 
 ## What was good?
 
-We divided the classroom topics between the pod members. I worked on
-relational algebra, while Sanjay, Sebastian, and Myo shared findings about
-query plans, clause order, and tuning and security. Comparing a real SQL query
-with a selection expression made the algebra easier to understand.
+I enjoyed working with Sanjay, Sebastian, and Myo in the classroom. We divided
+the topics and then shared what we learned. My topic was relational algebra.
+Comparing a real SQL query with a selection expression made the algebra easier
+for me to understand.
 
 ## What was difficult?
 
-The difficult parts were deciding when a projection operator was needed and
-reading the different query-plan lines. For `SELECT *`, a separate projection
-is unnecessary because all columns remain. The plans also showed that an index
-can be ignored or can even lead to slower work.
+At first, some query-plan results were confusing because one query used an
+index while another query scanned the table. I also had to understand when a
+projection operator was needed. For `SELECT *`, a separate projection is not
+necessary because the query keeps all columns.
 
 ## Exploration and show stoppers
 
@@ -36,36 +36,34 @@ SQLite accepted a `SELECT` alias in `WHERE` for the tested query, although this
 is not portable SQL. I kept the normal column name in the final example instead
 of repeating the claim that SQLite rejects it.
 
-The portfolio also includes a disposable curiosity experiment with 1,000 rows. The
+I also used a disposable curiosity experiment with 1,000 rows. The
 technician equality query changed from `SCAN` to `SEARCH` after its index was
 created, while `LIKE '%ei%'` still scanned. This made the difference between
 "an index exists" and "this particular predicate can use the index" clearer.
 
 ## Interaction with peers and instructors
 
-During Module 3, I joined the pod with Sanjay, Sebastian, and Myo as a guest
-member. My documented part was relational algebra. I mapped the Beier
-technician query to `σ_{technician='Beier'}(maint_job)` and we compared it with
-Gemini. The pod's shared notes also record an exchange with a neighboring group
-about Windows and macOS plans, leading wildcards, functions, and covering
-indexes. Those notes support the group event, but they do not independently
-show that I stayed for the whole neighboring-pod segment. A second peer swap
-and a Discord post are not claimed because there is no evidence for them.
+During Module 3, I joined Sanjay's pod with Sebastian and Myo as a guest member.
+My part was relational algebra. I mapped the Beier technician query to
+`σ_{technician='Beier'}(maint_job)` and explained it to the group. We also
+compared the expression with Gemini. I participated in the exchange with a
+neighboring pod, where we compared Windows and macOS plans and discussed
+leading wildcards, functions, and covering indexes. I have joined the course
+Discord server, but I do not claim that our unresolved question was posted.
 
 ## How did you verify AI suggestions?
 
-AI suggestions were a starting point, not the final proof. The portfolio runs
-the generated SQL, compares the result with a Python calculation and an edge
-fixture, and checks `EXPLAIN QUERY PLAN`. Five timing runs showed that one index
-suggestion made the query slower. We also compared the algebra expression with
-Gemini, checked the window rewrite for duplicate rows, and compared unsafe SQL
+I did not accept an AI suggestion only because the SQL executed. I ran the
+generated query, compared its result with a Python calculation and an edge-case
+fixture, and used `EXPLAIN QUERY PLAN`. Five timing runs showed that one index
+suggestion made the query slower. We also compared my algebra expression with
+Gemini. I checked the window rewrite for duplicate rows and compared unsafe SQL
 string building with bound parameters.
 
 ## Help and extra work
 
-The optional Studio Task 5 compares a grouped query, a correlated subquery, and
-a window query. All three returned the same 400 customers, but their plans and
-timings were different. The extra `HAVING` exercise connects written clause
-order with logical evaluation order. The isolated covering-index scan and
-index-curiosity examples are also small enough to reproduce without the
-warehouse database.
+Working with the group helped me understand the topics that the other members
+studied. I also completed optional Studio Task 5, which compares a grouped
+query, a correlated subquery, and a window query. All three returned the same
+400 customers, but their plans and timings were different. The extra `HAVING`,
+covering-index, and index-curiosity exercises gave me more examples to test.

@@ -1,7 +1,7 @@
 # Module 3 — LLM-Assisted SQL and Query Profiling
 
-This portfolio implements the technical exercises from the current Module 3
-workbook while preserving the student-supplied classroom Tasks A, B, and C.
+This portfolio contains my technical exercises from the current Module 3
+workbook and the notes from our classroom Tasks A, B, and C.
 
 ## Learning goals and evidence
 
@@ -15,7 +15,7 @@ workbook while preserving the student-supplied classroom Tasks A, B, and C.
 | Algebra ↔ SQL ↔ plan | [Task 4](task4-algebra-to-plan.md) |
 | Task A — Plan Safari | [classroom notes and predictions](sql-notes.md), [fresh plan verification](evidence/plan-safari-prediction-verification.txt) |
 | Task B — algebra check | [classroom notes](sql-notes.md), [formal algebra mapping](task4-algebra-to-plan.md) |
-| Task C — neighboring-pod discussion | [student discussion notes](sql-notes.md), [Python plan comparison](plan-comparison.py), [fresh comparison output](evidence/plan-comparison-results.txt) |
+| Task C — neighboring-pod discussion | [classroom discussion notes](sql-notes.md), [Python plan comparison](plan-comparison.py), [fresh comparison output](evidence/plan-comparison-results.txt) |
 | Curiosity experiment | [SQL](curiosity-index-experiment.sql), [saved results](evidence/curiosity-index-results.txt) |
 | Reflection | [ref03.md](../Reflections/ref03.md) |
 | Automated verification | [tests](tests/test_module03.py), [saved results](evidence/test-results.txt) |
@@ -101,64 +101,66 @@ control characters. The saved output is in
 
 The shared classroom record identifies this pod and division of work:
 
-| Student | Documented workstream |
+| Group member | Workstream |
 |---|---|
 | Sanjay Pachan Maheshwari | Plan vocabulary |
 | Sebastian Emmanuel Soon | SQL clause order |
-| İsa Babayev | Relational algebra ↔ SQL |
+| Me | Relational algebra ↔ SQL |
 | Myo Min Lin | Tuning and security |
 
-İsa joined the pod as a guest member. His documented contribution was the
-algebra mapping for `SELECT * FROM maint_job WHERE technician = 'Beier'` and
-the comparison of that expression with Gemini. Jomarie was recorded absent.
-These are shared-classroom contributions; Sanjay's individual scripts and
-portfolio implementation are not presented as İsa's work.
+I joined Sanjay's pod as a guest member. My part was relational algebra. I
+mapped `SELECT * FROM maint_job WHERE technician = 'Beier'` to an algebra
+expression and compared it with Gemini. Jomarie was absent from this session.
+The links below support our shared classroom work; Sanjay's individual scripts
+and portfolio implementation are not presented as my work.
 
 ### Shared Classroom Evidence
 
 - [Sanjay's shared SQL notes](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Module03/sql-notes.md) record the pod, workstreams, Tasks A–C, and curiosity questions.
-- [Sebastian's Module 3 notes](https://github.com/Emannual20/databases-portfolio/blob/main/Module03/sql-notes.md) independently corroborate the pod work and shared exercises.
-- [Sanjay's Reflection 03](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Reflections/ref03.md) credits İsa's SQL-to-algebra contribution.
+- [Sebastian's Module 3 notes](https://github.com/Emannual20/databases-portfolio/blob/main/Module03/sql-notes.md) provide another record of our pod work and shared exercises.
+- [Sanjay's Reflection 03](https://github.com/yajnas-crpto/databases_portfolio_sanjay/blob/main/Reflections/ref03.md) mentions my SQL-to-algebra contribution.
 
 ## Classroom evidence and limitations
 
-Tasks A, B, and C are preserved in [sql-notes.md](sql-notes.md) as
-student-provided evidence. The Task A image was reviewed but not published
+Tasks A, B, and C are preserved in [sql-notes.md](sql-notes.md). The Task A
+image was reviewed but not published
 because it visibly contains another student's identifying filesystem path.
 Its commands, results, version, and initial missing-semicolon error are
 faithfully transcribed.
 
-Sanjay's and Sebastian's Task A records disagree on two original predictions,
-and no individual prediction for İsa was preserved. The notes show both
-records and compare them with the disposable reproduction. Task B is supported
-by all three portfolios and identifies İsa's algebra contribution.
+I participated in Task A with the group. Sanjay's and Sebastian's notes contain
+different predictions for two queries, so both versions are shown. I did not
+save a separate copy of my own exact prediction. We compared the predictions
+with the actual plans, and the disposable reproduction confirms the results.
+Task B records my algebra contribution and our comparison with Gemini.
 
-The pod's shared notes document a Task C exchange with a neighboring group:
-Windows and macOS plans matched, and the groups discussed function-wrapped
-predicates, leading wildcards, covering indexes, and a question for Discord.
-The known Windows screenshot shows SQLite CLI 3.53.4; the macOS SQLite version
-was not recorded. The shared notes establish the pod-level event, but they do
-not independently establish that İsa personally remained for the whole
-neighboring-pod segment. No stronger personal claim is made.
+I also participated in Task C with a neighboring pod. We compared Windows and
+macOS query plans and discussed function-wrapped predicates, leading
+wildcards, covering indexes, and an unresolved question about partial searches.
+The known Windows screenshot shows SQLite CLI 3.53.4. The macOS SQLite version
+and the neighboring pod's complete raw output were not recorded.
 
-A second curiosity is now demonstrated through a disposable technical
-experiment, but it is not misrepresented as a second historical
-person-to-person swap. The workbook's Discord step is conditional on a shared
-or unresolved curiosity after the exchanges; no Discord post is claimed.
+The first set of curiosity questions is recorded in the shared notes, although
+the exact timing and participants of a separate break-time swap are incomplete.
+The second curiosity is demonstrated through a disposable technical experiment,
+not presented as a completed person-to-person exchange. I have joined the
+course Discord server, but I do not have evidence that the unresolved question
+was posted. I will add a real discussion link if it becomes available.
 
 | Portfolio area | Status |
 |---|---|
 | Five technical learning goals, Studios 1–4, optional Studio 5 | **VERIFIED** |
-| Task A group predictions and verified plans | **DOCUMENTED IN SHARED NOTES; records conflict; plans technically verified** |
-| İsa's individual Task A prediction | **PERSONAL CONFIRMATION NEEDED; not preserved** |
-| Task B algebra comparison | **DOCUMENTED IN SHARED NOTES AND EXTERNALLY CORROBORATED** |
-| Task C neighboring-pod exchange | **DOCUMENTED AT POD LEVEL; İsa's full personal attendance not independently verified** |
+| Task A participation and verified plans | **COMPLETE — I participated; shared predictions differ; actual plans verified** |
+| My exact individual Task A prediction | **NOT PRESERVED** |
+| Task B algebra comparison | **COMPLETE — my workstream and Gemini comparison are documented** |
+| Task C neighboring-pod exchange | **COMPLETE — I participated; macOS version and full raw output are unavailable** |
 | Second curiosity technical exercise | **VERIFIED** |
-| First curiosity swap | **POD NOTES RECORD QUESTIONS; person-to-person exchange not independently verified** |
-| Second curiosity swap | **EXAMPLES PREPARED; real peer activity still required** |
-| Reflection | **VERIFIED AS DOCUMENTED** |
-| Discord follow-up | **NOT CLAIMED / CONDITIONAL** |
+| First curiosity swap | **PARTLY DOCUMENTED — questions exist; exact timing and participants are incomplete** |
+| Second curiosity swap | **NOT COMPLETED — examples are prepared for a future exchange** |
+| Reflection | **COMPLETE** |
+| Discord follow-up | **CONDITIONAL — server joined; no verified post or message link** |
 
-The technically achievable portfolio work is complete. Personal confirmation,
-a real second peer swap, any genuine Discord link, and instructor-specific
-approval remain external requirements.
+The technical portfolio and confirmed classroom Tasks A–C are complete. A real
+second curiosity exchange, a genuine Discord message link if the question is
+posted, and any instructor-specific approval remain outside the current
+evidence.
