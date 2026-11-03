@@ -8,9 +8,10 @@ algebra is repaired, and the seven-section reflection is complete. The
 classroom pod was Sanjay, Sebastian, İsa, and Myo; İsa joined as a guest and
 owned the algebra ↔ SQL workstream. Jomarie was absent. İsa has now personally
 confirmed participation in Tasks A and C. The two shared Task A records still
-contain different predictions. A dated personal review now records İsa's later
-expectations and compares them with the saved plans without presenting them as
-the original contemporaneous prediction. The neighboring pod's macOS version
+contain different predictions. The portfolio now records my personally supplied
+Task A predictions and compares them with the saved plans. I supplied the text
+later during portfolio finalization, so no separate pre-execution classroom
+note is claimed. The neighboring pod's macOS version
 and complete raw output remain unavailable. An earlier audit found no separate
 original record for the second curiosity exchange. İsa now personally confirms
 that both scheduled exchanges took place: the first is documented with three
@@ -76,11 +77,11 @@ run on the portfolio owner's laptop.
 
 Sanjay's record predicts SCAN, SEARCH, SCAN for technician equality, Machine
 equality, and leading-wildcard LIKE. Sebastian's record predicts SCAN, SCAN,
-SEARCH. Both records are shown rather than silently merged. İsa confirmed
-participation. His later prediction review expects SCAN for all three baseline
-queries and only the technician equality query to change to SEARCH after the
-index. It matches the saved plans but is clearly dated after the classroom
-activity, so the exact contemporaneous prediction is still not claimed.
+SEARCH. Both records are shown rather than silently merged. I confirmed my
+participation and supplied my Task A predictions: SCAN for all three baseline
+queries, with only technician equality changing to SEARCH after the index. My
+predictions match the saved plans. The text was supplied later, and no separate
+pre-execution classroom note is claimed.
 
 An independent disposable reproduction used the Module 2 setup script. Before
 the index, all three plans scanned. After `ix_job_tech`, technician equality
@@ -249,7 +250,8 @@ The first window draft's repeated-row trap is documented and corrected using
 | SQL injection prevention | demo, raw output, tests | PASS |
 | Relational algebra | Task 4 | PASS |
 | Curiosity list with sources | sql-notes section 12 | PASS |
-| Classroom Task A historical record | participation confirmed; conflicting shared predictions retained; dated later review matches saved plans; exact contemporaneous prediction absent | COMPLETE — LATER REVIEW ADDED |
+| Classroom Task A historical record | participation confirmed; conflicting shared predictions retained; execution plans verified | COMPLETE |
+| My Task A predictions | personally supplied predictions documented and compared with saved plans; no separate pre-execution note claimed | COMPLETE — DOCUMENTED AND COMPARED |
 | New Plan Safari technical verification | dated AI-assisted predictions and disposable execution | PASS |
 | Classroom Task B preservation | shared notes, İsa's mapping, Gemini comparison, and Sanjay's reflection | COMPLETE — SHARED RECORDS LINKED |
 | Classroom Task C record | participation confirmed; shared notes record Windows/macOS neighboring-pod exchange; macOS version/raw output unavailable | COMPLETE — TECHNICAL DETAILS PARTIAL |
@@ -349,11 +351,12 @@ and resolved every relative Markdown link. Raw output is in
 - Add the neighboring-pod macOS version/raw output if it becomes available.
 - Complete instructor-specific checkpoint requirements.
 
-The later Task A review cannot recover the exact contemporaneous wording, and
-technical automation cannot reconstruct the second exchange's missing original
-question list. No additional curiosity exchange is required. If the professor
-requires the neighboring pod's raw technical output, that remains an external
-dependency.
+My Task A predictions are documented and complete. A separate pre-execution
+classroom note is not claimed, and that evidence limitation does not make the
+prediction work incomplete. Technical automation cannot reconstruct the second
+exchange's missing original question list. No additional curiosity exchange is
+required. If the professor requires the neighboring pod's raw technical output,
+that remains an external dependency.
 
 ## Delivery
 

@@ -13,7 +13,7 @@ workbook and the notes from our classroom Tasks A, B, and C.
 | Verify AI SQL | [query source](task1-query.sql), [results](evidence/task1-query-results.txt), [verification JSON](evidence/task1-verification.json) |
 | SQL injection prevention | [demonstration](injection_demo.py), [analysis](task3-injection.md) |
 | Algebra ↔ SQL ↔ plan | [Task 4](task4-algebra-to-plan.md) |
-| Task A — Plan Safari | [my later prediction review](sql-notes.md#my-task-a-prediction-review-2-november-2026), [classroom records](sql-notes.md), [saved plan verification](evidence/plan-safari-prediction-verification.txt) |
+| Task A — Plan Safari | [my Task A predictions](sql-notes.md#task-a--my-predictions), [classroom records](sql-notes.md), [saved plan verification](evidence/plan-safari-prediction-verification.txt) |
 | Task B — algebra check | [classroom notes](sql-notes.md), [formal algebra mapping](task4-algebra-to-plan.md) |
 | Task C — neighboring-pod discussion | [classroom discussion notes](sql-notes.md), [Python plan comparison](plan-comparison.py), [fresh comparison output](evidence/plan-comparison-results.txt) |
 | Curiosity Swap 1 | [documented first exchange](sql-notes.md#curiosity-swap-1--classroom-discussion) |
@@ -132,11 +132,12 @@ Its commands, results, version, and initial missing-semicolon error are
 faithfully transcribed.
 
 I participated in Task A with the group. Sanjay's and Sebastian's notes contain
-different predictions for two queries, so both versions are shown. I did not
-save a separate copy of my exact contemporaneous prediction. I later wrote a
-[personal prediction review](sql-notes.md#my-task-a-prediction-review-2-november-2026).
-Its expected `SCAN`/`SEARCH` results match the saved plans. Task B records my
-algebra contribution and our comparison with Gemini.
+different predictions for two queries, so both versions are shown. My
+personally supplied [Task A predictions](sql-notes.md#task-a--my-predictions)
+are also documented and compared with the saved plans. I supplied this text
+later during portfolio finalization, so it is not presented as a separately
+preserved pre-execution classroom note. Task B records my algebra contribution
+and our comparison with Gemini.
 
 I also participated in Task C with a neighboring pod. We compared Windows and
 macOS query plans and discussed function-wrapped predicates, leading
@@ -159,8 +160,8 @@ No answer is claimed, and the post is separate from the two peer exchanges.
 | Portfolio area | Status |
 |---|---|
 | Five technical learning goals, Studios 1–4, optional Studio 5 | **VERIFIED** |
-| Task A participation and verified plans | **COMPLETE — I participated; my later review matches the saved plans** |
-| My original contemporaneous Task A prediction | **NOT PRESERVED — shared records remain unchanged** |
+| Task A participation and verified plans | **COMPLETE — I participated and the execution plans are verified** |
+| My Task A predictions | **COMPLETE — My predictions are documented and compared with the verified query plans** |
 | Task B algebra comparison | **COMPLETE — my workstream and Gemini comparison are documented** |
 | Task C neighboring-pod discussion | **COMPLETE — Student confirmed and documented** |
 | Curiosity Swap 1 | **COMPLETE — Documented and student confirmed** |

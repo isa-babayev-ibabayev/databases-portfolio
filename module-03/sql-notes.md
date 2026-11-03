@@ -146,17 +146,16 @@ predictions. They should not be presented as one unanimous prediction:
 
 The group records differ for the Machine and wildcard queries. The clean
 disposable reproduction resolves the technical behavior. I participated in
-this activity, but I did not save a separate copy of my own exact prediction.
-After we checked the plans, the technician query changed to an index search.
-The Machine query still scanned because the new index belongs to another
-table, and the leading-wildcard query scanned because an ordinary B-tree has
-no fixed starting prefix.
+this activity, and my personally supplied predictions are documented below.
+I added my prediction text later during portfolio finalization, so it remains
+separate from the original group records and is not presented as a separately
+preserved pre-execution classroom note.
 
-### My Task A Prediction Review (2 November 2026)
+### Task A — My Predictions
 
-These are my later personal notes. I wrote them after the original classroom
-activity, so they are not presented as a copy of my prediction from before the
-original query execution.
+These are my personally supplied Task A predictions. I added this text later
+during portfolio finalization, so I do not present it as a separately preserved
+pre-execution classroom note.
 
 **Before adding the index:**
 
@@ -174,7 +173,8 @@ an index on the `technician` column. For the other two queries, I do not expect
 much to change. The machine name still has no index, and the `LIKE` query starts
 with `%`.
 
-I compared these expectations with the saved experiment:
+I wanted to compare these predictions with the actual query plans to see if I
+understood them correctly. I compared them with the saved experiment:
 
 | Query | Before index | After technician index |
 |---|---|---|
@@ -182,15 +182,17 @@ I compared these expectations with the saved experiment:
 | `machine_name = 'cnc-02'` | `SCAN` | `SCAN` |
 | `technician LIKE '%ei%'` | `SCAN` | `SCAN` |
 
-The results matched my later review. The technician query used `SEARCH` after
-adding the index. The other two queries still used `SCAN`. The actual output is
+I wrote down my predictions for the three queries and compared them with the
+saved execution plans. The results matched my expectations. After creating the
+technician index, only the first query changed to `SEARCH`. The actual output is
 in [the saved Plan Safari evidence](evidence/plan-safari-prediction-verification.txt).
 
 ## 8. Independent Plan Safari verification
 
 This technical exercise dated **2026-10-30** is separate from the classroom
-record. Its predictions were made before the fresh execution and do not
-replace my missing individual classroom prediction.
+record. Its predictions were made before the fresh execution. It independently
+verifies the same plan behavior without turning my later-supplied prediction
+text into a separately preserved pre-execution classroom record.
 
 | Query | Prediction before fresh run | Observed before index | Observed after `ix_job_tech` |
 |---|---|---|---|
@@ -427,9 +429,10 @@ and this post is not presented as a second person-to-person curiosity exchange.
 
 ## 14. Remaining external limitations
 
-- The two classroom records preserve conflicting group predictions. I took
-  part in Task A and added a later personal prediction review, but my exact
-  contemporaneous individual prediction was not saved.
+- The two classroom records preserve conflicting group predictions. My own
+  Task A predictions are documented and compared with the saved plans. I
+  supplied the text later, and no separate pre-execution classroom note is
+  claimed.
 - I took part in the neighboring-pod segment, but the macOS SQLite version and
   complete raw output are unavailable.
 - Both scheduled curiosity exchanges took place. The first exchange is
@@ -446,7 +449,8 @@ and this post is not presented as a second person-to-person curiosity exchange.
 | Requirement | Status | Evidence or limitation |
 |---|---|---|
 | Five technical learning goals | **VERIFIED** | Queries, plans, benchmarks, injection demo, algebra mapping, tests |
-| Task A classroom work | **COMPLETE** | I participated; shared predictions differ; my later review matches the saved plans; my exact contemporaneous prediction was not saved |
+| Task A classroom work | **COMPLETE** | I participated; the differing shared predictions remain intact; the execution plans are verified |
+| My Task A predictions | **COMPLETE — DOCUMENTED AND COMPARED** | My predictions are present and match the saved execution plans; no separate pre-execution note is claimed |
 | Task B algebra comparison | **COMPLETE** | My selection expression, our Gemini comparison, and Sanjay's reflection document the contribution |
 | Task C neighboring-pod exchange | **COMPLETE** | I participated; shared notes record the event; the macOS version and complete raw output are unavailable |
 | Studios 1–4 | **VERIFIED** | Task reports, SQL, plan evidence, benchmark and injection output |

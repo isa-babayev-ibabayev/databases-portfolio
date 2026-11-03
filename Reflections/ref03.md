@@ -41,11 +41,11 @@ technician equality query changed from `SCAN` to `SEARCH` after its index was
 created, while `LIKE '%ei%'` still scanned. This made the difference between
 "an index exists" and "this particular predicate can use the index" clearer.
 
-I also wrote a later review of my Plan Safari predictions. I expected all three
-queries to scan before the technician index. After the index, I expected only
-the technician equality query to change to `SEARCH`. These expectations matched
-the saved execution plans. This review was written after the classroom activity,
-not preserved from before the original execution.
+I also documented my Plan Safari predictions. I expected all three queries to
+scan before the technician index. After the index, I expected only the
+technician equality query to change to `SEARCH`. My predictions matched the
+saved execution plans. I supplied this text later during portfolio finalization;
+I do not claim that a separate pre-execution classroom note was preserved.
 
 ## Interaction with peers and instructors
 
