@@ -310,6 +310,8 @@ plan.
 
 ### Curiosity Swap 1 — Classroom Discussion
 
+**Status:** COMPLETE — DOCUMENTED AND STUDENT CONFIRMED
+
 During Module 3, our group collected some questions about SQLite indexes and
 query plans. We found these questions interesting:
 
@@ -334,9 +336,8 @@ not fully explain it, so we kept it as an unresolved question for Discord.
 - [My Task C neighboring-pod notes](#10-task-c--neighboring-pod-discussion)
 - [My posted Discord question](#discord-question)
 
-I remember the questions and the neighboring-pod discussion. I do not have a
-separate record proving that this discussion happened during the exact break-
-time ritual in the workbook.
+I remember the questions and the neighboring-pod discussion, and I personally
+confirm that this took place during the first scheduled curiosity exchange.
 
 #### Technical follow-up
 
@@ -369,14 +370,14 @@ time ritual in the workbook.
 - Relational algebra describes meaning while a query plan describes a physical
   strategy — [Task 4](task4-algebra-to-plan.md).
 
-The shared record supports the questions and neighboring-pod discussion. The
-technical sources above explain the behavior, while the exact break-time timing
-remains unrecorded.
+The shared record supports the questions and neighboring-pod discussion. I also
+personally confirm that this was the first scheduled curiosity exchange. The
+technical sources above explain the behavior.
 
 ### Independent curiosity experiment — when indexes do not help
 
-**Status:** independently reproducible technical follow-up, not a claim of a
-second person-to-person classroom exchange.
+**Status:** independently reproducible technical follow-up, separate from the
+two person-to-person classroom exchanges.
 
 **Question:** Will an ordinary index on `technician` help both an equality
 predicate and `LIKE '%ei%'`?
@@ -394,16 +395,14 @@ output column removing the covering benefit. No timing claim is made. The
 result also illustrates the trade-off: indexes occupy storage and must be
 maintained on writes even when a particular query cannot use them.
 
-### Curiosity Swap 2 — Not Recorded
+### Curiosity Swap 2 — End-of-Class Exchange
 
-I don't have a separate record of the second curiosity swap. Our shared
-classroom notes contain questions from the group discussion and the
-neighboring-pod exchange, but they do not clearly document another exchange at
-the end of class.
+**Status:** COMPLETE — STUDENT CONFIRMED; ORIGINAL DETAILS NOT RECORDED
 
-This does not prove that the exchange did not happen. If it is later completed
-or confirmed, this section can be updated with the real participant, questions,
-date, and medium.
+We also exchanged curiosity questions a second time at the end of class. I
+remember taking part in this exchange, but I did not save a separate list of the
+questions from that discussion. I am adding this note now because the exchange
+happened but was missing from my notes.
 
 ### Discord Question
 
@@ -433,13 +432,14 @@ and this post is not presented as a second person-to-person curiosity exchange.
   contemporaneous individual prediction was not saved.
 - I took part in the neighboring-pod segment, but the macOS SQLite version and
   complete raw output are unavailable.
-- The technical curiosity experiment is reproducible, but a separate second
-  person-to-person swap is not recorded or confirmed.
+- Both scheduled curiosity exchanges took place. The first exchange is
+  documented above, while the second is confirmed from my memory and has no
+  separate original question list.
 - I posted the partial-search question in the course Discord server and linked
-  the message above. No answer is claimed, and the post does not replace a
-  second peer exchange.
-- These historical human activities require genuine external evidence; they
-  cannot be completed retrospectively by technical automation.
+  the message above. No answer is claimed, and the post is separate from the
+  two peer exchanges.
+- The second-exchange completion is a retrospective student confirmation, not
+  an independently preserved transcript or question list.
 
 ## 15. Final completion matrix
 
@@ -451,9 +451,9 @@ and this post is not presented as a second person-to-person curiosity exchange.
 | Task C neighboring-pod exchange | **COMPLETE** | I participated; shared notes record the event; the macOS version and complete raw output are unavailable |
 | Studios 1–4 | **VERIFIED** | Task reports, SQL, plan evidence, benchmark and injection output |
 | Optional Studio 5 | **VERIFIED** | Three equivalent query forms and automated comparison |
-| Classroom curiosity questions | **COMPLETE — STUDENT RECALLED AND DOCUMENTED** | Three index questions, their sources, and the neighboring-pod discussion are recorded above |
-| First break-time curiosity swap | **TIMING NOT INDEPENDENTLY DOCUMENTED** | I remember the discussion, but no separate record establishes the exact break-time timing |
-| Curiosity 2 technical exercise | **VERIFIED** | Disposable SQL and saved output |
-| Curiosity swap 2 | **NOT RECORDED / NOT CONFIRMED** | No separate end-of-class exchange record identifies a participant, questions, date, or medium |
+| Curiosity Swap 1 | **COMPLETE — DOCUMENTED AND STUDENT CONFIRMED** | Three index questions, their sources, and the neighboring-pod discussion are recorded above |
+| Curiosity Swap 2 | **COMPLETE — STUDENT CONFIRMED; ORIGINAL DETAILS NOT RECORDED** | I confirm the end-of-class exchange; I did not preserve a separate question list |
+| Person-to-person curiosity exchanges | **COMPLETE — TWO SEPARATE EXCHANGES CONFIRMED** | The first is documented; the second is retrospectively confirmed |
+| Technical curiosity SQL experiment | **VERIFIED COMPLETE** | Disposable SQL and saved output; separate from the two human exchanges |
 | Reflection | **VERIFIED AS DOCUMENTED** | Seven required reflection headings in `../Reflections/ref03.md` |
 | Discord follow-up | **COMPLETE** | [Module 3 question posted and linked](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859); no answer is required or claimed |

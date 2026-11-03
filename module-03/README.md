@@ -16,8 +16,8 @@ workbook and the notes from our classroom Tasks A, B, and C.
 | Task A — Plan Safari | [my later prediction review](sql-notes.md#my-task-a-prediction-review-2-november-2026), [classroom records](sql-notes.md), [saved plan verification](evidence/plan-safari-prediction-verification.txt) |
 | Task B — algebra check | [classroom notes](sql-notes.md), [formal algebra mapping](task4-algebra-to-plan.md) |
 | Task C — neighboring-pod discussion | [classroom discussion notes](sql-notes.md), [Python plan comparison](plan-comparison.py), [fresh comparison output](evidence/plan-comparison-results.txt) |
-| Classroom curiosity discussion | [Curiosity Swap 1 notes](sql-notes.md#curiosity-swap-1--classroom-discussion) |
-| Second curiosity swap status | [Curiosity Swap 2 — Not Recorded](sql-notes.md#curiosity-swap-2--not-recorded) |
+| Curiosity Swap 1 | [documented first exchange](sql-notes.md#curiosity-swap-1--classroom-discussion) |
+| Curiosity Swap 2 | [student-confirmed end-of-class exchange](sql-notes.md#curiosity-swap-2--end-of-class-exchange) |
 | Curiosity experiment | [SQL](curiosity-index-experiment.sql), [saved results](evidence/curiosity-index-results.txt) |
 | Discord question | [posted Module 3 question](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859) |
 | Reflection | [ref03.md](../Reflections/ref03.md) |
@@ -146,15 +146,15 @@ and the neighboring pod's complete raw output were not recorded.
 
 I remember our classroom questions about leading wildcards, `UPPER()` on an
 indexed column, and covering indexes. We discussed these topics with a
-neighboring pod, and the original group notes support the discussion. The exact
-break-time timing is not independently documented. A separate second exchange
-at the end of class is not recorded or confirmed.
+neighboring pod during the first scheduled curiosity exchange, and the original
+group notes support that discussion. I also took part in the second exchange at
+the end of class, but I did not preserve a separate list of its questions.
 
 The disposable curiosity experiment is technical follow-up, not evidence of a
 person-to-person swap. I posted our question about SQLite partial searches and
 index usage in the course Discord server:
 [My Module 3 Discord question](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859).
-No answer is claimed, and the post does not count as a second peer exchange.
+No answer is claimed, and the post is separate from the two peer exchanges.
 
 | Portfolio area | Status |
 |---|---|
@@ -162,16 +162,15 @@ No answer is claimed, and the post does not count as a second peer exchange.
 | Task A participation and verified plans | **COMPLETE — I participated; my later review matches the saved plans** |
 | My original contemporaneous Task A prediction | **NOT PRESERVED — shared records remain unchanged** |
 | Task B algebra comparison | **COMPLETE — my workstream and Gemini comparison are documented** |
-| Task C neighboring-pod exchange | **COMPLETE — I participated; macOS version and full raw output are unavailable** |
-| Classroom curiosity questions | **COMPLETE — Student recalled and documented** |
-| Discussion with neighboring pod | **COMPLETE — Student confirmed and supported by group notes** |
-| First break-time curiosity swap | **TIMING NOT INDEPENDENTLY DOCUMENTED** |
-| Second end-of-class curiosity swap | **NOT RECORDED / NOT CONFIRMED** |
-| Technical curiosity SQL experiment | **VERIFIED — not a person-to-person swap** |
+| Task C neighboring-pod discussion | **COMPLETE — Student confirmed and documented** |
+| Curiosity Swap 1 | **COMPLETE — Documented and student confirmed** |
+| Curiosity Swap 2 | **COMPLETE — Student confirmed; original details not recorded** |
+| Person-to-person curiosity exchanges | **COMPLETE — Two separate exchanges confirmed** |
+| Technical curiosity SQL experiment | **VERIFIED COMPLETE — Separate technical exercise** |
 | Reflection | **COMPLETE** |
-| Discord follow-up | **COMPLETE — [question posted and linked](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859); no answer claimed** |
+| Discord question | **COMPLETE — [Posted and linked](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859); no answer claimed** |
 
-The technical portfolio, classroom questions, and confirmed Tasks A–C are
-complete. The separate second curiosity exchange remains unrecorded and
-unconfirmed; any instructor-specific approval remains outside the current
-evidence.
+The technical portfolio, classroom questions, confirmed Tasks A–C, and both
+curiosity exchanges are complete. The second exchange is recorded
+retrospectively from my confirmation because its original question list was not
+preserved. Any instructor-specific approval remains outside the current evidence.

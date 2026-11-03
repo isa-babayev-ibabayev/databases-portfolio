@@ -1,6 +1,6 @@
 # Module 3 technical completion report
 
-## Current status — 2026-11-02
+## Current status — 2026-11-03
 
 This section updates the historical delivery record below. The executable
 HAVING exercise closes the complex-DQL evidence gap, the formal relational
@@ -11,12 +11,15 @@ confirmed participation in Tasks A and C. The two shared Task A records still
 contain different predictions. A dated personal review now records İsa's later
 expectations and compares them with the saved plans without presenting them as
 the original contemporaneous prediction. The neighboring pod's macOS version
-and complete raw output remain unavailable. A second curiosity swap remains
-unrecorded and unconfirmed. İsa has recalled and documented three classroom
-index questions and the neighboring-pod discussion, while the exact timing of
-the separate break ritual remains unsupported by a contemporaneous record. İsa
-also supplied a real Discord message link for the Module 3 question; no answer
-is claimed. The original benchmark measurements remain unchanged.
+and complete raw output remain unavailable. An earlier audit found no separate
+original record for the second curiosity exchange. İsa now personally confirms
+that both scheduled exchanges took place: the first is documented with three
+classroom index questions, while the second occurred at the end of class but
+its separate question list was not preserved. This updates the completion
+status through student confirmation; it does not create independent historical
+evidence. İsa also supplied a real Discord message link for the Module 3
+question; no answer is claimed. The original benchmark measurements remain
+unchanged.
 
 ## Executive summary
 
@@ -101,7 +104,8 @@ Windows/macOS plan classifications, a function-wrapped
 predicate scan, leading-wildcard and covering-index surprises, and an
 unresolved case-insensitive/partial-search question. The known Windows
 screenshot displays SQLite CLI 3.53.4; the macOS SQLite version and raw output
-were not preserved. No second swap, timing, transcript, or Discord answer was
+were not preserved. The second end-of-class swap is now student-confirmed, but
+no separate question list, transcript, date, or independent record was
 invented. The supplied Discord link is recorded separately in `sql-notes.md`.
 
 The local disposable experiment independently verifies the technical ideas:
@@ -249,10 +253,10 @@ The first window draft's repeated-row trap is documented and corrected using
 | New Plan Safari technical verification | dated AI-assisted predictions and disposable execution | PASS |
 | Classroom Task B preservation | shared notes, İsa's mapping, Gemini comparison, and Sanjay's reflection | COMPLETE — SHARED RECORDS LINKED |
 | Classroom Task C record | participation confirmed; shared notes record Windows/macOS neighboring-pod exchange; macOS version/raw output unavailable | COMPLETE — TECHNICAL DETAILS PARTIAL |
-| Classroom curiosity questions | three recalled index questions, source links, and neighboring-pod discussion | COMPLETE — STUDENT RECALLED AND DOCUMENTED |
-| First break-time curiosity swap | recalled discussion; no separate record fixes it to the workbook's break-time slot | TIMING NOT INDEPENDENTLY DOCUMENTED |
-| Second curiosity technical exercise | disposable equality, wildcard, expression-index and covering-index plans | PASS — not a second peer swap |
-| Second curiosity swap | no separate end-of-class exchange record or confirmation | NOT RECORDED / NOT CONFIRMED |
+| Curiosity Swap 1 | three documented index questions, source links, neighboring-pod discussion, and student confirmation | COMPLETE — DOCUMENTED AND STUDENT CONFIRMED |
+| Curiosity Swap 2 | student confirms the end-of-class exchange; no separate original question list survives | COMPLETE — STUDENT CONFIRMED; ORIGINAL DETAILS NOT RECORDED |
+| Person-to-person curiosity exchanges | student confirms both scheduled exchanges | COMPLETE — TWO SEPARATE EXCHANGES CONFIRMED |
+| Technical curiosity SQL experiment | disposable equality, wildcard, expression-index and covering-index plans | VERIFIED COMPLETE — SEPARATE TECHNICAL EXERCISE |
 | Reflection | seven complete template sections with first-person classroom confirmation | PASS |
 | Discord evidence | [student-supplied Module 3 message link](https://discord.com/channels/1064132619735928932/1064145704391561298/1566944448900898859); message body requires authenticated course access; no answer claimed | COMPLETE — LINK RECORDED |
 
@@ -330,9 +334,9 @@ and resolved every relative Markdown link. Raw output is in
   published because of another student's visible path.
 - İsa confirmed participation in the neighboring-pod event, but the macOS
   SQLite version and complete raw output are unavailable.
-- The technical curiosity experiment is reproducible but is not evidence of a
-  second person-to-person exchange. No separate end-of-class swap is recorded
-  or confirmed.
+- The technical curiosity experiment is reproducible but is separate from the
+  two student-confirmed person-to-person exchanges. The second exchange has no
+  separate original question list or independently preserved transcript.
 - İsa supplied a Discord message link for the Module 3 question. The URL
   resolves, but the message body could not be inspected without authenticated
   course-server access; no answer is claimed.
@@ -343,14 +347,13 @@ and resolved every relative Markdown link. Raw output is in
 - Read and understand the query-plan and benchmark findings.
 - Practise explaining algebra, join multiplicity, indexing, and parameters.
 - Add the neighboring-pod macOS version/raw output if it becomes available.
-- Update the second-swap section only if a real exchange occurs or an existing
-  exchange is later confirmed with accurate details.
 - Complete instructor-specific checkpoint requirements.
 
 The later Task A review cannot recover the exact contemporaneous wording, and
-technical automation cannot establish an unrecorded second peer exchange. If
-the professor requires the neighboring pod's raw technical output, that also
-remains an external dependency.
+technical automation cannot reconstruct the second exchange's missing original
+question list. No additional curiosity exchange is required. If the professor
+requires the neighboring pod's raw technical output, that remains an external
+dependency.
 
 ## Delivery
 
@@ -360,9 +363,11 @@ remains an external dependency.
   - `8c90a3698d526c6471dd446757e117f5c44c3b36` — security, algebra, and window exercises
   - `b120801adfcd0355fc2172f406ff5306b651b600` — classroom evidence and documentation
   - `c15b1e69b06791070ca9925cf71beeb5b50e5a1e` — final technical verification evidence
-- Push: succeeded to `origin/main` through `c15b1e6`.
+  - `169a69dca9f1ee1d45952d6d868a0806013dd46a` — curiosity discussion and earlier swap-status documentation
+- Push previously succeeded to `origin/main` through `169a69d`; the new
+  student-confirmation commit is reported in the delivery response.
 - Final local/remote HEAD after this report-status commit is recorded in the
   delivery response; a commit cannot include its own hash without changing it.
-- Overall status: **technical implementation, confirmed Tasks A–C, classroom
-  curiosity questions, later prediction review, and Discord link complete; the
-  second peer exchange remains unrecorded and unconfirmed**.
+- Overall status: **technical implementation, confirmed Tasks A–C, both
+  student-confirmed curiosity exchanges, later prediction review, and Discord
+  link complete; the second exchange's original details were not preserved**.

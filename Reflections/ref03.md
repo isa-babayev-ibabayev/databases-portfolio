@@ -61,9 +61,9 @@ do not claim that the question received an answer.
 During this classroom work, we collected three questions: why a leading-
 wildcard `LIKE` still scans, why `UPPER()` can prevent use of a normal index,
 and why an index stops being covering when another column is needed. I remember
-discussing these ideas with the neighboring pod. I do not have a separate record
-of another curiosity swap at the end of class, so I do not claim that it was
-completed.
+discussing these ideas with the neighboring pod. We exchanged curiosity
+questions twice during the class. I wrote down the questions from the first
+exchange, but I did not keep a separate list from the second one.
 
 ## How did you verify AI suggestions?
 
