@@ -132,10 +132,13 @@ median overhead with 5,000 alarm writes.
 ## Studio Task 4 — Access Control
 
 The `machine_health` view returns grouped reporting data. URI `mode=ro` and
-`PRAGMA query_only=ON` both allowed reads and rejected a DELETE. Windows ACLs
-were inspected on a disposable database with `icacls`; no permissions were
-changed. A view and connection PRAGMA are not substitutes for PostgreSQL-style
-roles and grants or for appropriate OS controls.
+`PRAGMA query_only=ON` both allowed reads and rejected a DELETE. A controlled
+Windows ACL experiment denied write-data and append-data rights only on a new
+database in the Temp directory. Reading still worked, while a `mode=rw`
+connection with `query_only = 0` rejected DELETE. The script restored the exact
+original ACL, proved that writes worked again, and removed the disposable
+directory. A view and connection PRAGMA are not substitutes for
+PostgreSQL-style roles and grants or for appropriate OS controls.
 
 ## Optional Task 5 — Trigger Timing
 
@@ -170,8 +173,8 @@ The full recorded output is in [`test-results.txt`](test-results.txt).
   with temperature or vibration it is merely the assignment's derived product.
 - Foreign-key enforcement and `query_only` are connection-specific. The view is
   not an access-control boundary.
-- Windows ACL changes were not performed, so OS-level write denial is not
-  claimed. The actual peer exchange also remains unverified.
+- The actual Module 4 peer exchange remains unverified; the documented Task B
+  comparison is an exercise based on local results, not a historical claim.
 - Benchmark values describe one run and will vary by software build, hardware,
   and system load.
 

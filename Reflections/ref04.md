@@ -66,5 +66,7 @@ The optional trigger-timing exercise added a BEFORE trigger that rejects a
 negative value, an AFTER trigger that logs only successful inserts, and an
 INSTEAD OF trigger that routes a view insert to a real table. I also compared
 SQLite's file and connection controls with PostgreSQL roles and `GRANT`.
-Windows ACLs were inspected with `icacls`, but no permissions were modified, so
-I do not claim an OS-level denial experiment that was not performed.
+I also used `icacls` on a new database in the Windows Temp directory. Reading
+still worked after I denied file-write rights, while a normal read-write
+connection could not delete a row. The script restored the original ACL,
+confirmed that writing worked again, and removed the temporary directory.

@@ -10,7 +10,7 @@ database without restrictions can still query the underlying tables.
 ## Verified SQLite protections
 
 [`access-control-demo.py`](access-control-demo.py) creates a disposable database
-and demonstrates two connection-level controls. A URI connection using
+and first demonstrates two connection-level controls. A URI connection using
 `mode=ro` can read both `reading` and `machine_health`, while `DELETE` fails with
 `attempt to write a readonly database`. A separate connection with
 `PRAGMA query_only = ON` can read data but rejects the same write with the same
@@ -25,11 +25,37 @@ connection is writable unless it independently uses read-only mode, enables
 
 The workbook's `chmod 444` example is a Unix permission command; Windows uses
 NTFS access control lists (ACLs) instead of the Unix owner/group/other mode
-bits. `icacls` can inspect, grant, deny, save, and restore Windows ACL entries.
-The demonstration inspected the ACL of the disposable database with `icacls`
-and received exit code 0, but deliberately made no ACL changes. This avoids
-locking the student out or changing inherited repository permissions, so an
-OS-level denial is not claimed as verified evidence.
+bits. The demonstration uses a newly created database in the Windows Temp
+directory, never a repository or OneDrive file. No elevation is needed because
+the current user owns this disposable file.
+
+The script records the original ACL and then runs the Windows equivalent below.
+`WD` means write data and `AD` means append data; denying only those rights
+still permits a read-only connection to open the file.
+
+```powershell
+$AclIdentity = (whoami).Trim()
+icacls "<TEMP>\edge-access.db" /deny "${AclIdentity}:(WD,AD)" /c
+```
+
+With that deny entry active, a `mode=ro` connection successfully read one row.
+A separate `mode=rw` connection reported `PRAGMA query_only = 0`, so its failed
+`DELETE` was not caused by SQLite's read-only URI or `query_only`. The write
+failed with `attempt to write a readonly database` because Windows denied write
+access to the file.
+
+A guaranteed `finally` block removes only the temporary deny entry:
+
+```powershell
+icacls "<TEMP>\edge-access.db" /remove:d $AclIdentity /c
+```
+
+The script then compares the restored ACL with the recorded original, performs
+a successful write probe inside a rolled-back transaction, and verifies that
+the complete temporary directory was removed. The saved run reports exit code
+0 for both ACL changes, an exact ACL match after restoration, and successful
+cleanup. If adding or removing the ACL fails, the script raises an error rather
+than reporting success.
 
 ## SQLite and PostgreSQL comparison
 

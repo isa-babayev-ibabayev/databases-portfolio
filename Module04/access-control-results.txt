@@ -6,6 +6,26 @@ mode=ro view rows: 1
 mode=ro DELETE rejected: attempt to write a readonly database
 query_only setting: 1
 query_only DELETE rejected: attempt to write a readonly database
-icacls inspection exit code: 0
-icacls non-empty output lines: 4
-ACLs were inspected only; no permissions were modified.
+
+## Windows ACL write-denial experiment
+Windows environment: Windows-11-10.0.26300-SP0
+temporary filesystem: NTFS
+current identity: desktop-i6p4lt5\hp
+elevation required: no (the current user owns the disposable Temp file)
+command: icacls "<TEMP>\edge-access.db"
+original ACL:
+<TEMP>\edge-access.db NT AUTHORITY\SYSTEM:(I)(F)
+                                                          BUILTIN\Administrators:(I)(F)
+                                                          OWNER RIGHTS:(I)(F)
+
+Successfully processed 1 files; Failed processing 0 files
+command: icacls "<TEMP>\edge-access.db" /deny "desktop-i6p4lt5\hp:(WD,AD)" /c
+ACL deny exit code: 0
+ACL-protected read count: 1
+ACL mode=rw query_only setting: 0
+ACL mode=rw DELETE rejected: attempt to write a readonly database
+command: icacls "<TEMP>\edge-access.db" /remove:d "desktop-i6p4lt5\hp" /c
+ACL restore exit code: 0
+ACL restored exactly: yes
+post-restore write probe: SUCCESS (rolled back)
+disposable temporary directory removed: yes

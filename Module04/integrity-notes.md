@@ -63,6 +63,12 @@ column is rejected. The name comes from the assignment, but the physical unit
 is only joules if `value` is power in watts and `interval_s` is seconds; for
 temperature or vibration the expression is a derived value, not energy.
 
+SQLite calculates a `VIRTUAL` generated column when the row is read, so it uses
+less table storage but repeats the calculation during reads. A `STORED` column
+is calculated when the row is written and retained in the table, trading more
+storage and write work for less calculation during later reads. This project
+keeps the workbook's `VIRTUAL` implementation unchanged.
+
 ## Triggers
 
 `trg_vib_alarm` runs after a reading INSERT and creates an alarm only when its
@@ -93,9 +99,12 @@ counts unchanged.
 The `machine_health` view supplies a smaller reporting interface but is not a
 permission boundary. URI `mode=ro` and `PRAGMA query_only=ON` both allowed
 SELECT and rejected DELETE in the disposable test database. On Windows, NTFS
-ACLs replace the workbook's Unix `chmod` example; `icacls` inspection succeeded
-without changing permissions. Details and the PostgreSQL comparison are in
-[`access-control.md`](access-control.md).
+ACLs replace the workbook's Unix `chmod` example. A controlled `icacls` test on
+a newly created Temp database denied only write-data and append-data rights.
+Reading still worked, while a `mode=rw` connection with `query_only = 0`
+rejected DELETE. The original ACL was restored exactly, a write worked again,
+and the disposable directory was removed. Details and the PostgreSQL comparison
+are in [`access-control.md`](access-control.md).
 
 ## Task A — Unconstrained vs Constrained Database
 
@@ -171,7 +180,9 @@ audit trigger but not the INSERT-only alarm trigger. The implementation keeps
 the assigned trigger, tests the gap explicitly, and avoids redundant no-op
 audit rows with a conditional UPSERT. Another issue was testing permissions on
 Windows safely; URI read-only mode and `query_only` were exercised, while ACLs
-were inspected without modifying the repository.
+were changed only on a newly created Temp database and restored in a guaranteed
+cleanup block. No repository, OneDrive, home-directory, or existing database
+permission was changed.
 
 ## Key Takeaways
 
