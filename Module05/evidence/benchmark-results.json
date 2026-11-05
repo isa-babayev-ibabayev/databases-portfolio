@@ -1,0 +1,86 @@
+{
+  "environment": {
+    "python": "3.14.5",
+    "sqlite": "3.50.4",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "trials": 7
+  },
+  "counts": {
+    "flat_jobpart": 200000,
+    "machine": 50,
+    "part": 10,
+    "job": 20000,
+    "job_part": 200000,
+    "report_jobpart": 200000
+  },
+  "foreign_key_check": [],
+  "integrity_check": "ok",
+  "flat_minus_join": 0,
+  "join_minus_flat": 0,
+  "round4": {
+    "result_groups": 350,
+    "equivalent": true,
+    "normalized_samples_ms": [121.0052,116.6129,115.9383,160.3829,151.2726,115.4481,138.9445],
+    "denormalized_samples_ms": [174.8481,340.6481,151.9686,143.5284,179.3479,130.2293,134.4724],
+    "normalized_median_ms": 121.0052,
+    "denormalized_median_ms": 151.9686,
+    "denormalized_speedup_ratio": 0.7962513308670344,
+    "normalized_plan": [
+      "12 | 0 | 216 | SCAN jp",
+      "14 | 0 | 45 | SEARCH j USING INTEGER PRIMARY KEY (rowid=?)",
+      "22 | 0 | 47 | SEARCH m USING INDEX sqlite_autoindex_machine_1 (machine_id=?)",
+      "27 | 0 | 47 | SEARCH p USING INDEX sqlite_autoindex_part_1 (part_no=?)",
+      "32 | 0 | 0 | USE TEMP B-TREE FOR GROUP BY",
+      "79 | 0 | 0 | USE TEMP B-TREE FOR ORDER BY"
+    ],
+    "denormalized_indexed_plan": [
+      "8 | 0 | 224 | SCAN report_jobpart USING INDEX ix_report_machine",
+      "16 | 0 | 0 | USE TEMP B-TREE FOR GROUP BY",
+      "63 | 0 | 0 | USE TEMP B-TREE FOR ORDER BY"
+    ]
+  },
+  "round5": {
+    "normalized_update": {
+      "table": "machine",
+      "before": [1,1,"Gütersloh","Gütersloh"],
+      "after_during_transaction": [1,1,"Bielefeld","Bielefeld"],
+      "affected_rows": 1,
+      "samples_ms": [1.7377,1.7390,1.2915,0.5873,1.3786,1.2508,1.1982],
+      "median_ms": 1.2915,
+      "rollback_verified": true
+    },
+    "denormalized_update": {
+      "table": "report_jobpart",
+      "before": [4000,1,"Gütersloh","Gütersloh"],
+      "after_during_transaction": [4000,1,"Bielefeld","Bielefeld"],
+      "affected_rows": 4000,
+      "samples_ms": [15.0449,20.5576,25.6211,42.2449,39.0526,22.1303,22.6925],
+      "median_ms": 22.6925,
+      "rollback_verified": true
+    },
+    "storage": {
+      "available": true,
+      "page_size": 4096,
+      "table_only_bytes": {"normalized": 4071424,"denormalized": 11091968},
+      "index_inclusive_bytes": {"normalized": 8167424,"denormalized": 14082048}
+    },
+    "index_experiment": {
+      "indexed_samples_ms": [133.6629,132.8225,272.8741,137.1854,133.8680,141.6336,138.5946],
+      "unindexed_samples_ms": [218.5971,208.0453,94.5982,96.8829,95.8533,112.1664,137.3566],
+      "indexed_median_ms": 137.1854,
+      "unindexed_median_ms": 112.1664,
+      "unindexed_vs_indexed_ratio": 0.8176263654878727,
+      "indexed_plan": [
+        "8 | 0 | 224 | SCAN report_jobpart USING INDEX ix_report_machine",
+        "16 | 0 | 0 | USE TEMP B-TREE FOR GROUP BY",
+        "63 | 0 | 0 | USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "unindexed_plan": [
+        "7 | 0 | 216 | SCAN report_jobpart",
+        "14 | 0 | 0 | USE TEMP B-TREE FOR GROUP BY",
+        "61 | 0 | 0 | USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "index_restored": true
+    }
+  }
+}

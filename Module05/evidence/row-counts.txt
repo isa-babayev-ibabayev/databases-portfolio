@@ -1,0 +1,18 @@
+Command: uv run python -B Module05/benchmark.py --trials 7 --json
+Environment: Python 3.14.5, SQLite 3.50.4, Windows-11-10.0.26300-SP0
+
+flat_jobpart|200000
+machine|50
+part|10
+job|20000
+job_part|200000
+report_jobpart|200000
+
+flat EXCEPT normalized join|0
+normalized join EXCEPT flat|0
+foreign_key_check|no rows
+integrity_check|ok
+
+The part table has 10 rows because k takes only the values 1 through 10.
+The expression (k % 40) + 1 therefore produces 2 through 11, not all 40
+possible remainders.

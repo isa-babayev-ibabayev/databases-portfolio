@@ -1,0 +1,23 @@
+Command: uv run python -B Module05/demo.py --round 2
+
+=== Update anomaly ===
+cnc-01 rows in flat table: 3
+Intentional partial update changed: 1 row
+Inconsistent sites: Bielefeld=1, Gütersloh=2
+Correction changed all cnc-01 rows: 3
+Normalized machine update changed: 1 row
+
+=== Insert anomaly ===
+Flat standalone-part placeholder inserted: 1 row
+Placeholder needs NULL job fields: True
+Normalized part inserted cleanly: 1 row
+
+SQLite did not reject the flat placeholder. The anomaly is that the table mixes
+the part catalog fact with unrelated job facts, so those fields must be NULL or
+invented. The normalized part table stores the part independently.
+
+=== Delete anomaly ===
+P-0002 flat rows before delete: 1
+P-0002 price before delete: 7.0
+P-0002 flat rows after delete: 0
+Normalized part still present: count=1, price=7.0

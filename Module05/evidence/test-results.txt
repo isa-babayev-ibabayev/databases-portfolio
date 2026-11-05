@@ -1,0 +1,33 @@
+Command: uv run python -B -m unittest discover -s Module05/tests -v
+
+test_delete_anomaly_loses_flat_price_but_not_part ... ok
+test_insert_anomaly_needs_null_job_placeholder ... ok
+test_normalized_part_insert_needs_no_job ... ok
+test_normalized_site_update_changes_one_row ... ok
+test_update_anomaly_creates_two_site_values ... ok
+test_benchmark_has_five_samples_and_positive_medians ... ok
+test_candidate_key_is_minimal_under_model ... ok
+test_candidate_key_is_unique ... ok
+test_dashboard_outputs_are_equivalent ... ok
+test_denormalized_update_affects_four_thousand_rows ... ok
+test_expected_table_counts ... ok
+test_foreign_keys_and_integrity ... ok
+test_index_experiment_has_five_samples_and_restores_index ... ok
+test_indexed_and_unindexed_plans_are_distinct ... ok
+test_job_functional_dependencies_hold ... ok
+test_join_reconstructs_flat_relation_both_directions ... ok
+test_machine_to_site_dependency_holds ... ok
+test_normalized_update_affects_one_row ... ok
+test_part_has_ten_values_from_k_one_to_ten ... ok
+test_part_to_price_dependency_holds ... ok
+test_query_plans_are_captured ... ok
+test_storage_measurements_are_positive_when_available ... ok
+test_update_benchmarks_restore_original_state ... ok
+test_curiosities_are_prepared_not_claimed_as_shared ... ok
+test_recommendation_uses_measured_evidence ... ok
+test_saved_benchmark_summary_is_parseable ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 8.623s
+
+OK

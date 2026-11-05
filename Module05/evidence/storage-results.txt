@@ -1,0 +1,15 @@
+Command: uv run python -B Module05/benchmark.py --trials 7 --json
+Method: SQLite dbstat, page size 4096 bytes
+
+Table-only comparison requested by the workbook (indexes excluded):
+normalized machine + part + job + job_part|4071424 bytes|3976.0 KB
+denormalized report_jobpart|11091968 bytes|10832.0 KB
+denormalized/normalized ratio|2.7248
+
+Additional index-inclusive comparison:
+normalized base tables + automatic PK indexes|8167424 bytes|7976.0 KB
+report_jobpart + ix_report_machine|14082048 bytes|13752.0 KB
+denormalized/normalized ratio|1.7241
+
+The table-only comparison excludes sqlite_autoindex objects and the report
+index. The additional comparison includes the relevant indexes explicitly.

@@ -1,0 +1,21 @@
+Command: uv run python -B Module05/benchmark.py --trials 7 --json
+
+Target machine: cnc-02
+Original site: Gütersloh
+Temporary new site: Bielefeld
+
+Normalized machine table:
+- matching rows before: 1
+- affected rows: 1
+- raw timings (ms): 1.7377, 1.7390, 1.2915, 0.5873, 1.3786, 1.2508, 1.1982
+- median: 1.2915 ms
+
+Denormalized report_jobpart table:
+- matching rows before: 4000
+- affected rows: 4000
+- raw timings (ms): 15.0449, 20.5576, 25.6211, 42.2449, 39.0526, 22.1303, 22.6925
+- median: 22.6925 ms
+
+Every sample ran in its own transaction and was rolled back. Each timed update
+therefore changed Gütersloh to Bielefeld, and the next sample started from the
+same original state. Both rollback checks passed.

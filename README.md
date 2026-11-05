@@ -16,6 +16,7 @@ My goal is to understand how databases work, learn to use SQL, and apply databas
 - [Module 02 — Data Contracts & Legacy Schema Audits](module-02/README.md)
 - [Module 03 — LLM-Assisted SQL & Query Profiling](module-03/README.md)
 - [Module 04 — Data Integrity, Constraints & Edge Triggers](Module04/README.md)
+- [Module 05 — Normalization vs. Denormalization](Module05/README.md)
 
 ## Technologies
 
