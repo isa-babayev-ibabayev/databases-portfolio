@@ -1,0 +1,20 @@
+Module 6a core-homework compression evidence
+Run: 2026-11-12
+Command: uv run python -B Module06a/compression.py
+
+Rows: 2000000
+SUM(part_price): 21000000.00
+Default Parquet bytes: 2323412
+Zstandard Parquet bytes: 1367276
+Zstandard/default size ratio: 0.5885
+Space reduction: 41.15%
+
+Default aggregate samples (ms): 56.9263, 50.6487, 51.4189, 57.9908, 48.0531
+Zstandard aggregate samples (ms): 64.1814, 53.1789, 53.4441, 53.6285, 48.2481
+Default median: 51.42 ms
+Zstandard median: 53.44 ms
+Row count and sum equivalent: yes
+
+The smaller file did not make this already warm, local aggregate faster; its
+median was 2.03 ms (3.94%) slower in this run. Size and speed are separate
+measurements, and both files are intentionally ignored by Git.

@@ -1,0 +1,39 @@
+Module 6a Round 1 validation
+Run: 2026-11-12
+Command: uv run python -B Module06a/prepare.py
+
+Source: Module05/normalize.db, table report_jobpart
+Source SHA-256: BCCCA944EEBFF2C42D18DA737F251587CAFB6EB93D84E561D1FCE9BEA6BA4C3D
+Source rows: 200000
+Source SUM(part_price): 2100000.00
+Source date range: 2026-01-01 through 2026-03-31
+
+History rows: 2000000
+History SUM(part_price): 21000000.00
+History date range: 2026-01-01 through 2028-06-27
+History bytes: 112685056
+Null-containing rows: 0
+Malformed dates: 0
+PRAGMA integrity_check: ok
+
+Period  Rows    Minimum job_id  Maximum job_id  Minimum date  Maximum date
+0       200000  1               20000           2026-01-01    2026-03-31
+1       200000  1000001         1020000         2026-04-02    2026-06-30
+2       200000  2000001         2020000         2026-07-02    2026-09-29
+3       200000  3000001         3020000         2026-10-01    2026-12-29
+4       200000  4000001         4020000         2026-12-31    2027-03-30
+5       200000  5000001         5020000         2027-04-01    2027-06-29
+6       200000  6000001         6020000         2027-06-30    2027-09-28
+7       200000  7000001         7020000         2027-09-30    2027-12-28
+8       200000  8000001         8020000         2027-12-30    2028-03-28
+9       200000  9000001         9020000         2028-03-30    2028-06-27
+
+CSV data rows: 200000 (the original source rows, as required)
+CSV bytes: 10805002
+Source hash after build: unchanged
+
+Date-shift experiment:
+2025-01-15 +90 days = 2025-04-15; +91 days = 2025-04-16; +1 month = 2025-02-15
+2025-01-31 +90 days = 2025-05-01; +91 days = 2025-05-02; +1 month = 2025-03-03
+
+The generated .db and .csv files are intentionally ignored by Git.

@@ -17,6 +17,7 @@ My goal is to understand how databases work, learn to use SQL, and apply databas
 - [Module 03 — LLM-Assisted SQL & Query Profiling](module-03/README.md)
 - [Module 04 — Data Integrity, Constraints & Edge Triggers](Module04/README.md)
 - [Module 05 — Normalization vs. Denormalization](Module05/README.md)
+- [Module 06a — The Analytical Engine (DuckDB)](Module06a/README.md)
 
 ## Technologies
 

@@ -1,0 +1,29 @@
+Module 6a Round 2 validation
+Run: 2026-11-12
+Command: uv run python -B Module06a/to_parquet.py
+DuckDB: 1.5.6
+
+Check                         SQLite history       Parquet
+Rows                          2000000              2000000
+SUM(part_price)               21000000.00          21000000.00
+SUM(job_id)                   9020001000000         9020001000000
+Minimum date                  2026-01-01           2026-01-01
+Maximum date                  2028-06-27           2028-06-27
+
+Parquet schema:
+job_id BIGINT
+machine_id VARCHAR
+site VARCHAR
+technician VARCHAR
+part_no VARCHAR
+part_price DOUBLE
+done_on DATE
+
+Null count for every column: 0
+Parquet bytes: 2323412
+SQLite history bytes: 112685056
+Source CSV bytes: 10805002
+Validation result: PASS
+
+The generated Parquet file is intentionally ignored by Git and is reproducible
+from prepare.py and to_parquet.py.

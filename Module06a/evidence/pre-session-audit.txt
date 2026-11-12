@@ -1,0 +1,34 @@
+Module 6a initial audit
+Run: 2026-11-12
+
+Repository root:
+C:/Users/HP/OneDrive - Azerbaijan Tourism and Management University/Desktop/databases-portfolio
+
+Remote:
+origin https://github.com/isa-babayev-ibabayev/databases-portfolio.git (fetch/push)
+
+Branch: main
+Starting HEAD: 33aa3fd Prepare Module 5 for DuckDB session
+Starting status: main matched origin/main; only unrelated untracked main.py
+Module06a at start: absent
+
+uv: 0.11.16
+Python: 3.14.5
+SQLite: 3.50.4
+DuckDB: 1.5.6
+uv sync: successful
+Disk check before generation: sufficient free space (more than 33 GiB)
+
+Module05/normalize.db: present and readable
+report_jobpart rows: 200000
+SUM(part_price): 2100000.00
+Date range: 2026-01-01 through 2026-03-31
+SHA-256: BCCCA944EEBFF2C42D18DA737F251587CAFB6EB93D84E561D1FCE9BEA6BA4C3D
+
+Module05/README.md and Module05/recommendation.md were inspected. The prior
+module explicitly preserved normalize.db as the source for Module 6a and left
+DuckDB work unattempted. No existing Module06a work required reconciliation.
+
+Official workbook inspected from the iotempire-teaching main branch on
+2026-11-12. The five learning goals are authoritative; the detailed six-round
+studio below the workbook's marked draft boundary is provisional.

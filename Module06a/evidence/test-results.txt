@@ -1,0 +1,30 @@
+Module 6a automated verification
+Run: 2026-11-12
+Command: uv run python -B -m unittest discover -s Module06a/tests -v
+
+test_12_boundary_functions_return_correct_results_on_small_sample ... ok
+test_13_boundary_evidence_supports_the_reported_winner ... ok
+test_14_compressed_copy_matches_default_parquet ... ok
+test_15_recommendation_uses_measurements_and_failure_behavior ... ok
+test_16_generated_outputs_are_gitignored ... ok
+test_01_source_is_the_expected_preserved_module5_dataset ... ok
+test_02_history_has_ten_complete_periods ... ok
+test_03_history_dates_nulls_and_integrity_are_valid ... ok
+test_04_csv_is_the_200k_source_export ... ok
+test_05_parquet_matches_sqlite_on_multiple_invariants ... ok
+test_06_parquet_schema_preserves_typed_date_and_price ... ok
+test_07_prepare_normal_run_is_safe_and_idempotent ... ok
+test_08_dashboard_results_are_equivalent ... ok
+test_09_monthly_results_are_equivalent ... ok
+test_10_real_benchmark_evidence_is_interleaved_and_median_based ... ok
+test_11_plans_contain_the_observed_scan_and_group_operators ... ok
+
+Ran 16 tests in 32.966s
+
+OK
+
+An earlier run found a test-harness error: git check-ignore --quiet was called
+with multiple paths although that option accepts one path. The test was fixed
+to check each output separately. A benchmark-evidence stream was also changed
+to a context manager to eliminate a ResourceWarning. The final run above had
+no failures or warnings.
