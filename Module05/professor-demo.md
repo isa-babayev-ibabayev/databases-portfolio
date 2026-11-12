@@ -14,12 +14,21 @@ The demo creates a new database under Windows Temp, runs seven measurements per
 scenario, restores the report index, closes the connection, and deletes the
 database. It does not create `Module05/normalize.db`.
 
+The reusable `Module05/normalize.db` is kept separately for the following
+session. Confirm it and the DuckDB environment before class:
+
+```powershell
+uv sync
+Test-Path Module05/normalize.db
+uv run python -c "import duckdb; print(duckdb.__version__); print(duckdb.sql('SELECT 42').fetchone()[0])"
+```
+
 The single Round 5 command displays the required table counts, equivalent
 dashboard timings, both dashboard plans, one-versus-4,000 update rows, `dbstat`
 storage, and the indexed-versus-unindexed plans and timings. `Pop-Location`
 returns PowerShell to the directory from which the demonstration started.
 
-For all technical rounds:
+For the executable Round 2-5 demonstrations:
 
 ```powershell
 uv run python -B Module05/demo.py --round all

@@ -12,12 +12,26 @@
 
 The professor's generator creates 20,000 jobs with 10 parts each: 200,000 flat
 job-part rows. [`setup.sql`](setup.sql) decomposes them into `machine`, `part`,
-`job`, and `job_part`, then builds a 200,000-row `report_jobpart` table. All
-demonstrations create disposable databases under Windows Temp; generated `.db`
-files are not committed.
+`job`, and `job_part`, then builds a 200,000-row `report_jobpart` table. The
+reusable classroom database is `Module05/normalize.db`. Demonstrations still
+create separate disposable databases under Windows Temp so they cannot modify
+that preserved copy.
 
-Recorded environment: Python 3.14.5, SQLite 3.50.4, Windows 11. The project uses
-only Python's standard library, so the SQLite CLI is optional.
+Recorded environment: Python 3.14.5, SQLite 3.50.4, Windows 11. The Module 5
+benchmark scripts use only Python's standard library, so the SQLite CLI is
+optional; DuckDB is installed separately for Module 6a.
+
+`normalize.db` is intentionally ignored by the repository-wide `*.db` rule and
+is preserved locally rather than committed as a 35.4 MiB binary. If it is
+missing, rebuild it from the repository root with the exact checked-in setup:
+
+```powershell
+uv run python -B -c "import sys; sys.path.insert(0, 'Module05'); from experiment import build_database; c=build_database('Module05/normalize.db'); c.close()"
+```
+
+Do not run that command over an existing database. The pre-session database and
+environment verification is recorded in
+[`evidence/pre-session-verification.txt`](evidence/pre-session-verification.txt).
 
 ## Evidence map
 
@@ -41,7 +55,7 @@ final personal reflection.
 From the repository root in PowerShell:
 
 ```powershell
-# All seven technical rounds (the human gate activities remain separate).
+# Executable demonstrations for Rounds 2-5; Rounds 1, 6 and 7 are documents.
 uv run python -B Module05/demo.py --round all
 
 # The main Round 5 professor demonstration.
@@ -123,9 +137,25 @@ student confirmation was supplied.
 
 ## Optional DuckDB stretcher
 
-**Not attempted.** Neither the DuckDB CLI nor Python package was installed. No
-package was added because the task is optional and unnecessary dependencies
-were prohibited.
+The optional Module 5 DuckDB comparison was **not attempted**. DuckDB 1.5.6 is
+now installed through `uv sync` for the next Module 6a session; installing the
+dependency does not count as completing the optional comparison.
+
+## Preparation for Module 6a
+
+Run these commands once from the repository root before class:
+
+```powershell
+uv sync
+uv run python -c "import duckdb; print(duckdb.__version__); print(duckdb.sql('SELECT 42 AS answer').fetchone()[0])"
+uv run python -c "import sqlite3; print(sqlite3.sqlite_version)"
+Test-Path Module05/normalize.db
+```
+
+The preserved database is the starting dataset for the next session. Do not
+insert the planned 2,000,000-row history or create Parquet exports until the
+professor supplies the Module 6a instructions. Bring
+[`recommendation.md`](recommendation.md) for the 15-minute recap.
 
 ## Automated tests
 

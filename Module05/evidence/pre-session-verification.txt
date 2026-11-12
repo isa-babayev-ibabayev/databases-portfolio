@@ -1,0 +1,70 @@
+Module 5 pre-session verification
+Date: 2026-11-12 (Europe/Berlin)
+
+Environment preparation
+-----------------------
+Command: uv sync
+Result: success (40 packages resolved; 39 packages checked)
+uv: 0.11.16
+Python: 3.14.5
+SQLite: 3.50.4
+DuckDB: 1.5.6
+DuckDB verification: SELECT 42 AS answer returned 42
+
+Automated verification
+----------------------
+uv run python -B -m unittest discover -s Module05/tests -v|26/26 passed|11.479s
+uv run python -B Module05/demo.py --round 5|exit 0|temporary database removed
+uv run python -B Module05/demo.py --round all|exit 0|temporary database removed
+
+Preserved classroom database
+----------------------------
+Path: Module05/normalize.db
+Reconstruction source: Module05/setup.sql through experiment.build_database
+Reason reconstructed: the required database was missing at the start of this audit
+Size: 37,134,336 bytes (35.414 MiB)
+SHA-256: BCCCA944EEBFF2C42D18DA737F251587CAFB6EB93D84E561D1FCE9BEA6BA4C3D
+Page size: 4,096 bytes
+Page count: 9,066
+Freelist pages: 0
+
+Table counts
+------------
+flat_jobpart|200000
+machine|50
+part|10
+job|20000
+job_part|200000
+report_jobpart|200000
+dashboard result groups|350
+
+Integrity
+---------
+PRAGMA integrity_check|ok
+PRAGMA foreign_key_check|no rows
+
+Reproduced storage measurements
+-------------------------------
+normalized tables only|4071424 bytes|3976.0 KB
+denormalized report table only|11091968 bytes|10832.0 KB
+denormalized/normalized table ratio|2.7243
+normalized tables plus relevant automatic indexes|8167424 bytes|7976.0 KB
+report table plus ix_report_machine|14082048 bytes|13752.0 KB
+
+Reproduced site-update measurements on a disposable copy
+---------------------------------------------------------
+target machine|cnc-02
+normalized matching and directly updated rows|1
+denormalized matching and directly updated rows|4000
+normalized rollback restored original value|yes
+denormalized rollback restored original values|yes
+preserved database SHA-256 unchanged after verification|yes
+
+Portfolio and next-session status
+---------------------------------
+Module05/normalize.db is ignored by the repository-wide *.db rule. It is kept
+locally for classroom reuse and is reproducible from the tracked setup.sql; the
+35.4 MiB binary is not published to GitHub. At verification time the C: drive
+had 33.70 GiB free, so no immediate capacity blocker was identified for the
+planned Module 6a exercise. The 2,000,000-row history and Parquet work were not
+started early.
