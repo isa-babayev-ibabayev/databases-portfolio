@@ -1,7 +1,9 @@
 # Reflection 05 — Technical Evidence Outline
 
-This is evidence for a future personal reflection, not a final reflection and
-not a record of classroom participation.
+This is the original short evidence outline, not a final reflection and not a
+record of classroom participation. The complete seven-round audit, group-note
+matrix, official-template headings, and student questions are now in
+[`reflection-preparation-report.md`](reflection-preparation-report.md).
 
 ## Supported technical learning
 

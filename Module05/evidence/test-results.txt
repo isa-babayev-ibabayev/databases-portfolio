@@ -31,3 +31,23 @@ test_saved_benchmark_summary_is_parseable ... ok
 Ran 26 tests in 8.623s
 
 OK
+
+Post-audit documentation and regression extension (2026-11-17)
+---------------------------------------------------------------------
+Command: uv run python -B -m unittest discover -s Module05/tests -v
+
+Five additional portfolio tests verify:
+- the reflection-preparation report and human-only boundary;
+- the measured-concept learning guide;
+- separation of the fresh audit run from historical timing evidence;
+- every relative Markdown link under Module05;
+- accurate treatment of the later Module 6a DuckDB work.
+
+The first development run of the new README assertion compared a literal phrase
+across a Markdown line wrap and failed. The documentation was correct; the test
+was changed to normalize whitespace. The final run was:
+
+----------------------------------------------------------------------
+Ran 31 tests in 7.804s
+
+OK

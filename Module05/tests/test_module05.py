@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 import sys
 import tempfile
@@ -187,6 +188,56 @@ class PortfolioDocumentationTests(unittest.TestCase):
         data = json.loads((MODULE_DIR / "evidence" / "benchmark-results.json").read_text(encoding="utf-8"))
         self.assertEqual(200000, data["counts"]["flat_jobpart"])
         self.assertTrue(data["round4"]["equivalent"])
+
+    def test_reflection_preparation_preserves_human_boundary(self) -> None:
+        text = (MODULE_DIR / "reflection-preparation-report.md").read_text(encoding="utf-8")
+        self.assertIn("This report organizes verifiable Module 5 facts", text)
+        self.assertIn("DISCUSSED, DETAILS INCOMPLETE", text)
+        self.assertIn("HUMAN CONFIRMATION REQUIRED", text)
+        self.assertIn("Reflection readiness checklist", text)
+        self.assertIn("Part A — Verified evidence", text)
+        self.assertIn("Part B — Possible reflection themes", text)
+        self.assertIn("Part C — Questions for the student", text)
+
+    def test_learning_guide_covers_required_measured_concepts(self) -> None:
+        text = (MODULE_DIR / "learning-guide.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Functional dependencies",
+            "First Normal Form",
+            "Second Normal Form",
+            "Third Normal Form",
+            "Update anomaly",
+            "Insert anomaly",
+            "Delete anomaly",
+            "1 versus 4,000 rows",
+            "121.0052 ms",
+            "11,091,968",
+        ]:
+            self.assertIn(phrase, text)
+
+    def test_fresh_audit_keeps_historical_measurements_separate(self) -> None:
+        text = (MODULE_DIR / "evidence" / "audit-verification-2026-11-17.md").read_text(encoding="utf-8")
+        self.assertIn("does not replace the preserved historical benchmark", text)
+        self.assertIn("105.2740 ms", text)
+        self.assertIn("88.5278 ms", text)
+        self.assertIn("BCCCA944EEBFF2C42D18DA737F251587CAFB6EB93D84E561D1FCE9BEA6BA4C3D", text)
+
+    def test_relative_markdown_links_resolve(self) -> None:
+        documents = list(MODULE_DIR.rglob("*.md"))
+        for document in documents:
+            content = document.read_text(encoding="utf-8")
+            for match in re.finditer(r"\[[^\]]+\]\(([^)]+)\)", content):
+                target = match.group(1).split("#", 1)[0]
+                if not target or target.startswith(("https://", "http://", "mailto:")):
+                    continue
+                self.assertTrue((document.parent / target).resolve().exists(), f"{document}: {target}")
+
+    def test_readme_reports_later_duckdb_work_without_relabeling_it(self) -> None:
+        text = (MODULE_DIR / "README.md").read_text(encoding="utf-8")
+        normalized = " ".join(text.split())
+        self.assertIn("was not recorded as a Module 5 classroom activity", text)
+        self.assertIn("Module06a", text)
+        self.assertIn("must not be presented as a Round 7 peer exchange", normalized)
 
 
 if __name__ == "__main__":

@@ -47,8 +47,13 @@ environment verification is recorded in
 
 Machine-readable evidence is in
 [`evidence/benchmark-results.json`](evidence/benchmark-results.json). Reflection
-support is in [`reflection-evidence.md`](reflection-evidence.md); it is not a
-final personal reflection.
+support is in the detailed
+[`reflection-preparation-report.md`](reflection-preparation-report.md); it is not
+a final personal reflection. The beginner-facing
+[`learning-guide.md`](learning-guide.md) connects the concepts to the actual SQL
+and measurements. A fresh independent rerun is recorded separately in
+[`evidence/audit-verification-2026-11-17.md`](evidence/audit-verification-2026-11-17.md)
+without replacing the historical evidence.
 
 ## Run the experiments
 
@@ -131,15 +136,21 @@ Synchronization is proposed, not falsely claimed as implemented.
 
 ## Round 7 and classroom gates
 
-The technical curiosity list is complete. Nearest-pod gates, a curiosity swap,
-and Discord sharing are **not documented as completed** because no genuine
-student confirmation was supplied.
+The technical curiosity list is complete. The student now confirms that Module
+5 group discussions occurred, but the accessible sources do not map participants,
+questions, answers, or changes to the seven individual gate questions. Therefore
+the activity is classified as **discussed, details incomplete**, while each
+specific gate still requires honest student confirmation. The evidence matrix is
+in [`reflection-preparation-report.md`](reflection-preparation-report.md).
 
 ## Optional DuckDB stretcher
 
-The optional Module 5 DuckDB comparison was **not attempted**. DuckDB 1.5.6 is
-now installed through `uv sync` for the next Module 6a session; installing the
-dependency does not count as completing the optional comparison.
+The optional comparison was not recorded as a Module 5 classroom activity. It
+was later completed and substantially extended in
+[`Module06a`](../Module06a/README.md): the same analytical boundary was tested on
+a two-million-row history with Parquet and DuckDB. This later evidence may inform
+the architecture discussion, but it must not be presented as a Round 7 peer
+exchange or as work performed during the earlier Module 5 class.
 
 ## Preparation for Module 6a
 
@@ -159,12 +170,14 @@ professor supplies the Module 6a instructions. Bring
 
 ## Automated tests
 
-The saved run completed **26 tests**, all passing in 8.623 seconds. Coverage
+The original saved run completed **26 tests**, all passing in 8.623 seconds. Coverage
 includes FDs, candidate-key uniqueness, all three anomalies, exact counts,
 foreign keys, two-way reconstruction, dashboard equivalence, plans, benchmark
 sample counts, update amplification, rollback, storage, index restoration,
 recommendation evidence, and honest curiosity status. See
-[`evidence/test-results.txt`](evidence/test-results.txt).
+[`evidence/test-results.txt`](evidence/test-results.txt). The post-audit result
+completed **31 tests**, all passing, and also verifies the new
+learning/reflection documentation and Markdown links.
 
 ## Professor demonstration
 
@@ -180,5 +193,6 @@ short and detailed speaking versions, likely questions and troubleshooting.
 - The generator stores flat prices as TEXT exactly as assigned, then casts to
   REAL during normalization; a production money model would need a deliberate
   decimal representation.
-- Round gates and human curiosity sharing require personal classroom evidence.
+- Module 5 discussion is generally confirmed, but each round gate and curiosity
+  exchange still needs round-specific student detail.
 - No final Reflection 05 claims personal experience yet.
