@@ -101,6 +101,22 @@ the five rows are insufficient, and technicians may work on more than one
 machine. The comparison shows why observed repetition must not automatically be
 promoted to a business rule.
 
+## Published group-work context
+
+The student-supplied group record identifies Isa Babayev, Rayan Slassi, Arshia Ziaee, and Asmin
+Metin as the Module 5 pod members. It allocates functional dependencies and Rounds 5–6 to Isa,
+the LLM comparison and Rounds 3–4 to Rayan, and the ER sketches to Arshia and Asmin. This is a
+division of the shared assignment, not a claim that all members authored every file in this
+repository. Tunay was absent for this Module 5 session.
+
+The published [group discussion notes](group-discussion-notes.md) support discussion of
+dependencies, ER decomposition, the 200,000-row build, query speed, update amplification, index
+behavior, and the final design choice. The example dialogue is student supplied and illustrative,
+not an independently verified transcript. The exact seven workbook gates remain separately
+classified rather than inferred from the general discussion. The supplied group-document claims
+are checked against the executable schema in
+[group-document-technical-crosscheck.md](group-document-technical-crosscheck.md).
+
 ## Normal forms in this implementation
 
 - **1NF:** every stored value is atomic; no comma-separated part list exists.

@@ -8,6 +8,32 @@
 4. Measure query latency, update amplification, storage, and index effects.
 5. Recommend and defend a schema for an industrial workload.
 
+## Module 5 — Group Members and Contributions
+
+These are the members who participated in this Module 5 pod assignment. The allocation is based
+on the student's supplied group document and describes the shared assignment's division of work;
+it does not claim that every member co-authored every file in this personal portfolio.
+
+| Group member | GitHub | Documented contributions |
+|---|---|---|
+| Isa Babayev | [GitHub portfolio](https://github.com/isa-babayev-ibabayev/databases-portfolio) | Round 1 functional dependencies; Round 5 price, update, query, storage, and index measurements; Round 6 recommendation |
+| Rayan Slassi | [GitHub portfolio](https://github.com/rayansls/Databases) | Round 1 LLM FD comparison; Round 3 build; Round 4 race, database, and performance work |
+| Arshia Ziaee | [GitHub profile](https://github.com/Arshia-zi) | ER sketches, with Asmin |
+| Asmin Metin | [GitHub portfolio](https://github.com/asminmetin/databases-portfolio) | ER sketches, with Arshia |
+
+Tunay was absent for this Module 5 session and is not credited with these contributions. Group
+membership in other course modules is separate.
+
+Published academic documentation:
+
+- [Module 5 Group Discussion Notes](group-discussion-notes.md)
+- [My Reflection 05](../Reflections/ref05.md)
+- [Group Document Technical Cross-check](group-document-technical-crosscheck.md)
+- [Normalization Notes](normalization-notes.md)
+- [Recommendation](recommendation.md)
+- [Reflection Preparation Report](reflection-preparation-report.md)
+- [Professor Demonstration](professor-demo.md)
+
 ## What this module builds
 
 The professor's generator creates 20,000 jobs with 10 parts each: 200,000 flat
@@ -37,13 +63,13 @@ environment verification is recorded in
 
 | Round | Implementation | Executed evidence |
 |---|---|---|
-| 1 — See it | [`normalization-notes.md`](normalization-notes.md) | FD analysis and two Mermaid ER diagrams |
+| 1 — See it | [`normalization-notes.md`](normalization-notes.md), [`group-document-technical-crosscheck.md`](group-document-technical-crosscheck.md) | FD analysis, two Mermaid ER diagrams, and group-document discrepancy check |
 | 2 — Break it | [`anomalies.sql`](anomalies.sql), [`experiment.py`](experiment.py) | [`evidence/anomaly-results.txt`](evidence/anomaly-results.txt) |
 | 3 — Build it | [`setup.sql`](setup.sql) | [`evidence/row-counts.txt`](evidence/row-counts.txt) |
 | 4 — Race it | [`reporting.sql`](reporting.sql), [`benchmark.py`](benchmark.py) | [`evidence/benchmark-results.csv`](evidence/benchmark-results.csv), [`evidence/query-plans.txt`](evidence/query-plans.txt) |
 | 5 — Price it | [`experiment.py`](experiment.py), [`demo.py`](demo.py) | [`evidence/benchmark-summary.md`](evidence/benchmark-summary.md), [`evidence/update-results.txt`](evidence/update-results.txt), [`evidence/storage-results.txt`](evidence/storage-results.txt) |
 | 6 — Decide | [`recommendation.md`](recommendation.md) | Memo citing measured results |
-| 7 — Harvest | [`normalization-notes.md`](normalization-notes.md#round-7--prepared-curiosities) | Prepared curiosities; human sharing not claimed |
+| 7 — Harvest | [`normalization-notes.md`](normalization-notes.md#round-7--prepared-curiosities), [`group-discussion-notes.md`](group-discussion-notes.md) | Prepared curiosities and supplied general discussion; exact curiosity swap not documented |
 
 Machine-readable evidence is in
 [`evidence/benchmark-results.json`](evidence/benchmark-results.json). Reflection
@@ -136,12 +162,13 @@ Synchronization is proposed, not falsely claimed as implemented.
 
 ## Round 7 and classroom gates
 
-The technical curiosity list is complete. The student now confirms that Module
-5 group discussions occurred, but the accessible sources do not map participants,
-questions, answers, or changes to the seven individual gate questions. Therefore
-the activity is classified as **discussed, details incomplete**, while each
-specific gate still requires honest student confirmation. The evidence matrix is
-in [`reflection-preparation-report.md`](reflection-preparation-report.md).
+The technical curiosity list is complete, and the student-provided
+[`group-discussion-notes.md`](group-discussion-notes.md) now identifies Isa, Rayan, Arshia, and
+Asmin and documents discussion of dependencies, diagrams, the 200,000-row build, query
+performance, update amplification, index behavior, and the design recommendation. The section
+labeled “Example Group Discussion” is illustrative rather than a verified word-for-word
+transcript. The notes still do not establish every exact nearest-pod gate, so those are classified
+individually in the [reflection preparation report](reflection-preparation-report.md).
 
 ## Optional DuckDB stretcher
 
@@ -175,9 +202,9 @@ includes FDs, candidate-key uniqueness, all three anomalies, exact counts,
 foreign keys, two-way reconstruction, dashboard equivalence, plans, benchmark
 sample counts, update amplification, rollback, storage, index restoration,
 recommendation evidence, and honest curiosity status. See
-[`evidence/test-results.txt`](evidence/test-results.txt). The post-audit result
-completed **31 tests**, all passing, and also verifies the new
-learning/reflection documentation and Markdown links.
+[`evidence/test-results.txt`](evidence/test-results.txt). The final publication result
+completed **35 tests**, all passing, and also verifies the learning/reflection documentation,
+published group evidence, technical cross-check, and Markdown links.
 
 ## Professor demonstration
 
@@ -193,6 +220,6 @@ short and detailed speaking versions, likely questions and troubleshooting.
 - The generator stores flat prices as TEXT exactly as assigned, then casts to
   REAL during normalization; a production money model would need a deliberate
   decimal representation.
-- Module 5 discussion is generally confirmed, but each round gate and curiosity
-  exchange still needs round-specific student detail.
-- No final Reflection 05 claims personal experience yet.
+- Module 5 group discussion and member roles are now student-supplied and published, but several
+  exact round gates remain not specifically documented.
+- Reflection 05 is published from the student's final supplied text.

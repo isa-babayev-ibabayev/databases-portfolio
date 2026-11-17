@@ -192,12 +192,84 @@ class PortfolioDocumentationTests(unittest.TestCase):
     def test_reflection_preparation_preserves_human_boundary(self) -> None:
         text = (MODULE_DIR / "reflection-preparation-report.md").read_text(encoding="utf-8")
         self.assertIn("This report organizes verifiable Module 5 facts", text)
-        self.assertIn("DISCUSSED, DETAILS INCOMPLETE", text)
-        self.assertIn("HUMAN CONFIRMATION REQUIRED", text)
+        self.assertIn("SUPPORTED BY STUDENT-PROVIDED NOTES", text)
+        self.assertIn("NOT SPECIFICALLY DOCUMENTED", text)
+        self.assertIn("../Reflections/ref05.md", text)
         self.assertIn("Reflection readiness checklist", text)
         self.assertIn("Part A — Verified evidence", text)
         self.assertIn("Part B — Possible reflection themes", text)
         self.assertIn("Part C — Questions for the student", text)
+
+    def test_published_reflection_matches_student_supplied_text(self) -> None:
+        expected = """# Reflection 05 — Normalization vs. Denormalization
+
+## Take-away
+
+I learned that normalization helps us avoid repeating the same data. Denormalization can make some queries easier, but it is not always faster. I think it is better to test both methods before choosing one.
+
+## What was good?
+
+I liked comparing the two database designs. The results showed that changing one value affected only one row in the normalized database, but 4,000 rows in the denormalized table. This example helped me understand normalization better.
+
+## What was difficult?
+
+At first, I thought the denormalized database would be faster because it uses fewer joins. But the results were different. It was a little difficult to understand why, especially when looking at query plans.
+
+## Exploration and show stoppers
+
+I found it interesting that removing an index made one query faster. I did not expect this result. It helped me understand that indexes do not always improve performance.
+
+## Interaction with peers and instructors
+
+I discussed Module 5 with my groupmates. We talked about normalization, denormalization, and database performance. It was useful to share ideas and discuss the results together.
+
+## How did you verify AI suggestions?
+
+I used AI to help me understand some SQL queries and database concepts. I checked the technical results using SQL tests and actual measurements. I learned that AI answers should always be checked because they may not be correct.
+
+## Help and extra work
+
+I also worked on additional tests and prepared results for the module. I checked the database tables, query performance, and SQL outputs. This extra work helped me understand the topic better."""
+        actual = (MODULE_DIR.parent / "Reflections" / "ref05.md").read_text(encoding="utf-8")
+        self.assertEqual(expected, actual.strip())
+
+    def test_group_notes_keep_illustrative_dialogue_boundary(self) -> None:
+        text = (MODULE_DIR / "group-discussion-notes.md").read_text(encoding="utf-8")
+        for member in ["**Isa:**", "**Rayan:**", "**Arshia:**", "**Asmin:**"]:
+            self.assertIn(member, text)
+        self.assertIn("## Example Group Discussion", text)
+        self.assertIn("## My Discussion Notes", text)
+        self.assertIn("## What I Learned From the Group", text)
+        self.assertIn("illustrative", text)
+        self.assertIn("not represented as an independently verified word-for-word transcript", text)
+
+    def test_readme_publishes_exact_group_members_and_roles(self) -> None:
+        text = (MODULE_DIR / "README.md").read_text(encoding="utf-8")
+        expected_links = {
+            "Isa Babayev": "https://github.com/isa-babayev-ibabayev/databases-portfolio",
+            "Rayan Slassi": "https://github.com/rayansls/Databases",
+            "Arshia Ziaee": "https://github.com/Arshia-zi",
+            "Asmin Metin": "https://github.com/asminmetin/databases-portfolio",
+        }
+        for member, link in expected_links.items():
+            self.assertIn(member, text)
+            self.assertIn(link, text)
+        self.assertIn("Round 5 price, update, query, storage, and index measurements", text)
+        self.assertIn("Round 4 race, database, and performance work", text)
+        self.assertIn("ER sketches, with Asmin", text)
+        self.assertIn("ER sketches, with Arshia", text)
+        self.assertIn("Tunay was absent for this Module 5 session", text)
+        self.assertIn("is not credited with these contributions", text)
+
+    def test_group_document_claims_are_technically_cross_checked(self) -> None:
+        text = (MODULE_DIR / "group-document-technical-crosscheck.md").read_text(encoding="utf-8")
+        self.assertIn("PDF binary was not present", text)
+        self.assertIn("`job_id → part_id`", text)
+        self.assertIn("composite `(job_id, part_no)`", text)
+        self.assertIn("separate `SITE`", text)
+        self.assertIn("no `quantity`", text)
+        for value in ["133.246", "162.708", "0.850", "13.896", "165.748", "108.326"]:
+            self.assertIn(value, text)
 
     def test_learning_guide_covers_required_measured_concepts(self) -> None:
         text = (MODULE_DIR / "learning-guide.md").read_text(encoding="utf-8")

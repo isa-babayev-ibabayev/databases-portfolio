@@ -51,3 +51,21 @@ was changed to normalize whitespace. The final run was:
 Ran 31 tests in 7.804s
 
 OK
+
+Final publication verification (2026-11-17)
+-------------------------------------------
+Command: uv run python -B -m unittest discover -s Module05/tests -v
+
+Four additional publication tests verify:
+- the published Reflection 05 matches the student-supplied text exactly;
+- all four group members, GitHub URLs, and the Tunay absence boundary are present;
+- the example discussion remains clearly labeled as illustrative rather than a verified transcript;
+- the group-document cross-check retains its PDF-access limitation, corrected functional
+  dependency, implemented ER-schema distinction, and supplied benchmark values.
+
+The final run was:
+
+----------------------------------------------------------------------
+Ran 35 tests in 7.692s
+
+OK

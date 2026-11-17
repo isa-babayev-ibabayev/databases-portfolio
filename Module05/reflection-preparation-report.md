@@ -2,9 +2,9 @@
 
 ## Purpose and academic boundary
 
-This report organizes verifiable Module 5 facts so İsa Babayev can write a truthful personal
-reflection. It is **not** the reflection and does not answer personal questions on the student's
-behalf. `Reflections/ref05.md` remains student-authored.
+This report organizes verifiable Module 5 facts supporting İsa Babayev's personal reflection. It
+is **not** the reflection and does not answer personal questions on the student's behalf. The
+student's final supplied text is now published as [Reflection 05](../Reflections/ref05.md).
 
 The heading names and order below were checked against the current official
 [HSBI portfolio reflection template](https://github.com/iotempire/iot-portfolio-template/blob/main/Reflections/TEMPLATE.md)
@@ -17,6 +17,11 @@ on 2026-11-17.
 - Git history for commits `3291030` and `33aa3fd`.
 - Existing `Reflections` files and repository-wide discussion-note search.
 - Current task statement and accessible attachments relevant to Module 5.
+- Student-supplied [group discussion notes](group-discussion-notes.md), member names, GitHub
+  links, and group-document role allocation.
+- [Group-document technical cross-check](group-document-technical-crosscheck.md). The referenced
+  PDF binary was unavailable during publication, so the cross-check uses the student's explicit
+  PDF-derived facts and records that limitation.
 - Fresh disposable verification recorded in
   [audit-verification-2026-11-17.md](evidence/audit-verification-2026-11-17.md).
 
@@ -24,42 +29,40 @@ on 2026-11-17.
 
 | Round | Initial audit | Final technical status | Evidence | Human boundary |
 |---|---|---|---|---|
-| 1 — See it | Correct FD classification, minimal candidate key, two Mermaid diagrams, honest LLM comparison | **PASS** | [normalization-notes.md](normalization-notes.md) | Exact neighboring-pod answer not documented |
-| 2 — Break it | Three executable anomalies and saved outcomes | **PASS** | [anomalies.sql](anomalies.sql), [anomaly-results.txt](evidence/anomaly-results.txt) | Neighbor response not documented |
-| 3 — Build it | Reproducible 200k build, 3NF tables, FK enforcement, counts and two-way reconstruction | **PASS** | [setup.sql](setup.sql), [row-counts.txt](evidence/row-counts.txt) | Gate explanation is prepared; actual exchange needs confirmation |
-| 4 — Race it | Equivalent queries, warmed/interleaved trials, real plans and timings | **PASS** | [benchmark-summary.md](evidence/benchmark-summary.md), [query-plans.txt](evidence/query-plans.txt) | Plan comparison with another pod needs confirmation |
-| 5 — Price it | Rollback-protected 1/4,000 updates, `dbstat`, with/without-index experiment | **PASS** | [update-results.txt](evidence/update-results.txt), [storage-results.txt](evidence/storage-results.txt) | Classmate prediction is not recorded |
-| 6 — Decide | Six-sentence evidence-based memo and proposed refresh strategy | **PASS** | [recommendation.md](recommendation.md) | Actual spoken defense and “what if” question need confirmation |
-| 7 — Harvest | Eight grounded technical curiosities; later Module 6a supplies optional DuckDB evidence | **PASS** for technical collection; **OPTIONAL** stretcher later completed | [normalization-notes.md](normalization-notes.md), [Module 6a README](../Module06a/README.md) | Curiosity swap details need confirmation |
+| 1 — See it | Correct FD classification, minimal candidate key, two Mermaid diagrams, honest LLM comparison | **PASS** | [normalization-notes.md](normalization-notes.md), [group notes](group-discussion-notes.md) | Dependency/ER discussion supported; exact arrow gate not documented |
+| 2 — Break it | Three executable anomalies and saved outcomes | **PASS** | [anomalies.sql](anomalies.sql), [anomaly-results.txt](evidence/anomaly-results.txt) | PDF-derived anomaly work is described; exact neighbor challenge not documented |
+| 3 — Build it | Reproducible 200k build, 3NF tables, FK enforcement, counts and two-way reconstruction | **PASS** | [setup.sql](setup.sql), [row-counts.txt](evidence/row-counts.txt), [group notes](group-discussion-notes.md) | Rayan's build role supported; exact ten-part gate not documented |
+| 4 — Race it | Equivalent queries, warmed/interleaved trials, real plans and timings | **PASS** | [benchmark summary](evidence/benchmark-summary.md), [plans](evidence/query-plans.txt), [group notes](group-discussion-notes.md) | Performance discussion supported; exact cross-pod plan gate not documented |
+| 5 — Price it | Rollback-protected 1/4,000 updates, `dbstat`, with/without-index experiment | **PASS** | [update results](evidence/update-results.txt), [storage results](evidence/storage-results.txt), [group notes](group-discussion-notes.md) | Update/index discussion supported; prediction gate not documented |
+| 6 — Decide | Six-sentence evidence-based memo and proposed refresh strategy | **PASS** | [recommendation.md](recommendation.md), [group notes](group-discussion-notes.md) | Design conclusion supported; exact “what if” gate not documented |
+| 7 — Harvest | Eight grounded technical curiosities; later Module 6a supplies optional DuckDB evidence | **PASS** for technical collection; **OPTIONAL** stretcher later completed | [normalization-notes.md](normalization-notes.md), [Module 6a README](../Module06a/README.md) | Exact curiosity swap not documented |
 
 ## Group-note evidence matrix
 
 | Note or observation | Source | Relevant round | Technical interpretation | Portfolio evidence | Status |
 |---|---|---|---|---|---|
-| “I have already discussed Module 5 with my groupmates.” | Current user-provided audit prompt | General Module 5 | Confirms that some real discussion occurred, but does not identify a round, gate question, speaker, answer, disagreement, or change | No round-specific note was found | **DISCUSSED, DETAILS INCOMPLETE** |
-| The student states that notes were collected. | Current user-provided audit prompt | General Module 5 | The notes were not included as a separate accessible attachment and were not found in the repository | Search covered `Module05`, `Reflections`, Git history, and relevant attachments | **HUMAN CONFIRMATION REQUIRED** |
-| “No actual neighboring-pod response is documented.” | [normalization-notes.md](normalization-notes.md) | Round 2 | Correctly distinguishes a prepared gate question from a recorded response | Three anomaly results remain technically verified | **NOT DOCUMENTED** |
-| Round 3, 4, 5, and 6 gate answers are prepared. | [normalization-notes.md](normalization-notes.md) and [recommendation.md](recommendation.md) | Rounds 3–6 | Technical readiness is not proof that the exchanges occurred | Counts, plans, update/storage evidence, memo | **HUMAN CONFIRMATION REQUIRED** |
-| Curiosities are “prepared, not documented as shared.” | [normalization-notes.md](normalization-notes.md) | Round 7 | The technical list exists; the swap participants and selected questions are unknown | Eight sourced curiosities | **HUMAN CONFIRMATION REQUIRED** |
+| The supplied discussion identifies Isa, Rayan, Arshia, and Asmin and covers dependencies, ER design, the build, performance, update costs, index behavior, and design choice. | [group-discussion-notes.md](group-discussion-notes.md) | Rounds 1, 3–6 | General group discussion is now documented | Student-supplied notes and role allocation | **SUPPORTED BY STUDENT-PROVIDED NOTES** |
+| The “Example Group Discussion” is illustrative, not a verified transcript. | [group-discussion-notes.md](group-discussion-notes.md) source note | General | The themes are publishable, but wording is not independently authenticated line by line | Explicit source label | **SUPPORTED WITH SOURCE LIMITATION** |
+| The supplied group document allocates anomaly, build, race, price, and recommendation work. | Student's PDF-derived publication instructions; [cross-check](group-document-technical-crosscheck.md) | Rounds 2–6 | Supports group provenance; the PDF binary was unavailable for fresh visual inspection | Role table and technical cross-check | **SUPPORTED BY STUDENT-SUPPLIED PDF SUMMARY** |
+| Curiosities remain prepared without a specifically documented swap. | [normalization-notes.md](normalization-notes.md) | Round 7 | General technical discussion does not prove the exact harvest gate | Eight sourced curiosities | **NOT SPECIFICALLY DOCUMENTED** |
 
-No classmate quotation, name, attendance date, or round-specific response is inferred from the
-general statement. The existing repository's earlier “not documented” wording is compatible with
-the new confirmation: an activity can have happened without a sufficiently detailed record.
+The notes now establish real participants and subject areas. They do not establish a date,
+location, verbatim transcript, or completion of every exact workbook gate, and none is inferred.
 
 ## Seven discussion gates
 
 | Round | Required gate | What can be established | Status | Information the student should supply |
 |---|---|---|---|---|
-| 1 | Which arrow disappears in the second ER diagram? | Correct technical answer exists; no actual peer answer located | **HUMAN CONFIRMATION REQUIRED** | Who saw the diagrams, what answer they gave, and whether anything changed |
-| 2 | Can a neighbor break an anomaly statement? | Statements and results are verified; no response located | **HUMAN CONFIRMATION REQUIRED** | Which anomaly they challenged and the outcome |
-| 3 | Why does `part` contain 10 rows? | Correct answer is verified | **HUMAN CONFIRMATION REQUIRED** | Whether this exact question was asked and how it was answered |
-| 4 | Did both pods get the same plan? | Local plans are saved | **HUMAN CONFIRMATION REQUIRED** | Other pod's plan/version and the observed similarity or difference |
-| 5 | Could the neighbor predict the numbers? | Prediction logic and measurements exist | **HUMAN CONFIRMATION REQUIRED** | Their genuine prediction and what surprised them |
-| 6 | Could the student defend the memo against a “what if”? | Prepared answer exists | **HUMAN CONFIRMATION REQUIRED** | Actual question, answer, and any memo change |
-| 7 | Which curiosities did the pods identify? | Eight curiosities exist | **HUMAN CONFIRMATION REQUIRED** | Which were exchanged, which overlapped, and any unresolved question |
+| 1 | Which arrow disappears in the second ER diagram? | Dependencies and ER separation discussed; exact arrow question absent | **SUPPORTED TOPIC; GATE NOT SPECIFICALLY DOCUMENTED** | Exact answer only if separately recorded |
+| 2 | Can a neighbor break an anomaly statement? | PDF-derived anomaly work exists; no challenge is recorded | **NOT SPECIFICALLY DOCUMENTED** | Challenger and outcome only if separately recorded |
+| 3 | Why does `part` contain 10 rows? | Rayan's 200k build role is supported; exact ten-part question absent | **SUPPORTED TOPIC; GATE NOT SPECIFICALLY DOCUMENTED** | Exact exchange only if separately recorded |
+| 4 | Did both pods get the same plan? | Query performance discussed; no cross-pod plan comparison recorded | **SUPPORTED TOPIC; GATE NOT SPECIFICALLY DOCUMENTED** | Other pod's plan only if separately recorded |
+| 5 | Could the neighbor predict the numbers? | Update and index results discussed; prediction exercise absent | **SUPPORTED TOPIC; GATE NOT SPECIFICALLY DOCUMENTED** | Prediction only if separately recorded |
+| 6 | Could the student defend the memo against a “what if”? | Final design choice discussed; no literal what-if defense recorded | **SUPPORTED TOPIC; GATE NOT SPECIFICALLY DOCUMENTED** | Question/change only if separately recorded |
+| 7 | Which curiosities did the pods identify? | Curiosity list exists; swap is absent from supplied notes | **NOT SPECIFICALLY DOCUMENTED** | Swap details only if separately recorded |
 
-The student does not need to recreate a discussion. They should add only remembered or written
-facts and may state that a specific detail was not recorded.
+The supplied reflection and general discussion record are complete. Missing gate details should
+remain “not specifically documented” unless a separate authentic record becomes available.
 
 ## Take-away
 
@@ -154,9 +157,12 @@ facts and may state that a specific detail was not recorded.
 
 ### Part A — Verified evidence
 
-- The student explicitly confirms that Module 5 group discussions occurred.
-- No accessible source maps participants, questions, responses, or changes to the seven gates.
-- The repository contains prepared technical answers but does not claim those are conversations.
+- The student supplied a final reflection and discussion notes naming Isa, Rayan, Arshia, and
+  Asmin as the Module 5 group members.
+- The notes cover dependencies, ER diagrams, the 200,000-row build, query performance, update
+  amplification, index behavior, and the normalized/reporting design choice.
+- The example dialogue is explicitly illustrative rather than a verified transcript.
+- The notes do not map every exact workbook gate to a recorded question and answer.
 
 ### Part B — Possible reflection themes
 
@@ -165,15 +171,15 @@ facts and may state that a specific detail was not recorded.
 - Comparing query plans or challenging an anomaly example.
 - Defending the refresh strategy against a staleness question.
 
-These are prompts, not claims about what happened.
+These themes are supported by the supplied notes; they are not used to invent additional rounds.
 
 ### Part C — Questions for the student
 
-1. Who did you actually discuss Module 5 with?
-2. Which of the seven gate questions did you ask or answer?
-3. What did you learn from them, and what did you explain in return?
-4. Was there disagreement, correction, or a changed recommendation?
-5. Do you have a note, message, screenshot, or remembered wording that can be cited honestly?
+The final reflection is already supplied. Only if separate gate evidence is later needed:
+
+1. Was any exact gate question asked word for word?
+2. Was there a specific challenge, prediction, “what if,” or curiosity swap?
+3. Did any answer change the technical artifact?
 
 ## How did you verify AI suggestions?
 
@@ -206,7 +212,8 @@ These are prompts, not claims about what happened.
 - The portfolio includes extra automated tests, a safe demonstration script, raw plans, storage
   scopes, rollback checks, professor-demonstration notes, and later Module 6a analytical evidence.
 - AI assistance is disclosed in `normalization-notes.md`.
-- No specific Module 5 helper, recipient, presentation, or peer contribution is documented.
+- The supplied group allocation documents Rayan's build/benchmark work, Arshia and Asmin's ER
+  sketches, and Isa's dependencies, Round 5 measurements, and recommendation.
 
 ### Part B — Possible reflection themes
 
@@ -225,21 +232,23 @@ These are prompts, not claims about what happened.
 
 | Reflection section | Technical evidence ready | Genuine student input available | Remaining action |
 |---|---|---|---|
-| Take-away | Yes | Not supplied in accessible source | Select the fact you personally want to remember and explain why |
-| What was good? | Yes | Not supplied | Identify what genuinely worked well for you |
-| What was difficult? | Yes | Not supplied | State your real difficulty and root cause |
-| Exploration and show stoppers | Yes | Not supplied | Choose exploration you personally performed or reviewed |
-| Interaction with peers and instructors | Partial | General discussion confirmed; details unavailable | Add participants, actual gate/question, learning, and contribution |
-| How did you verify AI suggestions? | Yes | Not supplied | Describe checks you personally performed |
-| Help and extra work | Yes | Not supplied | Record genuine help given/received and useful extra work |
+| Take-away | Yes | Yes, final supplied text | Published in `Reflections/ref05.md` |
+| What was good? | Yes | Yes, final supplied text | Published |
+| What was difficult? | Yes | Yes, final supplied text | Published |
+| Exploration and show stoppers | Yes | Yes, final supplied text | Published |
+| Interaction with peers and instructors | Yes for general discussion | Yes, final supplied summary and notes | Published; exact seven gates remain separately classified |
+| How did you verify AI suggestions? | Yes | Yes, final supplied text | Published |
+| Help and extra work | Yes | Yes, final supplied text | Published |
 
-## Student completion checklist
+## Publication completion checklist
 
-- [ ] Create `Reflections/ref05.md` from the official template.
-- [ ] Write each section in your own words using only personal experience.
-- [ ] Supply the accessible group-note text or summarize only what you genuinely remember.
-- [ ] Map any remembered discussion to the relevant gate; leave unknown gates undocumented.
-- [ ] State whether the memo was actually defended and whether it changed.
-- [ ] State which curiosities were actually exchanged.
-- [ ] Record which commands/evidence you personally reviewed to verify AI assistance.
-- [ ] Check every technical number against the linked evidence before submission.
+- [x] Publish the student's exact seven-section Reflection 05.
+- [x] Publish the supplied group discussion notes with an illustrative-transcript disclaimer.
+- [x] Record the four Module 5 group members and documented role allocation.
+- [x] Cross-check the supplied group-document claims against the executable portfolio.
+- [x] Keep different benchmark runs separate.
+- [x] Preserve unknown individual gates as not specifically documented.
+- [x] Check technical numbers against the linked evidence.
+
+No reflection rewrite remains. Only optional round-specific gate provenance could be added if a
+separate authentic record becomes available.
