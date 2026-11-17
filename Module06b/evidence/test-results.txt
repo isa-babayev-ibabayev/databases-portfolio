@@ -1,0 +1,35 @@
+Command:
+uv run python -B -m unittest discover -s Module06b/tests -v
+
+Environment:
+Windows 11, Python 3.14.5, SQLite 3.50.4
+
+Verified areas:
+- local two-writer lock, retry, final value, cleanup, and PostgreSQL scope label
+- decision-record use of measured Module 6a evidence
+- evidence-file presence and parseability
+- generated database/session ignore rules
+- human-required reflection boundary
+- 1,000 valid JSON rows and vendor totals
+- json_extract, `->>`, and json_each results
+- exact-expression index SEARCH and shorthand SCAN
+- logical equivalence of both vendor queries
+- malformed JSON rejection, flexible keys, missing key, and STRICT BLOB rejection
+- safe reuse of a validated generated database
+- deterministic key/value workload
+- shelve/SQLite count and digest equivalence
+- alternated trial order and invalid argument rejection
+
+----------------------------------------------------------------------
+Ran 26 tests in 1.121s
+
+OK
+
+Final regression run (same environment):
+- Module 2: 11 passed
+- Module 3: 23 passed
+- Module 4: 34 passed
+- Module 5: 26 passed
+- Module 6a: 21 passed
+- Module 6b: 26 passed
+- Total: 141 passed, 0 failed

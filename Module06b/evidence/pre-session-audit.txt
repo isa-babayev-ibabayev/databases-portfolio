@@ -1,0 +1,43 @@
+Module 6b pre-session audit
+Date: 2026-11-17 (Europe/Berlin)
+
+Repository root:
+C:\Users\HP\OneDrive - Azerbaijan Tourism and Management University\Desktop\databases-portfolio
+
+Remote:
+origin  https://github.com/isa-babayev-ibabayev/databases-portfolio.git
+
+Branch and starting commit:
+main
+09b0899 Complete Module 6a refresh and optional stretchers
+
+Starting status:
+## main...origin/main
+?? main.py
+
+The unrelated root main.py was present before Module 6b work and was left untouched.
+
+Environment:
+- Windows 11
+- Python 3.14.5 (uv-managed)
+- uv 0.11.16
+- SQLite 3.50.4
+- Free disk observed before implementation: approximately 27.25 GB
+
+Folder audit:
+- Module06a existed.
+- Module06b did not exist.
+- No distinct Module06/ or Module06b legacy folder existed.
+- On this case-insensitive filesystem, Module06A resolves to Module06a; it is not a second folder.
+
+PostgreSQL boundary:
+- No supplied classroom credentials or authenticated shared PostgreSQL connection were available.
+- No unauthenticated server was probed.
+- Shared-server observations, pgweb observations, peer discussion, and personal reflection remain human-required.
+
+Workbook audit:
+- Canonical source: current raw main revision of modules/06b-polyglot-persistence.md.
+- It specifies N = 20,000 for the key-value homework and accepts a local SQLite
+  two-writer demonstration as fallback evidence.
+- An older rendered/cached presentation showed N = 50,000 and less detailed classroom
+  instructions. This implementation follows the current raw main source.

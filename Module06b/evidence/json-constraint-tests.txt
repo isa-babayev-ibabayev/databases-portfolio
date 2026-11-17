@@ -1,0 +1,10 @@
+SQLite 3.50.4 JSON/STRICT constraint experiment
+
+PASS - valid JSON object accepted
+PASS - malformed JSON rejected: CHECK constraint failed: json_valid(meta)
+PASS - a valid object with different keys accepted
+PASS - missing optional vendor key returned SQL NULL
+PASS - BLOB rejected from STRICT TEXT column: cannot store BLOB value in TEXT column device.meta
+
+Scope: json_valid() guarantees syntactically valid JSON, not a complete JSON schema.
+Different object shapes and missing optional keys remain possible by design.

@@ -11,3 +11,5 @@ __pycache__/
 module-01/telemetry.csv
 Module06a/*.csv
 Module06a/devices.json
+Module06b/sessions*
+Module06b/.polyglot-*.tmp

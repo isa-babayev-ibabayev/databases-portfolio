@@ -1,0 +1,43 @@
+{
+  "constraint_experiments": {
+    "different_keys_accepted": true,
+    "invalid_json_error": "CHECK constraint failed: json_valid(meta)",
+    "invalid_json_rejected": true,
+    "missing_optional_returns_null": true,
+    "strict_blob_error": "cannot store BLOB value in TEXT column device.meta",
+    "strict_blob_rejected": true,
+    "valid_json_accepted": true
+  },
+  "database_disposition": "rebuilt via validated temporary database",
+  "exact_expression_plan": [
+    "SEARCH device USING INDEX ix_device_vendor (<expr>=?)"
+  ],
+  "exact_expression_uses_index": true,
+  "fanuc_result_count": 334,
+  "firmware_first_five": [
+    {"name": "cnc-01", "firmware": "4.2"},
+    {"name": "cnc-02", "firmware": "3.9"},
+    {"name": "molder-07", "firmware": "8.1"},
+    {"name": "device-0004", "firmware": "4.4"},
+    {"name": "device-0005", "firmware": "0.5"}
+  ],
+  "json_each_for_cnc_01": [
+    {"name": "cnc-01", "key": "calibrated", "value": "2026-01-10"},
+    {"name": "cnc-01", "key": "firmware", "value": "4.2"},
+    {"name": "cnc-01", "key": "vendor", "value": "Siemens"}
+  ],
+  "json_valid_rows": 1000,
+  "vendor_first_five": [
+    {"name": "cnc-01", "vendor": "Siemens"},
+    {"name": "cnc-02", "vendor": "Fanuc"},
+    {"name": "molder-07", "vendor": "Arburg"},
+    {"name": "device-0004", "vendor": "Fanuc"},
+    {"name": "device-0005", "vendor": "Arburg"}
+  ],
+  "queries_return_same_rows": true,
+  "row_count": 1000,
+  "shorthand_plan": ["SCAN device"],
+  "shorthand_scans_table": true,
+  "sqlite_version": "3.50.4",
+  "vendor_counts": {"Arburg": 333, "Fanuc": 334, "Siemens": 333}
+}

@@ -1,0 +1,18 @@
+SQLite 3.50.4 expression-index plan comparison
+
+Index:
+CREATE INDEX ix_device_vendor ON device(json_extract(meta, '$.vendor'));
+
+Query using the exact indexed expression:
+SELECT name FROM device WHERE json_extract(meta, '$.vendor') = 'Fanuc';
+Plan:
+SEARCH device USING INDEX ix_device_vendor (<expr>=?)
+
+Logically equivalent shorthand query:
+SELECT name FROM device WHERE meta ->> 'vendor' = 'Fanuc';
+Plan:
+SCAN device
+
+Both queries returned the same 334 names. The evidence shows that SQLite requires the
+query expression to match the indexed expression; logical equivalence alone did not make
+the shorthand form use this expression index.

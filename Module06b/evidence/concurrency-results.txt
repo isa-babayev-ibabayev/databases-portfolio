@@ -1,0 +1,12 @@
+{
+  "busy_timeout_ms": 250,
+  "database_existed_during_demo": true,
+  "final_parts_produced": 2,
+  "first_writer_transaction": "BEGIN IMMEDIATE; increment; hold; COMMIT",
+  "independent_connections": 2,
+  "observed_wait_ms": 362.23,
+  "retry_after_first_commit_succeeded": true,
+  "scope": "local SQLite simulation; not a PostgreSQL classroom observation",
+  "second_writer_initial_result": "database is locked",
+  "temporary_directory_removed": true
+}
