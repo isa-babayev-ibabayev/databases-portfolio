@@ -9,6 +9,7 @@ import sqlite3
 import statistics
 import subprocess
 import sys
+import tempfile
 import unittest
 from collections import defaultdict
 from pathlib import Path
@@ -21,9 +22,12 @@ MODULE = ROOT / "Module06a"
 sys.path.insert(0, str(MODULE))
 
 boundary = importlib.import_module("boundary")
+json_read = importlib.import_module("json_read")
+parquet_stats = importlib.import_module("parquet_stats")
 plan = importlib.import_module("plan")
 prepare = importlib.import_module("prepare")
 race = importlib.import_module("race")
+refresh = importlib.import_module("refresh")
 to_parquet = importlib.import_module("to_parquet")
 
 
@@ -205,9 +209,10 @@ class BoundaryAndDecisionTests(unittest.TestCase):
         text = (MODULE / "recommendation.md").read_text(encoding="utf-8")
         for expected in ("5,832.15", "74.13", "7,013.05", "74.27", "1,367,276"):
             self.assertIn(expected, text)
-        self.assertIn("If that refresh fails", text)
+        self.assertIn("If refresh fails", text)
         self.assertIn("last validated file", text)
-        self.assertIn("SQLite remains the operational system of record", text)
+        self.assertIn("do not move request-per-row work", text)
+        self.assertIn("cannot prove that every individual field is identical", text)
 
     def test_16_generated_outputs_are_gitignored(self) -> None:
         paths = [
@@ -215,6 +220,8 @@ class BoundaryAndDecisionTests(unittest.TestCase):
             "Module06a/report_jobpart.csv",
             "Module06a/report_history.parquet",
             "Module06a/report_zstd.parquet",
+            "Module06a/sorted.parquet",
+            "Module06a/devices.json",
         ]
         for path in paths:
             with self.subTest(path=path):
@@ -222,6 +229,120 @@ class BoundaryAndDecisionTests(unittest.TestCase):
                     ["git", "check-ignore", "--quiet", path], cwd=ROOT, check=False
                 )
                 self.assertEqual(completed.returncode, 0)
+
+
+class RefreshAndStretcherTests(unittest.TestCase):
+    @staticmethod
+    def make_history(path: Path) -> None:
+        connection = sqlite3.connect(path)
+        try:
+            connection.execute(
+                "CREATE TABLE report_history(job_id INTEGER, machine_id TEXT, "
+                "site TEXT, technician TEXT, part_no TEXT, part_price REAL, "
+                "done_on TEXT)"
+            )
+            connection.executemany(
+                "INSERT INTO report_history VALUES(?,?,?,?,?,?,?)",
+                [
+                    (1, "m1", "s", "t", "p1", 10.0, "2026-01-01"),
+                    (2, "m2", "s", "t", "p2", 20.0, "2026-01-02"),
+                ],
+            )
+            connection.commit()
+        finally:
+            connection.close()
+
+    @staticmethod
+    def make_wrong_parquet(path: Path) -> None:
+        connection = duckdb.connect()
+        try:
+            connection.execute(
+                "COPY (SELECT CAST(1 AS BIGINT) job_id, 'm1' machine_id, "
+                "'s' site, 't' technician, 'p1' part_no, "
+                "CAST(10 AS DOUBLE) part_price, DATE '2026-01-01' done_on) "
+                f"TO '{refresh.sql_path(path)}' (FORMAT parquet)"
+            )
+        finally:
+            connection.close()
+
+    def test_17_refresh_check_matches_real_history(self) -> None:
+        result = refresh.compare_files(refresh.HISTORY, refresh.PARQUET)
+        self.assertTrue(result["match"])
+        self.assertEqual(result["sqlite"]["rows"], 2_000_000)
+        self.assertEqual(result["sqlite"]["sum_part_price"], "21000000.00")
+        self.assertEqual(
+            result["logical_checksum"],
+            "C15A57C2CA9D078BEB2F7A303CBA295644340F964D4713A5E00D5153C8E5C544",
+        )
+
+    def test_18_refresh_check_exits_one_on_deliberate_mismatch(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            history = Path(directory) / "history.db"
+            parquet = Path(directory) / "wrong.parquet"
+            self.make_history(history)
+            self.make_wrong_parquet(parquet)
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "-B",
+                    str(MODULE / "refresh.py"),
+                    "--check",
+                    "--history",
+                    str(history),
+                    "--parquet",
+                    str(parquet),
+                ],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+        self.assertEqual(completed.returncode, 1)
+        self.assertIn("SQLite rows=2 sum_part_price=30.00", completed.stdout)
+        self.assertIn("Parquet rows=1 sum_part_price=10.00", completed.stdout)
+        self.assertIn("CHECK FAIL", completed.stdout)
+
+    def test_19_failed_refresh_preserves_previous_snapshot(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            history = Path(directory) / "history.db"
+            target = Path(directory) / "published.parquet"
+            self.make_history(history)
+            target.write_bytes(b"previous validated snapshot")
+
+            def bad_builder(_history: Path, temporary: Path) -> None:
+                self.make_wrong_parquet(temporary)
+
+            with self.assertRaises(refresh.ValidationError):
+                refresh.refresh_snapshot(history, target, builder=bad_builder)
+            self.assertEqual(target.read_bytes(), b"previous validated snapshot")
+
+    def test_20_json_stretcher_is_utf8_and_has_expected_join(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            devices = Path(directory) / "devices.json"
+            result = json_read.run(devices, json_read.PARQUET)
+            self.assertEqual(result["json_encoding"], "UTF-8")
+            self.assertEqual(result["device_rows"], 3)
+            self.assertEqual(len(result["joined_groups"]), 3)
+            self.assertTrue(all(row["history_rows"] == 40_000 for row in result["joined_groups"]))
+            self.assertTrue(all(row["cost"] == 420_000.0 for row in result["joined_groups"]))
+            devices.read_text(encoding="utf-8")
+
+    def test_21_sorted_parquet_matches_source_and_narrows_date_groups(self) -> None:
+        connection = duckdb.connect()
+        try:
+            self.assertEqual(
+                parquet_stats.summary(connection, parquet_stats.SOURCE),
+                parquet_stats.summary(connection, parquet_stats.SORTED),
+            )
+            source_metadata = parquet_stats.metadata(connection, parquet_stats.SOURCE)
+            sorted_metadata = parquet_stats.metadata(connection, parquet_stats.SORTED)
+        finally:
+            connection.close()
+        self.assertEqual(parquet_stats.candidate_groups(source_metadata), 17)
+        self.assertEqual(parquet_stats.candidate_groups(sorted_metadata), 2)
+        self.assertFalse(parquet_stats.is_clustered(source_metadata))
+        self.assertTrue(parquet_stats.is_clustered(sorted_metadata))
 
 
 if __name__ == "__main__":

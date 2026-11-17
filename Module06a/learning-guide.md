@@ -546,16 +546,16 @@ the new file could have missing rows or wrong values.
 
 ### 4. Refresh design, step by step
 
-1. After the last shift, read a stable source snapshot.
-2. Build new SQLite history/CSV/Parquet under temporary names.
+1. After the last shift, open `history.db` as the stable source snapshot.
+2. `refresh.py` writes a uniquely named temporary Parquet on the same disk.
 3. Validate row count, price sum, ID sum, minimum/maximum dates, types, and nulls.
 4. If every check passes, atomically replace the published Parquet and record
    its timestamp/watermark.
 5. If any step fails, keep the last validated file, alert the report owner, and
    label its age. Never publish the partial output.
 
-The portfolio scripts implement safe local build/validation behavior. Scheduling
-and production alerting are an architectural proposal, not falsely claimed as
+The portfolio script now implements this safe local refresh. Scheduling and
+production alerting remain an architectural proposal, not falsely claimed as
 deployed infrastructure.
 
 ### 5. Actual evidence and decision
@@ -570,6 +570,8 @@ The decision uses both sides of the measurements:
   smaller with equivalent count/sum.
 - Warm aggregate medians were 51.42 ms default and 53.44 ms Zstandard; better
   compression did not mean faster execution in this local run.
+- The later direct-history refresh wrote 2,468,865 bytes; its Zstandard copy
+  was 1,447,194 bytes. Physical bytes changed, but logical summaries matched.
 
 Therefore, reports move to DuckDB over Parquet; transactions stay in SQLite.
 The seven-sentence [recommendation memo](recommendation.md) tells Lea and Yasmin
@@ -602,3 +604,100 @@ would still need implementation in a real company.
    alert the owner, and disclose its timestamp; do not publish partial data.
 3. **Why use both engines?** Their measured strengths match different workload
    shapes: SQLite for OLTP and DuckDB/Parquet for OLAP.
+
+## Task 7 — Make refresh executable and checkable
+
+### 1. Problem and analogy
+
+A memo that says “refresh nightly” is only a promise. The intense-track script
+turns it into a repeatable operation. Think of publishing a factory report:
+workers first prepare a draft, a controller checks its totals, and only then
+does the draft replace yesterday's approved report.
+
+### 2. What `refresh.py` does
+
+```text
+history.db (read-only)
+    → DuckDB sqlite_scan
+    → temporary typed Parquet
+    → compare count, sums, dates, nulls, columns, and types
+    → atomic replacement of report_history.parquet
+```
+
+The script never writes to `history.db`. If candidate validation fails, it
+deletes only its own temporary file and leaves the published snapshot in place.
+`os.replace` occurs only after a passing comparison.
+
+`--check` does not rebuild anything. It prints SQLite and Parquet row counts
+and price sums, calculates a logical SHA-256 summary, and returns exit code 1
+when the summaries or schema differ. An exit code is a machine-readable result:
+zero means pass, nonzero means a scheduler should stop and alert someone.
+
+### 3. Real results
+
+Two consecutive refreshes produced:
+
+| Run | Rows | Logical checksum | Bytes | Elapsed |
+|---|---:|---|---:|---:|
+| First | 2,000,000 | `C15A57C…C8E5C544` | 2,468,865 | 3,414.89 ms |
+| Second | 2,000,000 | `C15A57C…C8E5C544` | 2,468,865 | 3,219.00 ms |
+
+The same logical checksum demonstrates idempotent contents. Byte identity is
+not required because Parquet metadata or writer layout may change while rows
+remain logically equivalent. The read-only check passed in 738.57 ms.
+
+A disposable mismatch contained two SQLite rows totaling 30.00 and one Parquet
+row totaling 10.00. It printed `CHECK FAIL` and returned exit code 1. Another
+test injected an invalid candidate and confirmed the previous published bytes
+were not replaced.
+
+### 4. Limitation
+
+Equal counts and aggregate checks are strong operational warnings but not a
+mathematical proof that every field matches. Two wrong prices could cancel each
+other in a sum. Stronger production reconciliation could hash canonicalized
+rows or compare source and target partitions.
+
+### 5. Professor-ready explanation
+
+> My refresh reads `history.db`, creates a temporary Parquet, validates several
+> logical invariants and the schema, and only then publishes it atomically. Two
+> runs produced the same two million rows and logical checksum. `--check`
+> returns exit code 1 on a deliberate mismatch, but summary equality still
+> cannot prove every individual field is identical.
+
+### 6. Knowledge check
+
+1. **Why use a temporary file?** A failed or interrupted build cannot overwrite
+   the last valid snapshot.
+2. **What does idempotent mean here?** Repeating the refresh produces the same
+   logical data, even if physical bytes are allowed to differ.
+3. **What does `--check` not prove?** It cannot rule out all row-level changes
+   that leave the compared summaries unchanged.
+
+## Optional S1 — Join UTF-8 JSON to Parquet
+
+The script creates three device metadata records, reads them as UTF-8 JSON, and
+joins them to history by `machine_id`. This is like attaching a small vendor
+catalog to a much larger production ledger without first loading both into a
+server database.
+
+Actual results were three groups: Fanuc `cnc-02`, Siemens `cnc-01`, and Siemens
+`cnc-03`. Each machine matched 40,000 historical part rows totaling 420,000.00.
+This proves DuckDB can query JSON and Parquet together; it does not settle
+Module 6b's question about database-enforced JSON validity and updates.
+
+## Optional S2 — Sorting and row-group statistics
+
+Parquet stores a minimum and maximum for each row group. For the unsorted file,
+all 17 groups had dates from 2026-01-01 through 2028-06-27, so a January 2027
+filter could not exclude any group from its statistics. Sorting by `done_on`
+made each group cover a much narrower interval; only two groups could contain
+January 2027.
+
+The equivalent one-month result was 69,020 rows and 724,710.00. After one
+discarded warm-up per file, five trials alternated which file ran first. The
+medians were 12.5175 ms unsorted and 5.7473 ms sorted, about 2.18× faster here.
+However, the sorted file grew from 2,468,865 to 6,508,574 bytes because the new
+order compressed other repeated columns less efficiently. Sorting is therefore
+a measured read-versus-storage trade-off, not a free index or universal win.

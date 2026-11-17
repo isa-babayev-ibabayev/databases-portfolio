@@ -1,5 +1,5 @@
 Module 6a automated verification
-Run: 2026-11-12
+Final run: 2026-11-17
 Command: uv run python -B -m unittest discover -s Module06a/tests -v
 
 test_12_boundary_functions_return_correct_results_on_small_sample ... ok
@@ -18,13 +18,26 @@ test_08_dashboard_results_are_equivalent ... ok
 test_09_monthly_results_are_equivalent ... ok
 test_10_real_benchmark_evidence_is_interleaved_and_median_based ... ok
 test_11_plans_contain_the_observed_scan_and_group_operators ... ok
+test_17_refresh_check_matches_real_history ... ok
+test_18_refresh_check_exits_one_on_deliberate_mismatch ... ok
+test_19_failed_refresh_preserves_previous_snapshot ... ok
+test_20_json_stretcher_is_utf8_and_has_expected_join ... ok
+test_21_sorted_parquet_matches_source_and_narrows_date_groups ... ok
 
-Ran 16 tests in 32.966s
+Ran 21 tests in 27.386s
 
 OK
 
-An earlier run found a test-harness error: git check-ignore --quiet was called
-with multiple paths although that option accepts one path. The test was fixed
-to check each output separately. A benchmark-evidence stream was also changed
-to a context manager to eliminate a ResourceWarning. The final run above had
-no failures or warnings.
+Audit progression:
+- The unchanged pre-extension suite first passed 16/16 in 16.754 seconds.
+- The first extended run passed 20/21; one documentation assertion still
+  expected the memo's old phrase "If that refresh fails" after the memo was
+  strengthened to "If refresh fails" and added the limits of summary checks.
+- The assertion was updated to verify the current, stricter requirements.
+- The final run above, repeated after the interleaved S2 timing correction,
+  passed without failures or warnings.
+
+The deliberate mismatch test launches refresh.py --check against a disposable
+two-row SQLite and one-row Parquet. It asserts exit code 1 and CHECK FAIL. The
+failure-preservation test injects an invalid candidate builder and confirms the
+previous published bytes remain unchanged.

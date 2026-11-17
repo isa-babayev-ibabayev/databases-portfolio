@@ -18,3 +18,17 @@ Row count and sum equivalent: yes
 The smaller file did not make this already warm, local aggregate faster; its
 median was 2.03 ms (3.94%) slower in this run. Size and speed are separate
 measurements, and both files are intentionally ignored by Git.
+
+Re-verification after the direct-from-history refresh — 2026-11-17
+Default Parquet bytes: 2468865
+Zstandard Parquet bytes: 1447194
+Space reduction: 41.38%
+Default aggregate median: 29.9520 ms
+Zstandard aggregate median: 33.0436 ms
+Rows: 2000000
+SUM(part_price): 21000000.00
+Equivalent: yes
+
+The original 2026-11-12 measurements above remain historical evidence. The
+direct SQLite-to-Parquet refresh writes a different physical layout, so its
+byte sizes differ while the logical data remains equivalent.

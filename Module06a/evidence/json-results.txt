@@ -1,0 +1,16 @@
+Module 6a optional S1 JSON evidence
+Run: 2026-11-17
+Command: uv run python -B Module06a/json_read.py
+
+JSON encoding: UTF-8
+Device rows: 3
+
+Vendor   Machine  Joined history rows  SUM(part_price)
+Fanuc    cnc-02   40000                420000.00
+Siemens  cnc-01   40000                420000.00
+Siemens  cnc-03   40000                420000.00
+
+The script creates devices.json reproducibly, reads it back as UTF-8, and lets
+DuckDB join it to report_history.parquet by machine_id. devices.json is a
+generated file and is intentionally ignored by Git. This file exercise does
+not implement or claim completion of the separate Module 6b database design.

@@ -1,0 +1,33 @@
+Module 6a optional S2 row-group statistics evidence
+Run: 2026-11-17
+Command: uv run python -B Module06a/parquet_stats.py --runs 5
+Filter: 2027-01-01 <= done_on < 2027-02-01
+Equivalent result: 69020 rows, SUM(part_price) 724710.00
+
+Unsorted report_history.parquet
+Bytes: 2468865
+Row groups: 17
+Date-statistic candidate groups for filter: 17
+First five min/max ranges: all 2026-01-01 through 2028-06-27
+Samples (ms): 11.1735, 14.9755, 11.4751, 13.6958, 12.5175
+Median: 12.5175 ms
+
+Date-sorted sorted.parquet
+Bytes: 6508574
+Row groups: 17
+Date-statistic candidate groups for filter: 2
+First five min/max ranges:
+0: 2026-01-01 through 2026-02-25
+1: 2026-02-25 through 2026-04-22
+2: 2026-04-22 through 2026-06-16
+3: 2026-06-16 through 2026-08-12
+4: 2026-08-12 through 2026-10-07
+Samples (ms): 8.0925, 5.0526, 5.1646, 5.7473, 5.7543
+Median: 5.7473 ms
+
+One warm-up per file was discarded. The five measured trials alternated which
+file ran first. Sorting narrowed the candidate row groups from 17 to 2 and made
+the one-month median about 2.18 times faster. It also enlarged the file from
+2.47 MB to 6.51 MB because sorting by date disrupted compression patterns in
+other columns. The result demonstrates a measured pruning opportunity, not a
+promise that every filter, file size, or machine will see the same speed-up.

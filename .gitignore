@@ -10,3 +10,4 @@ __pycache__/
 .pytest_cache/
 module-01/telemetry.csv
 Module06a/*.csv
+Module06a/devices.json

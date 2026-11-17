@@ -1,0 +1,32 @@
+Module 6a optional intense-track refresh evidence
+Run: 2026-11-17
+Source: Module06a/history.db
+Target: Module06a/report_history.parquet
+
+First run
+Command: uv run python -B Module06a/refresh.py
+REFRESH OK rows=2000000 checksum=C15A57C2CA9D078BEB2F7A303CBA295644340F964D4713A5E00D5153C8E5C544 parquet_bytes=2468865 elapsed_ms=3414.89
+
+Second run
+Command: uv run python -B Module06a/refresh.py
+REFRESH OK rows=2000000 checksum=C15A57C2CA9D078BEB2F7A303CBA295644340F964D4713A5E00D5153C8E5C544 parquet_bytes=2468865 elapsed_ms=3219.00
+
+Read-only check
+Command: uv run python -B Module06a/refresh.py --check
+SQLite rows=2000000 sum_part_price=21000000.00
+Parquet rows=2000000 sum_part_price=21000000.00
+CHECK PASS rows=2000000 checksum=C15A57C2CA9D078BEB2F7A303CBA295644340F964D4713A5E00D5153C8E5C544 parquet_bytes=2468865 elapsed_ms=738.57
+
+Deliberate mismatch check using disposable two-row SQLite and one-row Parquet
+SQLite rows=2 sum_part_price=30.00
+Parquet rows=1 sum_part_price=10.00
+CHECK FAIL rows=1 checksum=F113B00664D5782671ADD29C1C19C0AA867E183B2F245DAED021F22412F4618B parquet_bytes=873 elapsed_ms=59.87
+Deliberate mismatch exit code: 1
+
+The checksum is a SHA-256 digest of normalized logical summary values: row
+count, price sum, job-ID sum, minimum/maximum date, and null-row count. It is
+stable across the two runs even if Parquet bytes or writer metadata change.
+The check also verifies column names and types. It detects common incomplete or
+mis-shaped refreshes, but equal summaries cannot prove every individual field
+or row is identical. A test-injected invalid candidate also verified that a
+failed refresh leaves the previously published snapshot unchanged.
