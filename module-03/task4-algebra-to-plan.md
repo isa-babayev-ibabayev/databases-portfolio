@@ -24,28 +24,28 @@ ORDER BY revenue DESC;
 Let `C`, `O`, `L`, and `P` represent Customer, Orders, OrderLine, and Product.
 The query can be written with extended relational algebra as:
 
-$$
-\tau_{revenue\ DESC}
-\left(
-\pi_{city,\ customers,\ revenue}
-\left(
-\gamma_{C.city;\
-\operatorname{count}_{distinct}(C.customer\_id) \rightarrow customers,\
-\operatorname{sum}(L.qty \times P.price) \rightarrow revenue}
-\left(
-\sigma_{O.ordered\_on \geq '2025{-}01{-}01'\ \land\
-O.ordered\_on < '2026{-}01{-}01'}
-\left(
-\left(
-\left(C \bowtie_{C.customer\_id=O.customer\_id} O\right)
-\bowtie_{O.order\_id=L.order\_id} L
-\right)
-\bowtie_{L.product\_id=P.product\_id} P
-\right)
-\right)
-\right)
-\right)
-$$
+```math
+\begin{aligned}
+&\tau_{\mathrm{revenue}\ \mathrm{DESC}}
+\Bigl(
+  \pi_{\mathrm{city},\,\mathrm{customers},\,\mathrm{revenue}}
+  \Bigl(
+    \gamma_{C.\mathrm{city};\,
+      \mathrm{count}_{\mathrm{distinct}}(C.\mathrm{customer\_id}) \to \mathrm{customers},\,
+      \mathrm{sum}(L.\mathrm{qty} \times P.\mathrm{price}) \to \mathrm{revenue}}
+    \Bigl(
+      \sigma_{O.\mathrm{ordered\_on} \geq '2025{-}01{-}01'\,\land\,
+        O.\mathrm{ordered\_on} < '2026{-}01{-}01'}
+      \Bigl(
+        \bigl((C \bowtie_{C.\mathrm{customer\_id}=O.\mathrm{customer\_id}} O)
+        \bowtie_{O.\mathrm{order\_id}=L.\mathrm{order\_id}} L\bigr)
+        \bowtie_{L.\mathrm{product\_id}=P.\mathrm{product\_id}} P
+      \Bigr)
+    \Bigr)
+  \Bigr)
+\Bigr)
+\end{aligned}
+```
 
 The final `τ` is an extended operator for sorting. Classical relational
 algebra does not define row order, so it may also be shown separately as the

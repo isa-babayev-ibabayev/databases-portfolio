@@ -245,7 +245,7 @@ SELECT * FROM maint_job WHERE technician = 'Beier';
 
 Its relational algebra is:
 
-`σ_{technician='Beier'}(maint_job)`
+$\sigma_{\mathrm{technician}='\mathrm{Beier}'}(\mathrm{maint\_job})$
 
 We compared the expression with Gemini. The comparison agreed that `σ`
 represents the `WHERE` selection. A separate projection `π` is unnecessary
