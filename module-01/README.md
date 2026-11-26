@@ -9,9 +9,8 @@
 
 **Evidence:**
 - [Portfolio README](../README.md) — documents the module-based portfolio and its practical learning purpose.
-- [Module 1 reflection](reflection.md) — records learning through practical database work and reflection.
-
-**Evidence gap:** The existing portfolio does not contain a dedicated explanation of CBL/PBL, the assessment structure, or the "moving bar."
+- [Story Seed and course context](story-seed.md) — records my initial skills and expectations and explains CBL/PBL, the portfolio assessment model, Task Pods, checkpoints, the "moving bar," and responsible AI use.
+- [Reflection 01](../Reflections/ref01.md) — records my personal learning, challenges, peer interaction, and intended improvements.
 
 ### Learning Goal 2 — Set up a safe GitHub portfolio
 
@@ -63,30 +62,36 @@
 
 I want to learn how databases work, how to write SQL queries, and how SQLite can be used to analyze industrial production data.
 
+[Read my Story Seed, initial skills, and course expectations](story-seed.md)
+
 ## Practical Tasks
 
 - [ ] Task 1 — Portfolio setup
 - [ ] Task 2 — Git and Markdown
-- [ ] Task 3 — Install database tools
-- [ ] Task 4 — SQLite shell
+- [x] Task 3 — Install database tools
+- [x] Task 4 — SQLite shell
 - [ ] Task 5 — SQL Island
-- [ ] Task 6 — Machine telemetry
-- [ ] Task 7 — AI-assisted SQL verification
+- [x] Task 6 — Machine telemetry
+- [x] Task 7 — AI-assisted SQL verification
+
+The checked tasks have direct technical evidence in this portfolio. Task 5 has a completion certificate, but the separate in-game progress screenshot requested by the workbook is not present. The remaining unchecked tasks require evidence beyond the technical files currently preserved here.
 
 ## Evidence and Results
 
-I will add screenshots, commands, query results, and explanations as I complete the tasks.
+The sections below link to the saved commands, query results, measurements, explanations, certificate, and verification evidence for the completed technical tasks.
 
 ## Reflection
 
-I will describe what I learned, what problems I encountered, and how I verified my results.
+[Reflection 01](../Reflections/ref01.md) records what I learned, the difficulties I encountered, my peer-review experience, and how I verified the technical results. A separate [technical Module 1 reflection](reflection.md) provides additional implementation detail.
 
 ## Task Pod and useful links
 
 ### My Task Pod
 
 - Task Pod member: [Tunay Daldaban](https://github.com/tunaydaldaban-beep/databases-portfolio)
-- We plan to compare our database exercises and review each other's SQL queries.
+- Tunay reviewed my Tasks 6 and 7 in [my Module 1 peer-review issue](https://github.com/isa-babayev-ibabayev/databases-portfolio/issues/1).
+- I reviewed Tunay's Module 1 SQL and verification evidence in [his Module 1 peer-review issue](https://github.com/tunaydaldaban-beep/databases-portfolio/issues/1). I explicitly noted that I had not rerun his full dataset.
+- The available evidence does not document a specific task division or the neighboring-pod classroom jigsaw, so no such activity is claimed here.
 
 ### Course and portfolio links
 
@@ -100,11 +105,13 @@ I will describe what I learned, what problems I encountered, and how I verified 
 
 **My completed work:** I created and configured my personal GitHub portfolio, installed the required database software, and verified the Python 3.14 environment.
 
-**Pod collaboration:** We will document each person's contributions as we complete the practical database exercises.
+**Pod collaboration:** Tunay and I provided reciprocal reviews through GitHub Issues. The preserved evidence does not establish a specific division of implementation tasks.
 
-**Peer review:** To be recorded after we review each other's SQL queries and results.
+**Peer review:** Tunay reviewed my saved Task 6 and Task 7 evidence, and I reviewed Tunay's saved Module 1 SQL, query results, AI-verification report, and Python analysis.
 
 **Peer-review evidence:** [Module 1 — Task Pod Peer Review (GitHub Issue #1)](https://github.com/isa-babayev-ibabayev/databases-portfolio/issues/1). Tunay Daldaban reviewed the Task 6 telemetry analysis and Task 7 SQL and verification evidence, confirmed their consistency with the saved outputs, and noted that he did not rerun the database queries independently.
+
+**Reciprocal-review evidence:** [Tunay's Module 1 — Task Pod Peer Review (GitHub Issue #1)](https://github.com/tunaydaldaban-beep/databases-portfolio/issues/1). My review found no major SQL problems in the documented evidence and clearly stated that I had not rerun his full dataset.
 
 ## Task 4 - SQLite shell reflection
 
@@ -134,4 +141,6 @@ I generated, executed, profiled, and verified a SQL query using ChatGPT.
 
 ## Final Module 1 Reflection
 
-[Read my final reflection](reflection.md)
+[Read my final Reflection 01](../Reflections/ref01.md)
+
+[Read the supplementary technical reflection](reflection.md)
