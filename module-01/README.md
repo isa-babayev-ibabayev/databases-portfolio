@@ -104,6 +104,8 @@ I will describe what I learned, what problems I encountered, and how I verified 
 
 **Peer review:** To be recorded after we review each other's SQL queries and results.
 
+**Peer-review evidence:** [Module 1 — Task Pod Peer Review (GitHub Issue #1)](https://github.com/isa-babayev-ibabayev/databases-portfolio/issues/1). Tunay Daldaban reviewed the Task 6 telemetry analysis and Task 7 SQL and verification evidence, confirmed their consistency with the saved outputs, and noted that he did not rerun the database queries independently.
+
 ## Task 4 - SQLite shell reflection
 
 I found the `.dump` command especially useful because it exports a database into SQL statements, allowing me to rebuild the database without uploading the original database file.
